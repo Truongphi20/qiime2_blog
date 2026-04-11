@@ -1,11 +1,3 @@
-
-👉 with **MyST’s `list` or `card`-style navigation**.
-
----
-
-# 🏠 Correct `index.md` (working version)
-
-```markdown
 ---
 title: "QIIME2 Under the Hood"
 description: "Deep dives into QIIME2 internals: demux, DADA2, and debugging."
@@ -32,3 +24,4 @@ This blog focuses on:
 
 ```bash
 python -m pdb -m q2cli dada2 denoise-single ...
+```

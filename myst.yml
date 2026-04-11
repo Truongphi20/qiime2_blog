@@ -16,5 +16,5 @@ project:
 site:
   template: book-theme
   options:
+    folders: true
     favicon: static/logo.png
-    logo: static/logo.png
