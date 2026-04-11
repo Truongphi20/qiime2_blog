@@ -13,6 +13,5 @@
         "mystmd.mystmd"
       ]
     }
-  },
-  "postCreateCommand": "myst init || true"
+  }
 }

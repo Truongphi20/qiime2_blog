@@ -1,0 +1,20 @@
+version: 1
+project:
+  id: qiime2-blog-docs
+  title: "Inside QIIME 2: From black box to glass box"
+  description: "Understanding QIIME2 Beyond the Tutorial"
+  keywords: 
+    - qiime2
+    - understanding
+    - moving-picture-tutorial
+  authors: 
+    - name: Phi Nguyen 
+  github: https://github.com/Truongphi20/qiime2_blog
+  toc:
+    - file: docs/index.md
+    
+site:
+  template: book-theme
+  options:
+    favicon: static/logo.png
+    logo: static/logo.png

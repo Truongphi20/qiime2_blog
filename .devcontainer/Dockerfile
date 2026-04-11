@@ -39,4 +39,4 @@ WORKDIR /workspace
 # Activate QIIME2 automatically
 RUN echo "conda activate qiime2-amplicon-2026.1" >> ~/.bashrc
 
-SHELL ["/bin/bash", "-c"]
+ENTRYPOINT "/bin/bash"
