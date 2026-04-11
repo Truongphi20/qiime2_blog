@@ -1,0 +1,18 @@
+{
+  "name": "qiime2-dev-myst",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "yzhang.markdown-all-in-one",
+        "mystmd.mystmd"
+      ]
+    }
+  },
+  "postCreateCommand": "myst init || true"
+}
