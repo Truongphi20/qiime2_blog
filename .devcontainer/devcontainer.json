@@ -4,6 +4,7 @@
     "dockerfile": "Dockerfile"
   },
   "remoteUser": "vscode",
+
   "customizations": {
     "vscode": {
       "extensions": [
@@ -11,7 +12,10 @@
         "ms-toolsai.jupyter",
         "yzhang.markdown-all-in-one",
         "mystmd.mystmd"
-      ]
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
     }
   }
 }
