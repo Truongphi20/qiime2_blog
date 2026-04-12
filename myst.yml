@@ -1,0 +1,32 @@
+version: 1
+project:
+  id: qiime2-blog-docs
+  title: "QIIME2 Blog"
+  description: "From black box to glass box"
+  keywords: 
+    - qiime2
+    - understanding
+    - moving-picture-tutorial
+  authors: 
+    - name: Phi Nguyen 
+  github: https://github.com/Truongphi20/qiime2_blog
+  toc:
+    - title: Overview
+      file: docs/index.md
+    - title: Demultiplexing
+    - title: Quality control
+      children:
+        - title: DADA2
+        - title: Deblur
+    - title: Diversity
+      children:
+        - title: Alpha diversity
+        - title: Beta diversity
+    - title: Alpha rarefaction
+    
+site:
+  template: book-theme
+  options:
+    folders: true
+    favicon: docs/static/logo.png
+    logo: docs/static/logan.png
