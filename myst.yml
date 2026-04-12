@@ -1,8 +1,8 @@
 version: 1
 project:
   id: qiime2-blog-docs
-  title: "Inside QIIME 2: From black box to glass box"
-  description: "Understanding QIIME2 Beyond the Tutorial"
+  title: "QIIME2 Blog"
+  description: "From black box to glass box"
   keywords: 
     - qiime2
     - understanding
@@ -17,4 +17,5 @@ site:
   template: book-theme
   options:
     folders: true
-    favicon: static/logo.png
+    favicon: docs/static/logo.png
+    logo: docs/static/logan.png

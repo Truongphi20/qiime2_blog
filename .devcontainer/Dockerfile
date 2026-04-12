@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
 
-RUN npm install -g mystmd
+RUN npm install -g mystmd@1.8.2
 
 # Python dev tools inside base env
 RUN /opt/conda/bin/pip install ipython pdbpp rich
