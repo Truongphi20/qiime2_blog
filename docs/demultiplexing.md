@@ -31,8 +31,16 @@ Base on the sequencing label on a read (in sequences fastq file), the original s
 :align: center
 ```
 
-Sequencing reads are processed one by one from the input FASTQ file. For each read, the barcode sequence is first extracted from the beginning of the barcode read. If required, the barcode is reverse complemented to match the orientation of the reference barcodes.
+Sequencing reads are processed one by one from the input FASTQ file. For each read, the associated barcode sequence is retrieved. Although, the step "Reverse complement barcode" was not performed in this command (`demux emp-single`), more information can be found in [](#reverse-complement).
 
-Next, optional Golay error correction is applied to the barcode, allowing correction of sequencing errors (up to three mismatches) and improving robustness in sample identification. The corrected (or raw) barcode is then matched against a predefined barcode-to-sample mapping.
+Next, Golay error correction is applied by default to the barcode, allowing correction of sequencing errors in barcode sequence (up to three mismatches) and improving robustness in sample identification (read more in [](#golay-correct)). 
 
-If a match is found, the corresponding read is assigned to that sample and written to its output FASTQ file. Reads that do not match any known barcode are discarded. Over the course of processing, reads are thus separated into multiple per-sample FASTQ files, each representing an individual sample from the original multiplexed dataset.
+The corrected barcode is then matched against a predefined barcode-to-sample mapping. If a match is found, the corresponding read is assigned to that sample and written to its output FASTQ file. Reads that do not match any known barcode are discarded. 
+
+Over the course of processing, reads are thus separated into multiple per-sample FASTQ files, each representing an individual sample from the original multiplexed dataset.
+
+(reverse-complement)=
+## Reverse complement barcode
+
+(golay-correct)=
+## Golay error correction
