@@ -10,10 +10,13 @@ project:
   authors: 
     - name: Phi Nguyen 
   github: https://github.com/Truongphi20/qiime2_blog
+  bibliography:
+    - docs/static/references.bib
   toc:
     - title: Overview
       file: docs/index.md
     - title: Demultiplexing
+      file: docs/demultiplexing.md
     - title: Quality control
       children:
         - title: DADA2
