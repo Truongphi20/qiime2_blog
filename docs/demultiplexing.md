@@ -42,6 +42,15 @@ Over the course of processing, reads are thus separated into multiple per-sample
 (reverse-complement)=
 ## Reverse complement barcode
 
+Reverse complementing is required when barcode sequences in the reads are in the opposite orientation to those in the metadata mapping file, which can occur depending on sequencing setup (e.g., Illumina index reads). If not corrected, this mismatch can result in failed or low-rate sample assignment.
+
+QIIME 2 provides two options to handle this:
+
+- `--p-rev-comp-barcodes`: reverse complements the barcodes extracted from sequencing reads. Use this when the reads are misoriented relative to the mapping file.  
+- `--p-rev-comp-mapping-barcodes`: reverse complements the barcodes in the metadata mapping file. Use this when the mapping file is misoriented relative to the reads.  
+
+Only one option should be used, depending on which side has incorrect orientation.
+
 (golay-correct)=
 ## Golay error correction
 
