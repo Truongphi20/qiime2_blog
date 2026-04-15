@@ -44,3 +44,19 @@ Over the course of processing, reads are thus separated into multiple per-sample
 
 (golay-correct)=
 ## Golay error correction
+
+Golay error correction is an error-correcting coding method that represents DNA barcodes as structured 24-bit vectors, enabling detection and correction of sequencing errors based on the properties of the Golay (24,12,8) code [@morelos-zaragozaArtErrorCorrecting2006, pg.30-31].
+
+It is used in sequencing workflows to improve sample assignment accuracy. Because sequencing errors are common, exact barcode matching can lead to substantial data loss. Golay coding allows correction of up to three bit errors, thereby recovering reads while minimizing incorrect assignments.
+
+**Correction workflow:**
+1. Convert barcode (DNA) to a 24-bit vector (2 bits per nucleotide)  
+2. Compute the syndrome using a parity-check matrix \(H\)  
+3. Use the syndrome to identify the most likely error pattern (lookup table)  
+4. Correct the bit vector by applying the error pattern  
+5. Convert the corrected bits back to a DNA sequence  
+6. Match the corrected barcode to a known sample identifier  
+
+Golay error correction assumes that true barcodes belong to the predefined set of valid Golay codewords, that sequencing errors are limited (typically no more than three bit errors), and that these errors occur randomly rather than in a systematic or biased manner.
+
+Full python script for Golay error correction can be found in [GolayDecoder.py](https://github.com/Truongphi20/qiime2_blog/blob/demultiplex/algorithm_reference/GolayDecoder.py).
