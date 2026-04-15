@@ -57,6 +57,6 @@ It is used in sequencing workflows to improve sample assignment accuracy. Becaus
 5. Convert the corrected bits back to a DNA sequence  
 6. Match the corrected barcode to a known sample identifier  
 
-Golay error correction assumes that true barcodes belong to the predefined set of valid Golay codewords, that sequencing errors are limited (typically no more than three bit errors), and that these errors occur randomly rather than in a systematic or biased manner.
+Golay error correction assumes that true barcodes belong to the predefined set of valid Golay codewords ($2^{12} = 4096$ valid barcodes), that sequencing errors are limited (typically no more than three bit errors), and that these errors occur randomly rather than in a systematic or biased manner.
 
 Full python script for Golay error correction can be found in [GolayDecoder.py](https://github.com/Truongphi20/qiime2_blog/blob/demultiplex/algorithm_reference/GolayDecoder.py).
