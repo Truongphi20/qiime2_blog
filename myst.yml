@@ -33,3 +33,4 @@ site:
     folders: true
     favicon: docs/static/logo.png
     logo: docs/static/logan.png
+    style: docs/static/styles.css
