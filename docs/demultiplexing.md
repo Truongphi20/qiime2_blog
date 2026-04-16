@@ -71,6 +71,6 @@ Golay coding allows correction of maximal three bit errors, depending on type of
 4. Correct the bit vector by applying the error pattern  
 5. Convert the corrected bits back to a DNA sequence  
 
-Golay error correction assumes that true barcodes belong to the predefined set of valid Golay codewords ($2^{12} = 4096$ valid barcodes), that sequencing errors are limited (typically no more than three bit errors), and that these errors occur randomly rather than in a systematic or biased manner.
+Golay error correction assumes that true barcodes belong to the predefined set of valid Golay codewords ($2^{12} = 4096$ valid barcodes), that barcodes have a fixed length of 12 nucleotides (corresponding to 24-bit codewords), that sequencing errors are limited (typically no more than three bit errors), and that these errors occur randomly rather than systematically.
 
 Full python script for Golay error correction can be found in [GolayDecoder.py](https://github.com/Truongphi20/qiime2_blog/blob/demultiplex/algorithm_reference/GolayDecoder.py).
