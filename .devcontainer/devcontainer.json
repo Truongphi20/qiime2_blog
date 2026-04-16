@@ -11,7 +11,8 @@
         "ms-python.python",
         "ms-toolsai.jupyter",
         "yzhang.markdown-all-in-one",
-        "mystmd.mystmd"
+        "mystmd.mystmd",
+        "REditorSupport.r"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"

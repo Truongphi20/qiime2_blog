@@ -31,5 +31,7 @@ RUN echo "source /opt/conda/etc/profile.d/conda.sh" >> /home/$USERNAME/.bashrc
 USER $USERNAME
 WORKDIR /workspace
 
+RUN conda run -n qiime2-amplicon-2026.1 Rscript -e "install.packages('languageserver', repos='https://cloud.r-project.org')"
+
 # IMPORTANT: use login bash
 ENTRYPOINT ["bash", "-l"]
