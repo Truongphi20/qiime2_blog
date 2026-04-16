@@ -74,3 +74,15 @@ Golay coding allows correction of maximal three bit errors, depending on type of
 Golay error correction assumes that true barcodes belong to the predefined set of valid Golay codewords ($2^{12} = 4096$ valid barcodes), that barcodes have a fixed length of 12 nucleotides (corresponding to 24-bit codewords), that sequencing errors are limited (typically no more than three bit errors), and that these errors occur randomly rather than systematically.
 
 Full python script for Golay error correction can be found in [GolayDecoder.py](https://github.com/Truongphi20/qiime2_blog/blob/demultiplex/algorithm_reference/GolayDecoder.py).
+
+## Summary
+
+In scope of command `demux emp-single`, demultiplexing can fail when its core assumptions are violated, such as incorrect barcode orientation, non-Golay or mismatched barcodes, excessive sequencing errors (>3 bits), or incorrect barcode length/position. These issues reduce accuracy of sample matching.
+
+**To verify correctness:**
+- Check the proportion of reads assigned (should be reasonably high)  
+- Inspect read counts per sample (no unexpected zeros or extreme imbalance)  
+- Compare a subset of raw barcodes to expected barcodes (try reverse complement if needed)  
+- Review error-correction statistics (e.g., corrected vs. discarded reads)  
+
+Default settings should not be trusted when using non-standard protocols (e.g., non-Golay barcodes, different barcode lengths, or unknown orientation), or when preprocessing steps may have altered the barcode sequences.
