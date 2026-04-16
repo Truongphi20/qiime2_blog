@@ -1,0 +1,19 @@
+Rscript /workspaces/qiime2_blog/commands/run_dada.R \
+            --input_directory /workspaces/qiime2_blog/test_data/dada2/data \
+            --output_path /workspaces/qiime2_blog/test_data/dada2/output.tsv.biom \
+            --output_track /workspaces/qiime2_blog/test_data/dada2/track.tsv \
+            --output_err_track /workspaces/qiime2_blog/test_data/dada2/err_track.tsv \
+            --filtered_directory /workspaces/qiime2_blog/test_data/dada2/filtered_data \
+            --truncation_length 120 \
+            --trim_left 0 \
+            --max_expected_errors 2.0 \
+            --truncation_quality_score 2 \
+            --max_length Inf \
+            --pooling_method independent \
+            --chimera_method consensus \
+            --min_parental_fold 1.0 \
+            --allow_one_off False \
+            --num_threads 1 \
+            --learn_min_reads 1000000 \
+            --homopolymer_gap_penalty NULL \
+            --band_size 16
