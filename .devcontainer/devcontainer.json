@@ -17,5 +17,6 @@
         "terminal.integrated.defaultProfile.linux": "bash"
       }
     }
-  }
+  },
+  "forwardPorts": [3000, 3100]
 }

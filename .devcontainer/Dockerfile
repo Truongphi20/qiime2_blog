@@ -28,9 +28,6 @@ RUN groupadd --gid $USER_GID $USERNAME \
 # 👇 KEY FIX: make conda usable in interactive shells
 RUN echo "source /opt/conda/etc/profile.d/conda.sh" >> /home/$USERNAME/.bashrc
 
-# 👇 auto-activate QIIME2 env
-RUN echo "conda activate qiime2-amplicon-2026.1" >> /home/$USERNAME/.bashrc
-
 USER $USERNAME
 WORKDIR /workspace
 
