@@ -46,10 +46,10 @@ Reverse complementing is required when barcode sequences in the reads are in the
 
 QIIME 2 provides two options to handle this:
 
-- `--p-rev-comp-barcodes`: reverse complements the barcodes extracted from sequencing reads. Use this when the reads are misoriented relative to the mapping file.  
-- `--p-rev-comp-mapping-barcodes`: reverse complements the barcodes in the metadata mapping file. Use this when the mapping file is misoriented relative to the reads.  
+- `--p-rev-comp-barcodes`: which activate reverse complement step in the demux workflow. Barcode sequences will be reverse complemented. Use this when the barcodes in file are misaligned to the barcodes in the metadata file.  
+- `--p-rev-comp-mapping-barcodes`: in constrast, reverse complements the barcodes in the metadata mapping file. 
 
-Only one option should be used, depending on which side has incorrect orientation.
+Only one option should be used, depending on which side has correct orientation.
 
 (golay-correct)=
 ## Golay error correction
