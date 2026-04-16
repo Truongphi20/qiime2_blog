@@ -62,7 +62,7 @@ Golay coding allows correction of three bit errors, depending on type of correct
 | :----------    |   :---------------------:  |
 | A $\xleftrightarrow{}$ T |  1              |
 | C $\xleftrightarrow{}$ G |  1              |
-| {A,C} $\xleftrightarrow{}$ {C,G} |  2              |
+| {A,T} $\xleftrightarrow{}$ {C,G} |  2              |
 
 **Correction workflow:**
 1. Convert barcode (DNA) to a 24-bit vector (2 bits per nucleotide)  
