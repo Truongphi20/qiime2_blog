@@ -54,9 +54,15 @@ Only one option should be used, depending on which side has incorrect orientatio
 (golay-correct)=
 ## Golay error correction
 
-Golay error correction is an error-correcting coding method that represents DNA barcodes as structured 24-bit vectors, enabling detection and correction of sequencing errors based on the properties of the Golay (24,12,8) code [@morelos-zaragozaArtErrorCorrecting2006, pg.30-31].
+Golay error correction is an error-correcting coding method that represents DNA barcodes as structured 24-bit vectors, enabling detection and correction of sequencing errors based on the properties of the Golay (24,12,8) code [@morelos-zaragozaArtErrorCorrecting2006, pg.30-31]. It is used in sequencing workflows to improve sample assignment accuracy. Because sequencing errors are common, exact barcode matching can lead to substantial data loss. 
 
-It is used in sequencing workflows to improve sample assignment accuracy. Because sequencing errors are common, exact barcode matching can lead to substantial data loss. Golay coding allows correction of up to three bit errors, thereby recovering reads while minimizing incorrect assignments.
+Golay coding allows correction of three bit errors, depending on type of correction, the number of bit changed is different. If the the number od bit errors exceeds three, the record is discarded.  
+
+| Correction    |   Number of bit changed  |
+| :----------    |   :---------------------:  |
+| A $\xleftrightarrow{}$ T |  1              |
+| C $\xleftrightarrow{}$ G |  1              |
+| {A,C} $\xleftrightarrow{}$ {C,G} |  2              |
 
 **Correction workflow:**
 1. Convert barcode (DNA) to a 24-bit vector (2 bits per nucleotide)  
