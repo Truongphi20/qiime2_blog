@@ -20,6 +20,7 @@ project:
     - title: Quality control
       children:
         - title: DADA2
+          file: docs/dada2.md
         - title: Deblur
     - title: Diversity
       children:
