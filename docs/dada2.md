@@ -20,6 +20,6 @@ qiime dada2 denoise-single \
 
 ```
 
-With `demux.qza` is the output of demultiplex obtains fastq files of each sample. 
+With `demux.qza` is the output of demultiplex obtaining fastq files of each sample. 
 
 ## Workflow
