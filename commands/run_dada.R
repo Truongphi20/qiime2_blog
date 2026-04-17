@@ -240,7 +240,6 @@ args_simulated <- c(
 
 
 opt = parse_args(OptionParser(option_list=option_list), args = args_simulated)
-browser()
 
 # Assign each of the arguments, in positional order, to an appropriately named R variable
 inp.dir <- opt$input_directory
@@ -336,6 +335,8 @@ suppressWarnings(library(dada2))
 cat("DADA2:", as.character(packageVersion("dada2")), "/",
     "Rcpp:", as.character(packageVersion("Rcpp")), "/",
     "RcppParallel:", as.character(packageVersion("RcppParallel")), "\n")
+
+browser()
 
 ### Helper Functions ###
 #function to approximate melt function from reshape2 which is not a dependency 
