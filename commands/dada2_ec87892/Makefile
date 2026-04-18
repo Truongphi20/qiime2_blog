@@ -7,14 +7,14 @@ R_INC      = $(CONDA_PREFIX)/lib/R/include
 RCPP_INC   = $(R_LIB_PATH)/Rcpp/include
 RP_INC     = $(R_LIB_PATH)/RcppParallel/include
 
-# Library locations (where libtbb.so and libR.so live)
+# Library locations
 TBB_LIB_PATH = $(R_LIB_PATH)/RcppParallel/lib
 R_SHARED_LIB_PATH = $(CONDA_PREFIX)/lib/R/lib
+RCPP_SO = $(R_LIB_PATH)/Rcpp/libs/Rcpp.so
 
 # --- Compiler Settings ---
 CXX = g++
-# -DX64 handles architecture checks in the dada2 source
-# -Isrc allows headers to be found relative to the src folder
+# Added -DDEBUG to help if you have any #ifdef DEBUG blocks
 CXXFLAGS = -g -O2 -std=c++11 -Wall -fPIC -DX64 -Isrc
 INCLUDES = -I"$(R_INC)" -I"$(RCPP_INC)" -I"$(RP_INC)"
 
@@ -23,35 +23,34 @@ SRC_DIR = src
 OBJ_DIR = obj
 TARGET  = dada2_debug
 
-# Find all .cpp files in src/ but ignore RcppExports (usually not needed for standalone)
-# Includes Rmain.cpp which contains the dada_uniques logic
 SRCS = $(shell find $(SRC_DIR) -name "*.cpp" ! -name "RcppExports.cpp")
 MAIN = test_main.cpp
 OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 # --- Linker Flags ---
-# -L: Where to look during build
-# -Wl,-rpath: Where the binary should look when it actually runs
-LIBS = -L$(R_SHARED_LIB_PATH) \
+# CRITICAL: We put RCPP_SO first and add its directory to rpath.
+# We also use -Wl,--no-as-needed to ensure the linker doesn't discard 
+# Rcpp if it thinks it's not "directly" used by the main function.
+LIBS = -Wl,--no-as-needed \
+       $(RCPP_SO) \
+       -L$(R_SHARED_LIB_PATH) \
        -L$(TBB_LIB_PATH) \
        -lR -ltbb -lpthread \
        -Wl,-rpath,$(R_SHARED_LIB_PATH) \
-       -Wl,-rpath,$(TBB_LIB_PATH)
+       -Wl,-rpath,$(TBB_LIB_PATH) \
+       -Wl,-rpath,$(dir $(RCPP_SO))
 
 # --- Build Rules ---
 
 all: $(TARGET)
 
-# Link the final debug binary
 $(TARGET): $(OBJS) $(MAIN)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(MAIN) $(OBJS) -o $(TARGET) $(LIBS)
 
-# Compile source files into the obj directory
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
-# Clean up build artifacts
 clean:
 	rm -rf $(OBJ_DIR) $(TARGET)
 
