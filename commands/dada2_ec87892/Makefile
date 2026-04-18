@@ -14,8 +14,9 @@ RCPP_SO = $(R_LIB_PATH)/Rcpp/libs/Rcpp.so
 
 # --- Compiler Settings ---
 CXX = g++
-# Added -DDEBUG to help if you have any #ifdef DEBUG blocks
-CXXFLAGS = -g -O2 -std=c++11 -Wall -fPIC -DX64 -Isrc
+# -Wno-cast-user-defined: Silences TBB warnings
+# -DX64: Required for DADA2 architecture checks
+CXXFLAGS = -g -O2 -std=c++11 -Wall -fPIC -DX64 -Isrc -Wno-cast-user-defined
 INCLUDES = -I"$(R_INC)" -I"$(RCPP_INC)" -I"$(RP_INC)"
 
 # --- Files and Directories ---
@@ -23,19 +24,18 @@ SRC_DIR = src
 OBJ_DIR = obj
 TARGET  = dada2_debug
 
+# Exclude RcppExports.cpp to prevent duplicate symbol definitions
 SRCS = $(shell find $(SRC_DIR) -name "*.cpp" ! -name "RcppExports.cpp")
 MAIN = test_main.cpp
 OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 # --- Linker Flags ---
-# CRITICAL: We put RCPP_SO first and add its directory to rpath.
-# We also use -Wl,--no-as-needed to ensure the linker doesn't discard 
-# Rcpp if it thinks it's not "directly" used by the main function.
+# -ldl: Required for dlopen() in test_main.cpp
 LIBS = -Wl,--no-as-needed \
        $(RCPP_SO) \
        -L$(R_SHARED_LIB_PATH) \
        -L$(TBB_LIB_PATH) \
-       -lR -ltbb -lpthread \
+       -lR -ltbb -lpthread -ldl \
        -Wl,-rpath,$(R_SHARED_LIB_PATH) \
        -Wl,-rpath,$(TBB_LIB_PATH) \
        -Wl,-rpath,$(dir $(RCPP_SO))

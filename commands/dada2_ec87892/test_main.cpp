@@ -9,7 +9,7 @@
 
 /**
  * FORWARD DECLARATION
- * This must exactly match the signature in src/Rmain.cpp
+ * This must match the entry point in your DADA2 C++ source (typically Rmain.cpp).
  */
 Rcpp::List dada_uniques(std::vector< std::string > seqs, std::vector<int> abundances, std::vector<bool> priors,
                         Rcpp::NumericMatrix err,
@@ -33,25 +33,21 @@ Rcpp::List dada_uniques(std::vector< std::string > seqs, std::vector<int> abunda
 int main(int argc, char *argv[]) {
     std::cout << "--- DADA2 Standalone Debug Harness ---" << std::endl;
 
-    // 1. GLOBAL SYMBOL VISIBILITY FIX
-    // We force-load the Rcpp shared object into the global namespace to 
-    // resolve the 'Rcpp_precious_remove' error before the R engine starts.
-    const char* rcpp_so_path = "/opt/conda/envs/qiime2-amplicon-2026.1/lib/R/library/Rcpp/libs/Rcpp.so";
-    void* rcpp_handle = dlopen(rcpp_so_path, RTLD_NOW | RTLD_GLOBAL);
+    // 1. FORCE GLOBAL SYMBOL VISIBILITY
+    // This resolves 'Rcpp_precious_remove' by making Rcpp symbols global before R starts.
+    const char* rcpp_so = "/opt/conda/envs/qiime2-amplicon-2026.1/lib/R/library/Rcpp/libs/Rcpp.so";
+    void* rcpp_handle = dlopen(rcpp_so, RTLD_NOW | RTLD_GLOBAL);
     if (!rcpp_handle) {
-        std::cerr << "CRITICAL: Could not dlopen Rcpp.so: " << dlerror() << std::endl;
+        std::cerr << "CRITICAL: Could not manually load Rcpp.so: " << dlerror() << std::endl;
         return 1;
     }
+    std::cout << "Rcpp symbols exported globally." << std::endl;
 
     // 2. ENVIRONMENT OVERRIDES
-    // Force R to use the Conda environment and disable JIT to prevent init crashes.
-    const char* conda_r_home = "/opt/conda/envs/qiime2-amplicon-2026.1/lib/R";
-    const char* conda_r_libs = "/opt/conda/envs/qiime2-amplicon-2026.1/lib/R/library";
-    
-    setenv("R_HOME", conda_r_home, 1);
-    setenv("R_LIBS_SITE", conda_r_libs, 1);
-    setenv("R_LIBS_USER", "", 1);
+    const char* r_home_path = "/opt/conda/envs/qiime2-amplicon-2026.1/lib/R";
+    setenv("R_HOME", r_home_path, 1);
     setenv("R_ENABLE_JIT", "0", 1); 
+    setenv("R_LIBS_SITE", "/opt/conda/envs/qiime2-amplicon-2026.1/lib/R/library", 1);
 
     // 3. INITIALIZE EMBEDDED R
     std::cout << "Initializing Embedded R engine..." << std::endl;
@@ -61,25 +57,21 @@ int main(int argc, char *argv[]) {
     try {
         Rcpp::Environment global = Rcpp::Environment::global_env();
 
-        // 4. LOAD SAVED STATE
-        // This assumes you ran save(list=target_vars, file="debug_state.RData") in R
+        // 4. LOAD DATA
         std::cout << "Loading debug_state.RData..." << std::endl;
         Rcpp::Function load("load");
         load("debug_state.RData");
 
-        // 5. EXTRACT VARIABLES
-        // We cast them from R types to the C++ types expected by dada_uniques
-        std::cout << "Extracting variables from R environment..." << std::endl;
+        // 5. EXTRACT DATA
         auto seqs        = Rcpp::as<std::vector<std::string>>(global["seqs"]);
         auto abundances  = Rcpp::as<std::vector<int>>(global["abundances"]);
         auto priors      = Rcpp::as<std::vector<bool>>(global["priors"]);
         Rcpp::NumericMatrix err   = global["err"];
         Rcpp::NumericMatrix quals = global["quals"];
 
-        std::cout << "Data loaded successfully. (" << seqs.size() << " sequences)" << std::endl;
+        std::cout << "Data loaded: " << seqs.size() << " sequences ready." << std::endl;
 
         // 6. EXECUTION
-        // Note: Using global["var"] directly for scalars to keep things clean.
         std::cout << "Calling dada_uniques..." << std::endl;
         Rcpp::List result = dada_uniques(
             seqs, abundances, priors, err, quals, 
@@ -96,10 +88,9 @@ int main(int argc, char *argv[]) {
 
         std::cout << "--- DADA2 Execution Finished ---" << std::endl;
         
-        // Quick results summary
         if (result.containsElementNamed("clustering")) {
             Rcpp::DataFrame clustering = result["clustering"];
-            std::cout << "Final cluster count: " << clustering.nrow() << std::endl;
+            std::cout << "Result: " << clustering.nrow() << " clusters found." << std::endl;
         }
 
     } catch (std::exception &e) {
@@ -107,9 +98,7 @@ int main(int argc, char *argv[]) {
     }
 
     // 7. CLEANUP
-    std::cout << "Shutting down R engine." << std::endl;
     if (rcpp_handle) dlclose(rcpp_handle);
     Rf_endEmbeddedR(0);
-    
     return 0;
 }
