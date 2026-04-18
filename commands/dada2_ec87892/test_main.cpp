@@ -3,6 +3,27 @@
 #include <string>
 #include "src/dada.h"
 
+
+// Forward declaration of the function in Rmain.cpp
+Rcpp::List dada_uniques(std::vector< std::string > seqs, std::vector<int> abundances, std::vector<bool> priors,
+                        Rcpp::NumericMatrix err,
+                        Rcpp::NumericMatrix quals,
+                        int match, int mismatch, int gap,
+                        bool use_kmers, double kdist_cutoff,
+                        int band_size,
+                        double omegaA, double omegaP, double omegaC, bool detect_singletons,
+                        int max_clust,
+                        double min_fold, int min_hamming, int min_abund,
+                        bool use_quals,
+                        bool final_consensus,
+                        bool vectorized_alignment,
+                        int homo_gap,
+                        bool multithread,
+                        bool verbose,
+                        int SSE,
+                        bool gapless,
+                        bool greedy);
+
 // Mocking Rcpp types if running in a standalone C++ test harness 
 // Note: If you are using Rcpp directly, you must initialize an R environment
 int main() {
