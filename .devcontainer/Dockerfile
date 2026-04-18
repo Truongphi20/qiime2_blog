@@ -29,13 +29,12 @@ RUN groupadd --gid $USER_GID $USERNAME \
 RUN echo "source /opt/conda/etc/profile.d/conda.sh" >> /home/$USERNAME/.bashrc
 
 # Install debug tools and dependencies
-RUN apt-get update && apt-get install -y gdb
+RUN apt-get update && apt-get install -y gdb cmake zlib1g-dev
 
 USER $USERNAME
 WORKDIR /workspace
 
 RUN conda run -n qiime2-amplicon-2026.1 Rscript -e "install.packages('languageserver', repos='https://cloud.r-project.org')"
-RUN conda run -n qiime2-amplicon-2026.1 Rscript -e "install.packages('Rcpp', repos='https://cloud.r-project.org')"
 
 
 # IMPORTANT: use login bash
