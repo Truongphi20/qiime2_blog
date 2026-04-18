@@ -32,6 +32,7 @@ USER $USERNAME
 WORKDIR /workspace
 
 RUN conda run -n qiime2-amplicon-2026.1 Rscript -e "install.packages('languageserver', repos='https://cloud.r-project.org')"
+RUN conda run -n qiime2-amplicon-2026.1 Rscript -e "install.packages('Rcpp', repos='https://cloud.r-project.org')"
 
 # Install debug tools and dependencies
 RUN apt-get update && apt-get install -y gdb
