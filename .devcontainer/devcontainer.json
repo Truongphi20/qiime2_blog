@@ -12,7 +12,8 @@
         "ms-toolsai.jupyter",
         "yzhang.markdown-all-in-one",
         "mystmd.mystmd",
-        "REditorSupport.r"
+        "REditorSupport.r",
+        "ms-vscode.cpptools-extension-pack"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"
