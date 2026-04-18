@@ -7,3 +7,4 @@ _build
 test_data
 commands/dada2_ec87892/obj
 commands/dada2_ec87892/dada2_debug
+sandbank/*.out
