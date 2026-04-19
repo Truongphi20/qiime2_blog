@@ -10,3 +10,4 @@ commands/dada2_ec87892/dada2_debug
 sandbank/*.out
 sandbank/build
 commands/dada2_ec87892/build
+.Rhistory

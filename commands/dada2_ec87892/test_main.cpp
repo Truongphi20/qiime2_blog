@@ -44,8 +44,8 @@ int main(int argc, char** argv) {
 
     try {
         // 2. Load Rcpp namespace to prevent JIT/Precious list errors
-        Rcpp::Function load_namespace("loadNamespace", Rcpp::Environment::base_env());
-        load_namespace("Rcpp");
+        Rcpp::Function library = Rcpp::Environment::base_env()["library"];
+        library("Rcpp");
 
         // 3. Use R's native readRDS to load the data
         std::cout << "Reading RDS file directly using R..." << std::endl;
