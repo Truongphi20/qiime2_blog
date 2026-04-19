@@ -33,5 +33,5 @@ target_link_libraries(dada_debug
 
 set_target_properties(dada_debug PROPERTIES 
     BUILD_WITH_INSTALL_RPATH TRUE
-    INSTALL_RPATH "${R_SHARED_LIB_PATH}:${R_LIB_PATH}/RcppParallel/lib"
+    INSTALL_RPATH "${R_SHARED_LIB_PATH}:${R_LIB_PATH}/RcppParallel/lib:${CONDA_PREFIX}/lib"
 )
