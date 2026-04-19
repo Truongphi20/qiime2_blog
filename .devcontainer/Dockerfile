@@ -35,6 +35,7 @@ USER $USERNAME
 WORKDIR /workspace
 
 RUN conda run -n qiime2-amplicon-2026.1 Rscript -e "install.packages('languageserver', repos='https://cloud.r-project.org')"
+RUN conda run -n qiime2-amplicon-2026.1 Rscript -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Rcpp/Rcpp_0.12.19.tar.gz", repos=NULL, type="source")'
 ENV R_HOME "/opt/conda/envs/qiime2-amplicon-2026.1/lib/R"
 
 
