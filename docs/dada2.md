@@ -35,6 +35,23 @@ Once the samples are denoised, the pipeline handles [](#chimeras-removal) to eli
 (trim-filtering)=
 ### Trim & Filtering
 
+Demutiplex files are filtered simultaneously according to following quality filtering criteria:
+
+| Criterion | Value | Description |
+|:---|:---|:---|
+| `truncLen` | 120 | Truncates reads at 120 bases. Reads shorter than this are discarded. |
+| `truncQ` | 2 | Truncates reads at the first instance of a quality score $\le$ 2. |
+| `maxEE` | 2 | Discards reads with > 2 expected errors after truncation. |
+| `maxN` | 0 | Discards sequences containing any ambiguous bases (Ns). |
+| `minLen` | 20 | Minimum read length required after trimming/truncation. |
+| `trimLeft` | 0 | No nucleotides removed from the start of the read. |
+| `trimRight` | 0 | No nucleotides removed from the end of the read. |
+| `maxLen` | Inf | No maximum length limit enforced on raw reads. |
+| `minQ` | 0 | No specific minimum quality score threshold enforced (beyond `truncQ`). |
+| `rm.phix` | TRUE | Discards reads matching the phiX genome. |
+
+The values of `trimLeft` and `truncLen` are inherited from the command. Criteria descriptions adapted from `dada2::fastqFilter` [documentation](https://github.com/benjjneb/dada2/blob/master/R/filter.R) (function handles trim and filtering directly). 
+
 
 (learning-error-rates)=
 ### Learning Error Rates
