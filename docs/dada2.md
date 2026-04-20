@@ -28,7 +28,7 @@ With `demux.qza` is the output of demultiplex obtaining fastq files of each samp
 
 The workflow begins with demultiplexed FASTQ samples undergoing [](#trim-filtering) to remove low-quality data, followed by [](#learning-error-rates) to estimate error rate between unique sequence and their partition center sequence (the most abundant in a variant group).
 
-The process then enters the [](#denoise-samples) stage—the "DADA2 core"—where a specialized algorithm performs an iterative cycle of collapsing unique sequences, constructing priors, and calculating p-values to distinguish biological variants from sequencing noise. 
+The process then enters the [](#denoise-samples) stage (the "DADA2 core") where a specialized algorithm performs constructing priors from unique sequences, and calculating p-values to distinguish and remove sequencing noise from biological variants. 
 
 Once the samples are denoised, the pipeline handles [](#chimera-removal) to eliminate PCR artifacts before reporting the final results as artifacts for downstream analysis.
 
