@@ -23,3 +23,27 @@ qiime dada2 denoise-single \
 With `demux.qza` is the output of demultiplex obtaining fastq files of each sample. 
 
 ## Workflow
+
+![dada_workflow](static/dada2_workflow.png)
+
+The workflow begins with demultiplexed FASTQ samples undergoing [](#trim-filtering) to remove low-quality data, followed by [](#learning-error-rates) to calibrate the statistical model to the specific sequencing run.
+
+The process then enters the [](#denoise-samples) stage—the "DADA2 core"—where a specialized algorithm performs an iterative cycle of collapsing unique sequences, constructing priors, and calculating p-values to distinguish biological variants from sequencing noise. 
+
+Once the samples are denoised, the pipeline handles [](#chimera-removal) to eliminate PCR artifacts before reporting the final results as artifacts for downstream analysis.
+
+(trim-filtering)=
+### Trim & Filtering
+
+
+(learning-error-rates)=
+### Learning Error Rates
+
+
+(denoise-samples)=
+### Denoise samples
+
+
+(chimera-removal)=
+### Chimera Removal
+
