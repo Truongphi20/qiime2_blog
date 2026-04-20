@@ -35,7 +35,7 @@ Once the samples are denoised, the pipeline handles [](#chimeras-removal) to eli
 (trim-filtering)=
 ### Trim & Filtering
 
-Demutiplex files are filtered simultaneously according to following quality filtering criteria:
+Demutiplexed files are filtered simultaneously according to following quality filtering criteria:
 
 | Criterion | Value | Description |
 |:---|:---|:---|
