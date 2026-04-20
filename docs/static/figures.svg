@@ -27,15 +27,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.9633924"
-     inkscape:cx="993.3647"
-     inkscape:cy="885.93184"
+     inkscape:zoom="1.3624426"
+     inkscape:cx="1057.2923"
+     inkscape:cy="820.95202"
      inkscape:window-width="1850"
      inkscape:window-height="1016"
      inkscape:window-x="70"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g339"
      inkscape:export-bgcolor="#ffffffff"><inkscape:page
        x="0"
        y="0"
@@ -286,43 +286,43 @@
        transform="matrix(0.08773555,0,0,0.08578489,12.041524,204.77511)"><tspan
          x="396.93405"
          y="-2205.3494"
-         id="tspan82"><tspan
+         id="tspan32"><tspan
    style="fill:#ff0000"
-   id="tspan79">@HWI-EAS440_0386:1:23:17547:1423#0/1</tspan>
+   id="tspan10">@HWI-EAS440_0386:1:23:17547:1423#0/1</tspan>
 </tspan><tspan
          x="396.93405"
          y="-2175.7935"
-         id="tspan91"><tspan
+         id="tspan35"><tspan
    style="fill:#338000"
-   id="tspan83">ATGCAGCTCAGT</tspan>
+   id="tspan33">ATGCAGCTCAGT</tspan>
 </tspan><tspan
          x="396.93405"
          y="-2146.2376"
-         id="tspan92">+
+         id="tspan36">+
 </tspan><tspan
          x="396.93405"
          y="-2116.6817"
-         id="tspan94">IIIIIIIIIIIH
+         id="tspan84">IIIIIIIIIIIH
 </tspan><tspan
          x="396.93405"
          y="-2087.1258"
-         id="tspan96"><tspan
+         id="tspan86"><tspan
    style="fill:#ff0000"
-   id="tspan95">@HWI-EAS440_0386:1:23:14818:1533#0/1</tspan>
+   id="tspan85">@HWI-EAS440_0386:1:23:14818:1533#0/1</tspan>
 </tspan><tspan
          x="396.93405"
          y="-2057.5699"
-         id="tspan98"><tspan
+         id="tspan88"><tspan
    style="fill:#338000"
-   id="tspan97">CCCCTCAGCGGC</tspan>
+   id="tspan87">CCCCTCAGCGGC</tspan>
 </tspan><tspan
          x="396.93405"
          y="-2028.014"
-         id="tspan99">+
+         id="tspan89">+
 </tspan><tspan
          x="396.93405"
          y="-1998.4582"
-         id="tspan100">DDD@D?@B&lt;&lt;+</tspan></text><path
+         id="tspan90">DDD@D?@B&lt;&lt;+</tspan></text><path
        style="fill:none;stroke:#000000;stroke-width:0.264584px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#RoundedArrow)"
        d="m 36.923657,27.397069 h 6.774971"
        id="path26" /><path
@@ -1116,7 +1116,7 @@
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke-width:0.370722"
            x="227.17299"
            y="253.15439"
-           id="tspan14">Remove chimeras</tspan><tspan
+           id="tspan14">Chimeras removal</tspan><tspan
            sodipodi:role="line"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke-width:0.370722"
            x="227.17299"
