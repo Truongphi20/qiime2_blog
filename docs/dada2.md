@@ -26,7 +26,7 @@ With `demux.qza` is the output of demultiplex obtaining fastq files of each samp
 
 ![dada_workflow](static/dada2_workflow.png)
 
-The workflow begins with demultiplexed FASTQ samples undergoing [](#trim-filtering) to remove low-quality data, followed by [](#learning-error-rates) to calibrate the statistical model to the specific sequencing run.
+The workflow begins with demultiplexed FASTQ samples undergoing [](#trim-filtering) to remove low-quality data, followed by [](#learning-error-rates) to estimate error rate between unique sequence and their partition center sequence (the most abundant in a variant group).
 
 The process then enters the [](#denoise-samples) stage—the "DADA2 core"—where a specialized algorithm performs an iterative cycle of collapsing unique sequences, constructing priors, and calculating p-values to distinguish biological variants from sequencing noise. 
 
