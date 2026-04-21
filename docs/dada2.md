@@ -65,9 +65,9 @@ The values of `trimLeft` and `truncLen` are inherited from the command. Criteria
 :align: center
 ```
 
-The DADA2 core workflow begins by processing unique sequences obtained through dereplication, maintaining their respective abundance counts. To optimize downstream computation, the algorithm **constructs k-mers** in three distinct formats—8-bit and 16-bit frequency tables and ordered sequences—enabling rapid similarity filtering and memory-efficient lookups. 
+The DADA2 core workflow begins by processing unique sequences obtained through dereplication, maintaining their respective abundance counts. To optimize the alignment step, the algorithm **constructs k-mers** and compute distance of pair of sequences to screen out unrelated pairs [@sunESPRITEstimatingSpecies2009]. 
 
-During the **Alignment & Compute $\lambda$** phase, a banded Needleman-Wunsch algorithm performs pairwise alignments to calculate the likelihood ($\lambda$) that a sequence originated from a cluster center given the specific sequencing error profile. 
+During the **Alignment & Compute $\lambda$** phase, this k-mer distance acts as a pre-filter before the banded Needleman-Wunsch algorithm [@gibratShortNoteDynamic2018] performs global pairwise alignments. From these alignments, the likelihood ($\lambda$) is calculated, representing the probability that the observed sequence originated from a cluster center given the specific sequencing error profile and quality scores.
 
 This likelihood is used to **calculate a p-value**, providing a statistical test to determine if the observed abundance of a sequence is higher than expected by error alone. 
 
