@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
         Rcpp::Function read_rds = Rcpp::Environment::base_env()["readRDS"];
         
         // This natively returns an Rcpp::List containing your environment variables
-        Rcpp::List data = read_rds("/workspaces/qiime2_blog/commands/tmp_data/dada_uniques_env.rds");
+        Rcpp::List data = read_rds("/workspaces/qiime2_blog/commands/tmp_data/debug_denoise_dada.rds");
 
         // 4. Effortless Rcpp Data Extraction
         std::vector<std::string> seqs        = Rcpp::as<std::vector<std::string>>(data["seqs"]);

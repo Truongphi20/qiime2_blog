@@ -20,9 +20,10 @@ include_directories(
 file(GLOB_RECURSE DADA_SOURCES "src/*.cpp")
 list(FILTER DADA_SOURCES EXCLUDE REGEX "RcppExports.cpp")
 
-add_executable(dada_debug test_main.cpp ${DADA_SOURCES})
+## denoise executor
+add_executable(denoise_dada_debug denoise_main.cpp ${DADA_SOURCES})
 
-target_link_libraries(dada_debug 
+target_link_libraries(denoise_dada_debug 
     PRIVATE 
     pthread
     dl
@@ -31,7 +32,24 @@ target_link_libraries(dada_debug
     "${R_LIB_PATH}/RcppParallel/lib/libtbbmalloc.so"
 )
 
-set_target_properties(dada_debug PROPERTIES 
+set_target_properties(denoise_dada_debug PROPERTIES 
+    BUILD_WITH_INSTALL_RPATH TRUE
+    INSTALL_RPATH "${R_SHARED_LIB_PATH}:${R_LIB_PATH}/RcppParallel/lib:${CONDA_PREFIX}/lib"
+)
+
+## errlearn executor
+add_executable(errlearn_dada_debug errlearn_main.cpp ${DADA_SOURCES})
+
+target_link_libraries(errlearn_dada_debug 
+    PRIVATE 
+    pthread
+    dl
+    "${R_SHARED_LIB_PATH}/libR.so"
+    "${R_LIB_PATH}/RcppParallel/lib/libtbb.so"
+    "${R_LIB_PATH}/RcppParallel/lib/libtbbmalloc.so"
+)
+
+set_target_properties(errlearn_dada_debug PROPERTIES 
     BUILD_WITH_INSTALL_RPATH TRUE
     INSTALL_RPATH "${R_SHARED_LIB_PATH}:${R_LIB_PATH}/RcppParallel/lib:${CONDA_PREFIX}/lib"
 )
