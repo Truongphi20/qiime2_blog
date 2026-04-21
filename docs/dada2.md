@@ -24,7 +24,11 @@ With `demux.qza` is the output of demultiplex obtaining fastq files of each samp
 
 ## Workflow
 
-![dada_workflow](static/dada2_workflow.png)
+```{image} static/dada2_workflow.png
+:alt: dada_workflow
+:height: 600px
+:align: center
+```
 
 The workflow begins with demultiplexed FASTQ samples undergoing [](#trim-filtering) to remove low-quality data, followed by [](#learning-error-rates) to estimate error rate between unique sequence and their partition center sequence (the most abundant in a variant group).
 
