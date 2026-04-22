@@ -67,7 +67,11 @@ The values of `trimLeft` and `truncLen` are inherited from the command. Criteria
 
 The DADA2 core workflow begins by processing unique sequences obtained through dereplication, maintaining their respective abundance counts. To optimize the alignment step, the algorithm **constructs k-mers** and compute distance of pair of sequences to screen out unrelated pairs [@sunESPRITEstimatingSpecies2009]. 
 
-During the **Alignment & Compute $\lambda$** phase, this k-mer distance acts as a pre-filter before the banded Needleman-Wunsch algorithm [@gibratShortNoteDynamic2018] performs ends-free global pairwise alignments. From these alignments, the likelihood ($\lambda$) is calculated, representing the probability that the observed sequence originated from a cluster center given the specific sequencing error profile and quality scores.
+During the **Alignment & Compute $\lambda$** phase, this k-mer distance acts as a pre-filter before the banded Needleman-Wunsch algorithm [@gibratShortNoteDynamic2018] performs ends-free global pairwise alignments. From these alignments, the error rate ($\lambda_{ji}$) is calculated as the joint probability of the observed sequence $i$ originating from the partition center sequence $j$ over the total sequence length $L$. This transition probability is determined by the specific nucleotide substitution and the associated quality score $q_i$ at each position $l$ [@callahanDADA2HighresolutionSample2016].
+
+$$
+\lambda_{ij} = \prod^{L}_{l=0} p(j(l) \rightarrow i(l), q_i(l))
+$$
 
 This likelihood is used to **calculate a p-value**, providing a statistical test to determine if the observed abundance of a sequence is higher than expected by error alone. 
 

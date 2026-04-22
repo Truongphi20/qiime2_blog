@@ -12,6 +12,8 @@ project:
   github: https://github.com/Truongphi20/qiime2_blog
   bibliography:
     - docs/static/references.bib
+  numbering:
+    math: false
   toc:
     - title: Overview
       file: docs/index.md
