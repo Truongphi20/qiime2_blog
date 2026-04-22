@@ -73,7 +73,14 @@ $$
 \lambda_{ij} = \prod^{L}_{l=0} p(j(l) \rightarrow i(l), q_i(l))
 $$
 
-This likelihood is used to **calculate a p-value**, providing a statistical test to determine if the observed abundance of a sequence is higher than expected by error alone. 
+
+Under the assumption that sequencing errors occur independently across reads, where any read from a true sequence $j$ can potentially be misread as sequence $i$. The abundance $p$-value is calculated as the probability of observing an abundance $a_i$ or greater, given the expected error count $n_j\lambda_{ji}$. This value is computed using a Poisson distribution, normalized by the probability of observing sequence $i$ at least once [@callahanDADA2HighresolutionSample2016].
+
+$$
+p_A(j \rightarrow i) =  \frac{1}{1-\rho_{\text{pois}}(n_j\lambda_{ji},0)} \sum_{a=a_j}^{\infty}\rho_{\text{pois}}(n_j\lambda_{ji},a_i)
+$$   
+
+A lower $p$-value indicates a lower probability that the observed abundance of sequence $i$ can be explained by stochastic sequencing errors originating from sequence $j$. Therefore, a small $p$-value provides strong evidence that sequence $i$ is a distinct biological variant.
 
 Finally, the process enters a **Shuffle & Update** loop, where sequences are competitively reassigned to the most probable cluster centers, and the error model is iteratively refined until the denoising process reaches convergence.
 
