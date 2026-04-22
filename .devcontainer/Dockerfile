@@ -29,7 +29,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
 RUN echo "source /opt/conda/etc/profile.d/conda.sh" >> /home/$USERNAME/.bashrc
 
 # Install debug tools and dependencies
-RUN apt-get update && apt-get install -y gdb cmake zlib1g-dev
+RUN apt-get update && apt-get install -y gdb cmake zlib1g-dev less
 
 USER $USERNAME
 WORKDIR /workspace
