@@ -99,3 +99,5 @@ The denoising step utilizes the error rates estimated in the previous stage and 
 (chimeras-removal)=
 ### Chimeras Removal
 
+Output from denosing including center sequences and associated abundant value, from this a sequence table is created with columns are center sequence, and index are the number of samples (in this case is 34), the filling value is abundant value. Because of running with `concensus` mode by default, bimeras is identified by vote among samples, if the sequence is flagged in a sufficiently high fraction of samples, it is identified as a bimera.  
+
