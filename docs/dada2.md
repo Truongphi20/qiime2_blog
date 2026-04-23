@@ -56,8 +56,8 @@ Demutiplexed files are filtered simultaneously according to following quality fi
 
 The values of `trimLeft` and `truncLen` are inherited from the command. Criteria descriptions adapted from `dada2::fastqFilter` [documentation](https://github.com/benjjneb/dada2/blob/master/R/filter.R) (function handles trim and filtering directly). 
 
-(dada-core)=
-### Dada core
+(dada2-core)=
+### Dada2 core
 
 ```{image} static/dada2_core.png
 :alt: dada_core
@@ -89,7 +89,7 @@ The algorithm then enters an iterative refinement loop: $p$-values for all uniqu
 (learning-error-rates)=
 ### Learning Error Rates
 
-The learning error rates includes dereplicate abundant reads, compute and extract error rates after processing [](#dada-core).
+The learning error rates includes dereplicate abundant reads, compute and extract error rates from the [](#dada2-core) algorithm.
 
 (denoise-samples)=
 ### Denoise samples

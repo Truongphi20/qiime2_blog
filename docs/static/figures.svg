@@ -27,14 +27,14 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="1.9267848"
-     inkscape:cx="1272.8458"
-     inkscape:cy="844.15239"
+     inkscape:cx="929.00878"
+     inkscape:cy="820.27842"
      inkscape:window-width="1850"
      inkscape:window-height="1016"
      inkscape:window-x="70"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g82"
+     inkscape:current-layer="layer4"
      inkscape:export-bgcolor="#ffffffff"><inkscape:page
        x="0"
        y="0"
@@ -1523,7 +1523,7 @@
          style="font-size:2.82222px;stroke-width:0.264583"
          x="259.95041"
          y="211.57298"
-         id="tspan92">- dada core</tspan><tspan
+         id="tspan92">- dada2 core</tspan><tspan
          sodipodi:role="line"
          style="font-size:2.82222px;stroke-width:0.264583"
          x="259.95041"
@@ -1558,4 +1558,4 @@
          style="font-size:2.82222px;stroke-width:0.264583"
          x="260.53299"
          y="235.26511"
-         id="tspan100">- dada core</tspan></text></g></svg>
+         id="tspan100">- dada2 core</tspan></text></g></svg>
