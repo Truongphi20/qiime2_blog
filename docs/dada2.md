@@ -65,16 +65,16 @@ The values of `trimLeft` and `truncLen` are inherited from the command. Criteria
 :align: center
 ```
 
-The DADA2 core workflow begins by processing unique sequences obtained through dereplication, maintaining their respective abundance counts. To optimize the alignment step, the algorithm **constructs k-mers** and compute distance of pair of sequences to screen out unrelated pairs [@sunESPRITEstimatingSpecies2009]. 
+The DADA2 core algorithm (named "The divisive partitioning algorithm") [@callahanDADA2HighresolutionSample2016] begins by processing unique sequences obtained through dereplication, maintaining their respective abundance counts. To optimize the alignment step, the algorithm **constructs k-mers** and compute distance of pair of sequences to screen out unrelated pairs [@sunESPRITEstimatingSpecies2009]. 
 
-During the **Alignment & Compute $\lambda$** phase, this k-mer distance acts as a pre-filter before the banded Needleman-Wunsch algorithm [@gibratShortNoteDynamic2018] performs ends-free global pairwise alignments. From these alignments, the error rate ($\lambda_{ji}$) is calculated as the joint probability of the observed sequence $i$ originating from the partition center sequence $j$ over the total sequence length $L$. This transition probability is determined by the specific nucleotide substitution and the associated quality score $q_i$ at each position $l$ [@callahanDADA2HighresolutionSample2016].
+During the **Alignment & Compute $\lambda$** phase, this k-mer distance acts as a pre-filter before the banded Needleman-Wunsch algorithm [@gibratShortNoteDynamic2018] performs ends-free global pairwise alignments. From these alignments, the error rate ($\lambda_{ji}$) is calculated as the joint probability of the observed sequence $i$ originating from the partition center sequence $j$ over the total sequence length $L$. This transition probability is determined by the specific nucleotide substitution and the associated quality score $q_i$ at each position $l$.
 
 $$
 \lambda_{ij} = \prod^{L}_{l=0} p(j(l) \rightarrow i(l), q_i(l))
 $$
 
 
-Under the assumption that sequencing errors occur independently across reads, where any read from a true sequence $j$ can potentially be misread as sequence $i$. The abundance $p$-value is calculated as the probability of observing an abundance $a_i$ or greater, given the expected error count $n_j\lambda_{ji}$. This value is computed using a Poisson distribution, normalized by the probability of observing sequence $i$ at least once [@callahanDADA2HighresolutionSample2016].
+Under the assumption that sequencing errors occur independently across reads, where any read from a true sequence $j$ can potentially be misread as sequence $i$. **The abundance $p$-value is calculated** as the probability of observing an abundance $a_i$ or greater, given the expected error count $n_j\lambda_{ji}$. This value is computed using a Poisson distribution, normalized by the probability of observing sequence $i$ at least once.
 
 $$
 p_A(j \rightarrow i) =  \frac{1}{1-\rho_{\text{pois}}(n_j\lambda_{ji},0)} \sum_{a=a_j}^{\infty}\rho_{\text{pois}}(n_j\lambda_{ji},a_i)
@@ -82,7 +82,9 @@ $$
 
 A lower $p$-value indicates a lower probability that the observed abundance of sequence $i$ can be explained by stochastic sequencing errors originating from sequence $j$. Therefore, a small $p$-value provides strong evidence that sequence $i$ is a distinct biological variant.
 
-Finally, the process enters a **Shuffle & Update** loop, where sequences are competitively reassigned to the most probable cluster centers, and the error model is iteratively refined until the denoising process reaches convergence.
+Once the $p$-values are computed, at the **Shuffle sequences and update $p$-value** step, any sequence with a $p$-value below the threshold ($\Omega_A$) triggers the formation of a new partition with that sequence as its center. 
+
+The algorithm then enters an iterative refinement loop: $p$-values for all unique sequences are re-calculated against the new set of centers, and sequences are reshuffled (reassigned) to the partitions for which they have the highest likelihood (most probable origin). This cycle of partitioning and reshuffling continues until the composition of the partitions remains stable and none of p-value violates the threshold.
 
 (learning-error-rates)=
 ### Learning Error Rates
