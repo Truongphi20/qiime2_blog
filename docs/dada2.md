@@ -89,12 +89,12 @@ The algorithm then enters an iterative refinement loop: $p$-values for all uniqu
 (learning-error-rates)=
 ### Learning Error Rates
 
-The learning error rates includes dereplication to obtain unique sequences. Next, compute and extract error rates after running until the step "Calculate $p$-value" of the [](#dada2-core) algorithm, the refining loop is not run in this course.
+The process of learning error rates begins with dereplication to collapse redundant reads into unique sequences. Next, the algorithm computes and extracts error rates by executing the [](#dada2-core) algorithm through the "Calculate $p$-value" step. Notably, the iterative refining loop is omitted during this phase.
 
 (denoise-samples)=
 ### Denoise samples
 
-The denoising step receives error rates from the previous step, gains unique sequences to run [](#dada2-core) algorithm again, but this time mainly focusing on detecting new center sequences and stablizing partitions in the final step of the algorithm.  
+The denoising step utilizes the error rates estimated in the previous stage and performs dereplication, and the [](#dada2-core) algorithm again. This phase focuses on detecting new center sequences (ASVs) and stabilizing partitions through the final iterative refinement loop, ensuring each sequence is assigned to its most likely biological origin.
 
 (chimeras-removal)=
 ### Chimeras Removal
