@@ -24,6 +24,7 @@ project:
         - title: DADA2
           file: docs/dada2.md
         - title: Deblur
+          file: docs/deblur.md
     - title: Diversity
       children:
         - title: Alpha diversity
