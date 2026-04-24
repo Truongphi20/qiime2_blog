@@ -1,7 +1,11 @@
-python -m pdb -m q2cli deblur denoise-16S \
-  --i-demultiplexed-seqs /workspaces/qiime2_blog/test_data/demux-filtered.qza \
-  --p-trim-length 120 \
-  --p-sample-stats \
-  --o-representative-sequences /workspaces/qiime2_blog/test_data/rep-seqs-deblur.qza \
-  --o-table /workspaces/qiime2_blog/test_data/table-deblur.qza \
-  --o-stats /workspaces/qiime2_blog/test_data/deblur-stats.qza
+deblur workflow --seqs-fp /workspaces/qiime2_blog/test_data/deblur/data \
+                --output-dir /workspaces/qiime2_blog/test_data/deblur \
+                --mean-error 0.005 \
+                --indel-prob 0.01 \
+                --indel-max 3 \
+                --trim-length 120 \
+                --left-trim-length 0 \
+                --min-reads 10 \
+                --min-size 2 \
+                --jobs-to-start 1 \
+                -w --keep-tmp-files
