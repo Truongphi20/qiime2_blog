@@ -12,6 +12,8 @@ project:
   github: https://github.com/Truongphi20/qiime2_blog
   bibliography:
     - docs/static/references.bib
+  numbering:
+    math: false
   toc:
     - title: Overview
       file: docs/index.md
@@ -20,6 +22,7 @@ project:
     - title: Quality control
       children:
         - title: DADA2
+          file: docs/dada2.md
         - title: Deblur
     - title: Diversity
       children:
