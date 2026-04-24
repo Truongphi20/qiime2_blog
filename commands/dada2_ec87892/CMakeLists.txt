@@ -53,3 +53,20 @@ set_target_properties(errlearn_dada_debug PROPERTIES
     BUILD_WITH_INSTALL_RPATH TRUE
     INSTALL_RPATH "${R_SHARED_LIB_PATH}:${R_LIB_PATH}/RcppParallel/lib:${CONDA_PREFIX}/lib"
 )
+
+## bimera executor
+add_executable(bimera_dada_debug bimera_main.cpp ${DADA_SOURCES})
+
+target_link_libraries(bimera_dada_debug 
+    PRIVATE 
+    pthread
+    dl
+    "${R_SHARED_LIB_PATH}/libR.so"
+    "${R_LIB_PATH}/RcppParallel/lib/libtbb.so"
+    "${R_LIB_PATH}/RcppParallel/lib/libtbbmalloc.so"
+)
+
+set_target_properties(bimera_dada_debug PROPERTIES 
+    BUILD_WITH_INSTALL_RPATH TRUE
+    INSTALL_RPATH "${R_SHARED_LIB_PATH}:${R_LIB_PATH}/RcppParallel/lib:${CONDA_PREFIX}/lib"
+)
