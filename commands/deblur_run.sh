@@ -1,4 +1,5 @@
-deblur workflow --seqs-fp /workspaces/qiime2_blog/test_data/deblur/data \
+python -m pdb  /opt/conda/envs/qiime2-amplicon-2026.1/bin/deblur workflow \
+                --seqs-fp /workspaces/qiime2_blog/test_data/deblur/data \
                 --output-dir /workspaces/qiime2_blog/test_data/deblur \
                 --mean-error 0.005 \
                 --indel-prob 0.01 \
