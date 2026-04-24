@@ -32,7 +32,7 @@ With `demux.qza` is the output of demultiplex obtaining fastq files of each samp
 
 The workflow begins with demultiplexed FASTQ samples undergoing [](#trim-filtering) to remove low-quality data, followed by [](#learning-error-rates) to estimate error rate between unique sequence and their partition center sequence (the most abundant in a variant group).
 
-The process then enters the [](#denoise-samples) stage where a specialized algorithm performs constructing priors from unique sequences, and calculating p-values to distinguish and remove sequencing noise from biological variants. 
+The process then enters the [](#denoise-samples) stage where a specialized algorithm performs constructing priors from unique sequences, and calculating $p$-values to distinguish and remove sequencing noise from biological variants. 
 
 Once the samples are denoised, the pipeline handles [](#chimeras-removal) to eliminate chimeras (unique sequence belongs two or more partition center sequence) before reporting the final results as artifacts for downstream analysis.
 
@@ -84,7 +84,7 @@ A lower $p$-value indicates a lower probability that the observed abundance of s
 
 Once the $p$-values are computed, at the **Shuffle sequences and update $p$-value** step, any sequence with a $p$-value below the threshold ($\Omega_A$) triggers the formation of a new partition with that sequence as its center. 
 
-The algorithm then enters an iterative refinement loop: $p$-values for all unique sequences are re-calculated against the new set of centers, and sequences are reshuffled (reassigned) to the partitions for which they have the highest likelihood (most probable origin). This cycle of partitioning and reshuffling continues until the composition of the partitions remains stable and none of p-value violates the threshold.
+The algorithm then enters an iterative refinement loop: $p$-values for all unique sequences are re-calculated against the new set of centers, and sequences are reshuffled (reassigned) to the partitions for which they have the highest likelihood (most probable origin). This cycle of partitioning and reshuffling continues until the composition of the partitions remains stable and none of $p$-value violates the threshold.
 
 (learning-error-rates)=
 ### Learning Error Rates
