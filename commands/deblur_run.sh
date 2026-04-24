@@ -1,4 +1,4 @@
-python -m pdb -m q2cli denoise-16S \
+python -m pdb -m q2cli deblur denoise-16S \
   --i-demultiplexed-seqs /workspaces/qiime2_blog/test_data/demux-filtered.qza \
   --p-trim-length 120 \
   --p-sample-stats \
