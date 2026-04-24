@@ -99,6 +99,15 @@ The denoising step utilizes the error rates estimated in the previous stage and 
 (chimeras-removal)=
 ### Chimeras Removal
 
-Output from denosing including center sequences (ASVs) and associated with their abundance values, from this a sequence table is compiled where columns represent unique sequences, and rows represent the samples (in our case is 34), with the cells filled by abundance values. 
+Output from denosing including center sequences (ASVs) and associated with their abundance values, from this a sequence table is compiled where columns represent unique sequences, and rows represent the samples (in our case is from 1 to 34), with the cells filled by abundance values. 
 
 When running in `consensus` mode, bimera identification is treated as a voting process across samples. A sequence is flagged within each individual sample where it appears; if the sequence is flagged in all samples, or in a sufficiently high fraction of them (determined by a threshold), it is definitively identified as a bimera and removed.
+
+
+## Summary
+
+DADA2 operates on the fundamental assumption that abundance of error following Poisson distribution. A unique sequence is only promoted to a new ASV if its abundance is significantly higher than the expected error rate of its parent "center" sequence.
+
+The DADA2 Core algorithm is applied separately among samples with two phases. Currently the algorithm run twice, maybe in future it could be restructured to perform for specific task without overlapping the each other ($p$-value is computed uneccessarily by [](#learning-error-rates)).
+
+The accuracy of the [](#chimeras-removal) step is directly enhanced by the number of samples processed. As the sample count increases, the statistical power of "vote" grows. More samples provide a higher probability of detecting the sequence which has real biological meaning. 
