@@ -368,3 +368,10 @@ INFO(131090406610752)2026-04-24 13:30:34,237:Keeping temp files
 INFO(131090406610752)2026-04-24 13:30:34,237:deblur workflow finished
 INFO(131090406610752)2026-04-24 13:30:34,237:output saved to /tmp/tmpm40vaj2t/all.biom
 INFO(131090406610752)2026-04-24 13:30:34,237:------------------
+INFO(125404834207552)2026-04-24 15:13:07,532:*************************
+INFO(125404834207552)2026-04-24 15:13:07,533:deblurring started
+WARNING(125404834207552)2026-04-24 15:13:07,534:deblur version 1.1.1 workflow started on /workspaces/qiime2_blog/test_data/deblur/data
+WARNING(125404834207552)2026-04-24 15:13:07,534:parameters: {'seqs_fp': '/workspaces/qiime2_blog/test_data/deblur/data', 'output_dir': '/workspaces/qiime2_blog/test_data/deblur', 'pos_ref_fp': (), 'pos_ref_db_fp': (), 'neg_ref_fp': (), 'neg_ref_db_fp': (), 'overwrite': True, 'mean_error': 0.005, 'error_dist': [1.0, 0.06, 0.02, 0.02, 0.01, 0.005, 0.005, 0.005, 0.001, 0.001, 0.001, 0.0005], 'indel_prob': 0.01, 'indel_max': 3, 'trim_length': 120, 'left_trim_length': 0, 'min_reads': 10, 'min_size': 2, 'threads_per_sample': 1, 'keep_tmp_files': True, 'log_level': 2, 'log_file': '/workspaces/qiime2_blog/deblur.log', 'jobs_to_start': 1, 'is_worker_thread': False, 'logger': <Logger __main__ (INFO)>}
+INFO(125404834207552)2026-04-24 15:13:07,534:error_dist is : [1.0, 0.06, 0.02, 0.02, 0.01, 0.005, 0.005, 0.005, 0.001, 0.001, 0.001, 0.0005]
+INFO(125404834207552)2026-04-24 15:13:07,535:deblur main program started
+INFO(125404834207552)2026-04-24 15:13:07,540:splitting file /workspaces/qiime2_blog/test_data/deblur/data to per sample fasta. output /workspaces/qiime2_blog/test_data/deblur/split

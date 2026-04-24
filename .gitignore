@@ -11,3 +11,4 @@ sandbank/*.out
 sandbank/build
 commands/dada2_ec87892/build
 .Rhistory
+deblur.log
