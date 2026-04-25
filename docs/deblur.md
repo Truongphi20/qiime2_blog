@@ -6,7 +6,9 @@ Similar to [](./dada2.md), Deblur is a denoising method designed to correct erro
 
 Instead of using traditional Operational Taxonomic Units (OTUs) or Amplicon Sequence Variants (ASVs) of DADA2, Deblur introduced a novel approach termed Sub Operational Taxonomic Units (sOTUs). 
 
-The command for quality filtering by quality scores:
+There are two main steps in Deblur pipeline according to two commands mentioned in the tutorial.  
+
+The command for preparation by quality filtering:
 ```
 qiime quality-filter q-score \
   --i-demux demux.qza \
@@ -14,8 +16,7 @@ qiime quality-filter q-score \
   --o-filter-stats demux-filter-stats.qza
 ```
 
-
-The deblur command:
+And the core deblur command:
 ```
 qiime deblur denoise-16S \
   --i-demultiplexed-seqs demux-filtered.qza \
