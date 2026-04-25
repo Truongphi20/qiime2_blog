@@ -2,6 +2,8 @@
 
 ## Introduction
 
+Similar to [](./dada2.md), Deblur is a denoising method designed to correct errors occurring during sequencing and PCR amplification cycles, which otherwise limit the ability to perform fine-scale classification in 16S rRNA amplicon sequencing [@amirDeblurRapidlyResolves2017].
+
 The command for quality filtering by quality scores:
 ```
 qiime quality-filter q-score \
