@@ -26,7 +26,7 @@ With `demux.qza` is the output of demultiplex obtaining fastq files of each samp
 
 ```{image} static/dada2_workflow.png
 :alt: dada_workflow
-:height: 600px
+:height: 700px
 :align: center
 ```
 
