@@ -46,7 +46,7 @@ A low-quality window is identified as the first instance of consecutive bases wi
 | :----   | :---------- |
 | **untruncated** |  The read was not truncated; the quality remained above the threshold throughout; do not contains ambiguous bases (`N`)        |
 | **truncated**   |  The truncated read has accepted truncated fraction, and do not obtain ambiguous bases      |
-| **short**       |  The read has truncated fraction is greater than $0.75$         |
+| **short**       |  The read has truncated fraction (`truncated length` / `read length`) is greater than $0.75$         |
 | **ambiguous**   |  The read without being truncated obtains ambiguous bases         |
 | **truncated ambiguous** | The truncated read obtains ambiguous bases         |
 
