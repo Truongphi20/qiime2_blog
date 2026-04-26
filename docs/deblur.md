@@ -50,10 +50,6 @@ A low-quality window is identified as the first instance of consecutive bases wi
 | **ambiguous**   |  The read without being truncated obtains ambiguous bases         |
 | **truncated ambiguous** | The truncated read obtains ambiguous bases         |
 
-
-
-### Build index
-
 ### Deblur core
 
 ```{image} static/deblur_core.png
