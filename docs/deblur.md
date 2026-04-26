@@ -38,7 +38,19 @@ qiime deblur denoise-16S \
 
 ### Quality filtering
 
-The quality filtering process is performed for each sample, includes: (1) searching low quality window on each read, (2) truncating fastq record according to the position of the low quality window, (3) records are marked thoughout this process for downstream.   
+The quality filtering process is performed independently for each sample and consists of three main steps: (1) scanning each read for a low-quality window, (2) truncating the FASTQ record based on the position of that window, and (3) tracing and labeling each record based on the results of the filter.
+
+A low-quality window is identified as the first instance of consecutive bases with Phred quality scores below a specific threshold (the default is 4). Once this window is found, the read is truncated at that position. Each read is then assigned a status label to track its filtering outcome:
+
+| Label   |   Meaning   |
+| :----   | :---------- |
+| **untruncated** |  The read was not truncated; the quality remained above the threshold throughout; do not contains ambiguous bases (`N`)        |
+| **truncated**   |  The truncated read has accepted truncated fraction, and do not obtain ambiguous bases      |
+| **short**       |  The read has truncated fraction is greater than $0.75$         |
+| **ambiguous**   |  The read without being truncated obtains ambiguous bases         |
+| **truncated ambiguous** | The truncated read obtains ambiguous bases         |
+
+
 
 ### Build index
 
