@@ -38,6 +38,8 @@ qiime deblur denoise-16S \
 
 ### Quality filtering
 
+The quality filtering process is performed for each sample, includes: (1) searching low quality window on each read, (2) truncating fastq record according to the position of the low quality window, (3) records are marked thoughout this process for downstream.   
+
 ### Build index
 
 ### Deblur core
