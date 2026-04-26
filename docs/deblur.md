@@ -30,4 +30,18 @@ qiime deblur denoise-16S \
 
 ## Workflow
 
+```{image} static/deblur_overview.png
+:alt: dada_workflow
+:height: 700px
+:align: center
+```
+
+### Quality filtering
+
+### Build index
+
+### Deblur core
+
+### Create biom table
+
 ## Summary
