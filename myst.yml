@@ -19,7 +19,7 @@ project:
       file: docs/index.md
     - title: Demultiplexing
       file: docs/demultiplexing.md
-    - title: Quality control
+    - title: Denoising
       children:
         - title: DADA2
           file: docs/dada2.md
