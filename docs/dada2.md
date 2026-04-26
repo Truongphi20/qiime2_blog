@@ -57,7 +57,7 @@ Demutiplexed files are filtered simultaneously according to following quality fi
 The values of `trimLeft` and `truncLen` are inherited from the command. Criteria descriptions adapted from `dada2::fastqFilter` [documentation](https://github.com/benjjneb/dada2/blob/master/R/filter.R) (function handles trim and filtering directly). 
 
 (dada2-core)=
-### Dada2 core
+### DADA2 core
 
 ```{image} static/dada2_core.png
 :alt: dada_core
