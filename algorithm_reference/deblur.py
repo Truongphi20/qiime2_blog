@@ -2,6 +2,75 @@ import numpy as np
 from collections import defaultdict
 from operator import attrgetter
 import re
+import io
+import skbio
+
+sniff_fasta = skbio.io.io_registry.get_sniffer('fasta')
+sniff_fastq = skbio.io.io_registry.get_sniffer('fastq')
+
+def _get_fastq_variant(input_fp):
+    # https://bit.ly/3GEDIxF
+    variant = None
+    variants = ['illumina1.8', 'illumina1.3', 'solexa', 'sanger']
+    for v in variants:
+        try:
+            next(skbio.read(input_fp, format='fastq', variant=v))
+        except Exception:
+            continue
+        else:
+            variant = v
+            break
+
+    if variant is None:
+        raise ValueError("Unknown variant, unable to interpret PHRED")
+
+    return variant
+
+def sequence_generator(input_fp):
+    """Yield (id, sequence) from an input file
+
+    Parameters
+    ----------
+    input_fp : filepath
+        A filepath, which can be any valid fasta or fastq file within the
+        limitations of scikit-bio's IO registry.
+
+    Notes
+    -----
+    The use of this method is a stopgap to replicate the existing `parse_fasta`
+    functionality while at the same time allowing for fastq support.
+
+    Raises
+    ------
+    skbio.io.FormatIdentificationWarning
+        If the format of the input file cannot be determined.
+
+    Returns
+    -------
+    (str, str)
+        The ID and sequence.
+
+    """
+    kw = {}
+    if sniff_fasta(input_fp)[0]:
+        format = 'fasta'
+    elif sniff_fastq(input_fp)[0]:
+        format = 'fastq'
+
+        kw['variant'] = _get_fastq_variant(input_fp)
+    else:
+        # usually happens when the fasta file is empty
+        # so need to return no sequences (and warn)
+        msg = "input file %s does not appear to be FASTA or FASTQ" % input_fp
+        print(msg)
+        return
+
+    # some of the test code is using file paths, some is using StringIO.
+    if isinstance(input_fp, io.TextIOBase):
+        input_fp.seek(0)
+
+    for record in skbio.read(input_fp, format=format, **kw):
+        yield (record.metadata['id'], str(record))
 
 class Sequence(object):
     """Sequence object to represent the aligned reads
@@ -235,5 +304,16 @@ def deblur(input_seqs, mean_error=0.005,
     return result
 
 if __name__ == "__main__":
-    
-    pass
+    ## Outputs from MSA
+    alignment_output = "/workspaces/qiime2_blog/support_data/L6S68_30_L001_R1_001.fastq.gz.trim.derep.no_artifacts.msa"
+    msa = sequence_generator(alignment_output)
+
+    ## Parameters
+    mean_error = 0.005
+    error_dist = [1.0, 0.06, 0.02, 0.02, 0.01, 0.005, 0.005, 0.005, 0.001, 0.001, 0.001, 0.0005]
+    indel_prob = 0.01
+    indel_max = 3
+
+
+    ## Dbluring
+    seqs = deblur(msa, mean_error, error_dist, indel_prob, indel_max)
