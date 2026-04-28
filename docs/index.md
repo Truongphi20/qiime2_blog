@@ -13,12 +13,12 @@ This motivated me to create this blog: to provide a high-level abstraction of th
 
 ---
 
-## Covered contents
+## Covered content
 
 This blog explores the internal logic and workflows of the commands featured in the tutorial: 
 
 - [Demultiplexing](./demultiplexing.md)
-- Denosing
+- Denoising
   - [DADA2](./dada2.md)
   - [Deblur](./deblur.md) 
 - Diversity
@@ -33,6 +33,6 @@ This blog explores the internal logic and workflows of the commands featured in 
 
 I am not a member of the QIIME 2 core development team, just a curious bioinformatician wanting to understand what happens under the hood. I’ve written this blog as a reference for my future self and for anyone else sharing this curiosity. 
 
-The content here is compiled from my own deep-dives into practical workflows behinds the source code, as well as my interpretations of the algorithmic and biological concepts found in official documentation and published research.
+The content here is compiled from my own deep-dives into practical workflows behind the source code, as well as my interpretations of the algorithmic and biological concepts found in official documentation and published research.
 
 :::
