@@ -60,7 +60,7 @@ A low-quality window is identified as the first instance of consecutive bases wi
 
 Qualify sequences are trimed to be equal in length (120 bp), sequences have length being shorter than the trim length are discard. Deprelication is performed by removing singletons using VSEARCH [@rognesVSEARCHVersatileOpen2016] before removing artifact sequences (composed of PhiX and sequencing adapters, see [artifact.fa](https://github.com/Truongphi20/qiime2_blog/blob/main/support_data/artifacts.fa)).
 
-After standardizing steps, read sequences are performed multiple sequence alignment (MSA) by MAFFT [@katohMAFFTMultipleSequence2013] with PartTree algorithm [@katohPartTreeAlgorithmBuild2007] which is suitable for large scale alignment. 
+Following standardization, sequences were subjected to multiple sequence alignment (MSA) using MAFFT [@katohMAFFTMultipleSequence2013]. To accommodate the large-scale nature of the dataset, the PartTree algorithm was employed; this approach reduces the $O(N^2)$ complexity of pairwise comparisons to $O(N \log N)$ by recursively partitioning sequences based on their similarity to a subset of 'seed' sequences [@katohPartTreeAlgorithmBuild2007].
  
 ### Create biom table
 
