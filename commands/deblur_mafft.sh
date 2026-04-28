@@ -1,4 +1,4 @@
-mafft --quiet \
+bashdb /opt/conda/envs/qiime2-amplicon-2026.1/bin/mafft --quiet \
         --preservecase \
         --parttree \
         --auto \
