@@ -11,7 +11,8 @@ bashdb /opt/conda/envs/qiime2-amplicon-2026.1/bin/mafft --quiet \
 ## because gdb dont be compatible with bash operator "<", run executor fist, then add args to run
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/bin/mafft:2307
-# /opt/conda/envs/qiime2-amplicon-2026.1/libexec/mafft/replaceu -i orig > infile 2>>/dev/null
+# gdb /opt/conda/envs/qiime2-amplicon-2026.1/libexec/mafft/replaceu
+# (gdb) set args -i orig > infile 2>>/dev/null
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/bin/mafft:2673
 # gdb /workspaces/qiime2_blog/commands/mafft-7.525-with-extensions/build/core/disttbfast
