@@ -12,3 +12,5 @@ sandbank/build
 commands/dada2_ec87892/build
 .Rhistory
 deblur.log
+commands/mafft-7.525-with-extensions/build
+commands/mafft-7.525-with-extensions/install_test
