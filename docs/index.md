@@ -15,7 +15,7 @@ This motivated me to create this blog: to provide a high-level abstraction of th
 
 ## Covered content
 
-This blog explores the internal logic and workflows of the commands featured in the tutorial: 
+This blog explores the internal logic and workflows of the QIIME 2 (v2026.1.0) commands featured in the tutorial: 
 
 - [Demultiplexing](./demultiplexing.md)
 - Denoising
