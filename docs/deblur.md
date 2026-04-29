@@ -61,7 +61,9 @@ A low-quality window is identified as the first instance of consecutive bases wi
 Qualify sequences are trimed to be equal in length (120 bp), sequences have length being shorter than the trim length are discard. Deprelication is performed by removing singletons using VSEARCH [@rognesVSEARCHVersatileOpen2016], and removing artifact sequences (composed of PhiX and sequencing adapters, see [artifact.fa](https://github.com/Truongphi20/qiime2_blog/blob/main/support_data/artifacts.fa)).
 
 Following standardization, sequences were subjected to multiple sequence alignment (MSA) using MAFFT [@katohMAFFTMultipleSequence2013]. To accommodate the large-scale nature of the dataset, the PartTree algorithm was employed; this approach reduces the $O(N^2)$ complexity of pairwise comparisons to $O(N \log N)$ by recursively partitioning sequences based on their similarity to a subset of 'seed' sequences [@katohPartTreeAlgorithmBuild2007].
- 
+
+Metaphorically, "Launch Deblur" initializes a competition where each sequence is a competitor, and their "mana" represents their observed abundance. Starting with the most abundant, sequences duel one by one until only the survivors remain as sOTUs. In each match, the "damage points" dealt by a sequence to another represent the statistical number of error copies expected if the opponent were merely its own sequencing artifact (empirical algorithmic code can be found in [deblur.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/deblur.py)).
+
 ### Create biom table
 
 ## Summary
