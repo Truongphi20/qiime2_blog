@@ -34,7 +34,7 @@ The workflow begins with demultiplexed FASTQ samples undergoing [](#trim-filteri
 
 The process then enters the [](#denoise-samples) stage where a specialized algorithm performs constructing priors from unique sequences, and calculating $p$-values to distinguish and remove sequencing noise from biological variants. 
 
-Once the samples are denoised, the pipeline handles [](#chimeras-removal) to eliminate chimeras (unique sequence belongs two or more partition center sequence) before reporting the final results as artifacts for downstream analysis.
+Once the samples are denoised, the pipeline handles [](#chimeras-removal) to eliminate chimeras (unique sequence belongs two samples, originating from PCR) before reporting the final results as artifacts for downstream analysis.
 
 (trim-filtering)=
 ### Trim & Filtering
