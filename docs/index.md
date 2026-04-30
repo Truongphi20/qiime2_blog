@@ -3,25 +3,36 @@ title: "QIIME2 Under the Hood"
 description: "Deep dives into QIIME2 internals: demux, DADA2, and debugging."
 ---
 
-# 🔬 QIIME2 Under the Hood
+# QIIME2 Under the Hood
 
-Most tutorials show you *what commands to run*.  
-This blog focuses on:
+## Motivation
 
-👉 **What actually happens underneath.**
+The QIIME 2 [Moving Pictures tutorial](https://amplicon-docs.qiime2.org/en/stable/tutorials/moving-pictures/) is the gold standard for newcomers to get familiar with 16S rRNA analysis. While the tutorial covers the essential steps of a basic analysis, it focuses primarily on executing commands and evaluating outputs without providing a deep look into the underlying processes.
 
----
-
-## 📚 Articles
-
-- [Demultiplexing deep dive](demux.md)
-- [DADA2 under the hood](dada2.md)
-- [Debugging QIIME2](debugging.md)
+This motivated me to create this blog: to provide a high-level abstraction of the crucial workflows operating behind the scenes of QIIME 2 commands.
 
 ---
 
-## 🧪 Example: Debugging QIIME2
+## Covered content
 
-```bash
-python -m pdb -m q2cli dada2 denoise-single ...
-```
+This blog explores the internal logic and workflows of the QIIME 2 (v2026.1.0) commands featured in the tutorial: 
+
+- [Demultiplexing](./demultiplexing.md)
+- Denoising
+  - [DADA2](./dada2.md)
+  - [Deblur](./deblur.md) 
+- Diversity
+  - Alpha diversity
+  - Beta diversity
+- Alpha rarefaction 
+
+---
+
+
+:::{attention} Disclaim
+
+I am not a member of the QIIME 2 core development team, just a curious bioinformatician wanting to understand what happens under the hood. I’ve written this blog as a reference for my future self and for anyone else sharing this curiosity. 
+
+The content here is compiled from my own deep-dives into practical workflows behind the source code, as well as my interpretations of the algorithmic and biological concepts found in official documentation and published research.
+
+:::

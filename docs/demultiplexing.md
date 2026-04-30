@@ -19,6 +19,10 @@ There are two main inputs for this process:
 - `emp-single-end-sequences.qza`: Including fastq files of barcode and sequencing read.
 - `sample-metadata.tsv`: Metatdata contains auxiliary information according to barcode. 
 
+:::{caution}
+This demultiplex is designed for data of [Earth Microbiome Project (EMP) amplicon sequencing protocol](https://earthmicrobiome.ucsd.edu/protocols-and-standards/16s/).
+:::
+
 ![input_files](static/input_files.png)
 
 Base on the sequencing label on a read (in sequences fastq file), the original sample (in metadata) is retrieved by the barcode associating the same the sequencing label (in barcodes fastq file).  

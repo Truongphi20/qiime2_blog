@@ -4,7 +4,7 @@
 
 In 16S rRNA analysis, the first step in characterizing the microbiome of a sample is to cluster similar sequencing reads into representative units that can be used for taxonomic assignment. However, sequencing errors can introduce false positives, leading to incorrect biological interpretations. Traditionally, this clustering is performed by grouping reads into Operational Taxonomic Units (OTUs) based on a fixed sequence dissimilarity threshold. Nevertheless, this approach often lacks sufficient resolution to capture fine-scale taxonomic variation and can result in misinterpretation of microbial diversity [@callahanDADA2HighresolutionSample2016].   
 
-DADA2 and other “denoising” tools address this issue by attempting to correct sequencing errors at the single-nucleotide level without constructing OTUs. Instead, they generate Amplicon Sequence Variants (ASVs) [@nearingDenoisingDenoisersIndependent2018].
+DADA2 address this issue by attempting to correct sequencing errors at the single-nucleotide level without constructing OTUs. Instead, they generate Amplicon Sequence Variants (ASVs) [@nearingDenoisingDenoisersIndependent2018].
 
 In "Moving Pictures" tutorial, DADA2 is a denoising option after demultiplex, the command:
 
@@ -26,7 +26,7 @@ With `demux.qza` is the output of demultiplex obtaining fastq files of each samp
 
 ```{image} static/dada2_workflow.png
 :alt: dada_workflow
-:height: 600px
+:height: 700px
 :align: center
 ```
 
@@ -34,7 +34,7 @@ The workflow begins with demultiplexed FASTQ samples undergoing [](#trim-filteri
 
 The process then enters the [](#denoise-samples) stage where a specialized algorithm performs constructing priors from unique sequences, and calculating $p$-values to distinguish and remove sequencing noise from biological variants. 
 
-Once the samples are denoised, the pipeline handles [](#chimeras-removal) to eliminate chimeras (unique sequence belongs two or more partition center sequence) before reporting the final results as artifacts for downstream analysis.
+Once the samples are denoised, the pipeline handles [](#chimeras-removal) to eliminate chimeras (unique sequence belongs two samples, originating from PCR) before reporting the final results as artifacts for downstream analysis.
 
 (trim-filtering)=
 ### Trim & Filtering
@@ -57,7 +57,7 @@ Demutiplexed files are filtered simultaneously according to following quality fi
 The values of `trimLeft` and `truncLen` are inherited from the command. Criteria descriptions adapted from `dada2::fastqFilter` [documentation](https://github.com/benjjneb/dada2/blob/master/R/filter.R) (function handles trim and filtering directly). 
 
 (dada2-core)=
-### Dada2 core
+### DADA2 core
 
 ```{image} static/dada2_core.png
 :alt: dada_core

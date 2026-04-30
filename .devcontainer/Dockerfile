@@ -31,13 +31,18 @@ RUN echo "source /opt/conda/etc/profile.d/conda.sh" >> /home/$USERNAME/.bashrc
 # Install debug tools and dependencies
 RUN apt-get update && apt-get install -y gdb cmake zlib1g-dev less
 
+# Install bashdb for version 5.2
+RUN apt-get update && apt-get install -y build-essential texinfo wget \
+    && wget https://github.com/Trepan-Debuggers/bashdb/releases/download/5.2-1.2.0/bashdb-5.2-1.2.0.tar.gz \
+    && tar -xzf bashdb-5.2-1.2.0.tar.gz \
+    && cd bashdb-5.2-1.2.0 && ./configure && make && make install \
+    && cd .. && rm -rf bashdb-5.2-1.2.0*
+
 USER $USERNAME
 WORKDIR /workspace
 
 RUN conda run -n qiime2-amplicon-2026.1 Rscript -e "install.packages('languageserver', repos='https://cloud.r-project.org')"
-RUN conda run -n qiime2-amplicon-2026.1 Rscript -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/Rcpp/Rcpp_0.12.19.tar.gz", repos=NULL, type="source")'
 ENV R_HOME "/opt/conda/envs/qiime2-amplicon-2026.1/lib/R"
-
 
 # IMPORTANT: use login bash
 ENTRYPOINT ["bash", "-l"]

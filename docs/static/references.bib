@@ -3,8 +3,7 @@
   url = {https://www.illumina.com/techniques/sequencing/ngs-library-prep/multiplexing.html},
   urldate = {2026-04-14},
   abstract = {Sample multiplexing, also known as multiplex sequencing, allows large numbers of libraries to be pooled and sequenced simultaneously during a single run.},
-  langid = {english},
-  file = {/home/truongphi/Zotero/storage/LJNZQK5Z/multiplexing.html}
+  langid = {english}
 }
 
 @book{morelos-zaragozaArtErrorCorrecting2006,
@@ -16,8 +15,7 @@
   address = {Chichester ; Hoboken, NJ},
   isbn = {978-0-470-01558-2},
   lccn = {QA268 .M67 2006},
-  keywords = {Computer algorithms,Error-correcting codes (Information theory)},
-  file = {/home/truongphi/Zotero/storage/GRNLFH3B/Morelos-Zaragoza - 2006 - The art of error correcting coding.pdf}
+  keywords = {Computer algorithms,Error-correcting codes (Information theory)}
 }
 
 @article{callahanDADA2HighresolutionSample2016,
@@ -33,8 +31,7 @@
   issn = {1548-7091, 1548-7105},
   doi = {10.1038/nmeth.3869},
   urldate = {2026-04-16},
-  langid = {english},
-  file = {/home/truongphi/Zotero/storage/5NQKZIXN/Callahan et al. - 2016 - DADA2 High-resolution sample inference from Illumina amplicon data.pdf}
+  langid = {english}
 }
 
 @article{nearingDenoisingDenoisersIndependent2018,
@@ -51,8 +48,7 @@
   urldate = {2026-04-17},
   abstract = {High-depth sequencing of universal marker genes such as the 16S rRNA gene is a common strategy to profile microbial communities. Traditionally, sequence reads are clustered into operational taxonomic units (OTUs) at a defined identity threshold to avoid sequencing errors generating spurious taxonomic units. However, there have been numerous bioinformatic packages recently released that attempt to correct sequencing errors to determine real biological sequences at single nucleotide resolution by generating amplicon sequence variants (ASVs). As more researchers begin to use high resolution ASVs, there is a need for an in-depth and unbiased comparison of these novel ``denoising'' pipelines. In this study, we conduct a thorough comparison of three of the most widely-used denoising packages (DADA2, UNOISE3, and Deblur) as well as an open-reference 97\% OTU clustering pipeline on mock, soil, and host-associated communities. We found from the mock community analyses that although they produced similar microbial compositions based on relative abundance, the approaches identified vastly different numbers of ASVs that significantly impact alpha diversity metrics. Our analysis on real datasets using recommended settings for each denoising pipeline also showed that the three packages were consistent in their per-sample compositions, resulting in only minor differences based on weighted UniFrac and Bray--Curtis dissimilarity. DADA2 tended to find more ASVs than the other two denoising pipelines when analyzing both the real soil data and two other host-associated datasets, suggesting that it could be better at finding rare organisms, but at the expense of possible false positives. The open-reference OTU clustering approach identified considerably more OTUs in comparison to the number of ASVs from the denoising pipelines in all datasets tested. The three denoising approaches were significantly different in their run times, with UNOISE3 running greater than 1,200 and 15 times faster than DADA2 and Deblur, respectively. Our findings indicate that, although all pipelines result in similar general community structure, the number of ASVs/OTUs and resulting alpha-diversity metrics varies considerably and should be considered when attempting to identify rare organisms from possible background noise.},
   copyright = {http://creativecommons.org/licenses/by/4.0/},
-  langid = {english},
-  file = {/home/truongphi/Zotero/storage/JI8SLEJX/Nearing et al. - 2018 - Denoising the Denoisers an independent evaluation of microbiome sequence error-correction approache.pdf}
+  langid = {english}
 }
 
 @article{sunESPRITEstimatingSpecies2009,
@@ -69,8 +65,7 @@
   doi = {10.1093/nar/gkp285},
   urldate = {2026-04-21},
   copyright = {http://creativecommons.org/licenses/by-nc/2.0/uk/},
-  langid = {english},
-  file = {/home/truongphi/Zotero/storage/3M4MJEDY/Sun et al. - 2009 - ESPRIT estimating species richness using large collections of 16S rRNA pyrosequences.pdf}
+  langid = {english}
 }
 
 @article{gibratShortNoteDynamic2018,
@@ -85,7 +80,104 @@
   issn = {1471-2105},
   doi = {10.1186/s12859-018-2228-9},
   urldate = {2026-04-21},
-  langid = {english},
-  file = {/home/truongphi/Zotero/storage/5HLRIKHS/Gibrat - 2018 - A short note on dynamic programming in a band.pdf}
+  langid = {english}
 }
 
+@article{amirDeblurRapidlyResolves2017,
+  title = {Deblur {{Rapidly Resolves Single-Nucleotide Community Sequence Patterns}}},
+  author = {Amir, Amnon and McDonald, Daniel and {Navas-Molina}, Jose A. and Kopylova, Evguenia and Morton, James T. and Zech Xu, Zhenjiang and Kightley, Eric P. and Thompson, Luke R. and Hyde, Embriette R. and Gonzalez, Antonio and Knight, Rob},
+  editor = {Gilbert, Jack A.},
+  year = 2017,
+  month = apr,
+  journal = {mSystems},
+  volume = {2},
+  number = {2},
+  pages = {e00191-16},
+  issn = {2379-5077},
+  doi = {10.1128/mSystems.00191-16},
+  urldate = {2026-04-25},
+  abstract = {Deblur provides a rapid and sensitive means to assess ecological patterns driven by differentiation of closely related taxa. This algorithm provides a solution to the problem of identifying real ecological differences between taxa whose amplicons differ by a single base pair, is applicable in an automated fashion to large-scale sequencing data sets, and can integrate sequencing runs collected over time.           ,              ABSTRACT                            High-throughput sequencing of 16S ribosomal RNA gene amplicons has facilitated understanding of complex microbial communities, but the inherent noise in PCR and DNA sequencing limits differentiation of closely related bacteria. Although many scientific questions can be addressed with broad taxonomic profiles, clinical, food safety, and some ecological applications require higher specificity. Here we introduce a novel sub-operational-taxonomic-unit (sOTU) approach, Deblur, that uses error profiles to obtain putative error-free sequences from Illumina MiSeq and HiSeq sequencing platforms. Deblur substantially reduces computational demands relative to similar sOTU methods and does so with similar or better sensitivity and specificity. Using simulations, mock mixtures, and real data sets, we detected closely related bacterial sequences with single nucleotide differences while removing false positives and maintaining stability in detection, suggesting that Deblur is limited only by read length and diversity within the amplicon sequences. Because Deblur operates on a per-sample level, it scales to modern data sets and meta-analyses. To highlight Deblur's ability to integrate data sets, we include an interactive exploration of its application to multiple distinct sequencing rounds of the American Gut Project. Deblur is open source under the Berkeley Software Distribution (BSD) license, easily installable, and downloadable from               https://github.com/biocore/deblur               .                                         IMPORTANCE               Deblur provides a rapid and sensitive means to assess ecological patterns driven by differentiation of closely related taxa. This algorithm provides a solution to the problem of identifying real ecological differences between taxa whose amplicons differ by a single base pair, is applicable in an automated fashion to large-scale sequencing data sets, and can integrate sequencing runs collected over time.},
+  langid = {english}
+}
+
+
+@article{katohMAFFTMultipleSequence2013,
+  title = {{{MAFFT Multiple Sequence Alignment Software Version}} 7: {{Improvements}} in {{Performance}} and {{Usability}}},
+  shorttitle = {{{MAFFT Multiple Sequence Alignment Software Version}} 7},
+  author = {Katoh, K. and Standley, D. M.},
+  year = 2013,
+  month = apr,
+  journal = {Molecular Biology and Evolution},
+  volume = {30},
+  number = {4},
+  pages = {772--780},
+  issn = {0737-4038, 1537-1719},
+  doi = {10.1093/molbev/mst010},
+  urldate = {2026-04-27},
+  langid = {english}
+}
+
+
+@article{rognesVSEARCHVersatileOpen2016,
+  title = {{{VSEARCH}}: A Versatile Open Source Tool for Metagenomics},
+  shorttitle = {{{VSEARCH}}},
+  author = {Rognes, Torbj{\o}rn and Flouri, Tom{\'a}{\v s} and Nichols, Ben and Quince, Christopher and Mah{\'e}, Fr{\'e}d{\'e}ric},
+  year = 2016,
+  month = oct,
+  journal = {PeerJ},
+  volume = {4},
+  pages = {e2584},
+  issn = {2167-8359},
+  doi = {10.7717/peerj.2584},
+  urldate = {2026-04-27},
+  copyright = {http://creativecommons.org/licenses/by/4.0/},
+  langid = {english},
+  file = {/home/truongphi/Zotero/storage/NELMVDVA/Rognes et al. - 2016 - VSEARCH a versatile open source tool for metagenomics.pdf}
+}
+
+@article{katohPartTreeAlgorithmBuild2007,
+  title = {{{PartTree}}: An Algorithm to Build an Approximate Tree from a Large Number of Unaligned Sequences},
+  shorttitle = {{{PartTree}}},
+  author = {Katoh, Kazutaka and Toh, Hiroyuki},
+  year = 2007,
+  month = feb,
+  journal = {Bioinformatics},
+  volume = {23},
+  number = {3},
+  pages = {372--374},
+  issn = {1367-4811, 1367-4803},
+  doi = {10.1093/bioinformatics/btl592},
+  urldate = {2026-04-27},
+  langid = {english}
+}
+
+@article{edgarUCHIMEImprovesSensitivity2011,
+  title = {{{UCHIME}} Improves Sensitivity and Speed of Chimera Detection},
+  author = {Edgar, Robert C. and Haas, Brian J. and Clemente, Jose C. and Quince, Christopher and Knight, Rob},
+  year = 2011,
+  month = aug,
+  journal = {Bioinformatics},
+  volume = {27},
+  number = {16},
+  pages = {2194--2200},
+  issn = {1367-4811, 1367-4803},
+  doi = {10.1093/bioinformatics/btr381},
+  urldate = {2026-04-29},
+  langid = {english}
+}
+
+@article{kopylovaSortMeRNAFastAccurate2012,
+  title = {{{SortMeRNA}}: Fast and Accurate Filtering of Ribosomal {{RNAs}} in Metatranscriptomic Data},
+  shorttitle = {{{SortMeRNA}}},
+  author = {Kopylova, Evguenia and No{\'e}, Laurent and Touzet, H{\'e}l{\`e}ne},
+  year = 2012,
+  month = dec,
+  journal = {Bioinformatics},
+  volume = {28},
+  number = {24},
+  pages = {3211--3217},
+  issn = {1367-4811, 1367-4803},
+  doi = {10.1093/bioinformatics/bts611},
+  urldate = {2026-04-26},
+  langid = {english},
+}
