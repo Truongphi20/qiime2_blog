@@ -73,6 +73,6 @@ The denoised output from the [](#deblur-core) process across all samples is comp
 
 ### Remove artifacts
 
-SortMeRNA v2.0 is employed to remove artifact sequences (by default, composed of PhiX and sequencing adapters, see [artifact.fa](https://github.com/Truongphi20/qiime2_blog/blob/main/support_data/artifacts.fa)).
+SortMeRNA v2.0 [@kopylovaSortMeRNAFastAccurate2012] is employed to remove artifact sequences, which by default are composed of PhiX and sequencing adapters , see [artifact.fa](https://github.com/Truongphi20/qiime2_blog/blob/main/support_data/artifacts.fa). Artifact sequences that match the references are stored separately from the sOTU sequences. Any samples that become empty after this filtration are discarded, and the BIOM table and sequence file are updated accordingly.
 
 ## Summary
