@@ -59,7 +59,7 @@ A low-quality window is identified as the first instance of consecutive bases wi
 :align: center
 ```
 
-Qualify sequences **are trimed** to be equal in length (120 bp), sequences have length being shorter than the trim length are discard. **Deprelication** is performed by removing singletons using VSEARCH (v2.22.1) [@rognesVSEARCHVersatileOpen2016], and removing artifact sequences (composed of PhiX and sequencing adapters, see [artifact.fa](https://github.com/Truongphi20/qiime2_blog/blob/main/support_data/artifacts.fa)).
+Qualify sequences **are trimed** to be equal in length (120 bp), sequences have length being shorter than the trim length are discard. **Deprelication** is performed by counting abundance of unique sequences and removing singletons using VSEARCH (v2.22.1) [@rognesVSEARCHVersatileOpen2016].
 
 Following standardization, sequences were subjected to **multiple sequence alignment (MSA)** using MAFFT [@katohMAFFTMultipleSequence2013]. To accommodate the large-scale nature of the dataset, the PartTree algorithm was employed; this approach reduces the $O(N^2)$ complexity of pairwise comparisons to $O(N \log N)$ by recursively partitioning sequences based on their similarity to a subset of 'seed' sequences [@katohPartTreeAlgorithmBuild2007].
 
@@ -72,5 +72,7 @@ The **Chimera removal** step is performed by VSEARCH using the UCHIME *de novo* 
 The denoised output from the [](#deblur-core) process across all samples is compiled into a single BIOM table. This table consists of a matrix (dimensions: $sOTUs \times samples$) where the cell values represent the remaining frequency (abundance) of each sequence. Note that samples containing zero reads are excluded from the matrix. Additionally, any sOTUs with a total cross-sample abundance falling below a specified threshold (default is 10) are discarded to filter out rare artifacts. Both the final BIOM table and the corresponding sOTU sequences are preserved for downstream analysis.
 
 ### Remove artifacts
+
+SortMeRNA v2.0 is employed to remove artifact sequences (by default, composed of PhiX and sequencing adapters, see [artifact.fa](https://github.com/Truongphi20/qiime2_blog/blob/main/support_data/artifacts.fa)).
 
 ## Summary
