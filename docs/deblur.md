@@ -16,7 +16,7 @@ qiime quality-filter q-score \
   --o-filter-stats demux-filter-stats.qza
 ```
 
-And the core deblur command:
+And the deblur command:
 ```
 qiime deblur denoise-16S \
   --i-demultiplexed-seqs demux-filtered.qza \
