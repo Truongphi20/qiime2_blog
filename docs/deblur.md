@@ -50,6 +50,7 @@ A low-quality window is identified as the first instance of consecutive bases wi
 | **ambiguous**   |  The read without being truncated obtains ambiguous bases         |
 | **truncated ambiguous** | The truncated read obtains ambiguous bases         |
 
+(deblur-core)=
 ### Deblur core
 
 ```{image} static/deblur_core.png
@@ -62,10 +63,14 @@ Qualify sequences **are trimed** to be equal in length (120 bp), sequences have 
 
 Following standardization, sequences were subjected to **multiple sequence alignment (MSA)** using MAFFT [@katohMAFFTMultipleSequence2013]. To accommodate the large-scale nature of the dataset, the PartTree algorithm was employed; this approach reduces the $O(N^2)$ complexity of pairwise comparisons to $O(N \log N)$ by recursively partitioning sequences based on their similarity to a subset of 'seed' sequences [@katohPartTreeAlgorithmBuild2007].
 
-Metaphorically, **Launch Deblur** initializes a competition where each sequence is a competitor, and their "mana" represents their observed abundance. Starting with the most abundant, sequences duel one by one until only the survivors remain as sOTUs. In each match, the "damage points" dealt by a sequence to another represent the statistical number of error copies expected if the opponent were merely its own sequencing artifact (empirical algorithmic code can be found in [deblur.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/deblur.py)).
+Metaphorically, **Launch Deblur** initializes a competition where each sequence is a competitor, and their "mana" represents their observed abundance. Starting with the most abundant, sequences duel one by one until the end, the survivors remain as sOTUs. In each match, the "damage points" dealt by a sequence to another represent the statistical number of error copies expected if the opponent were merely its own sequencing artifact (empirical algorithmic code can be found in [deblur.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/deblur.py)).
 
 The **Chimera removal** step is performed by VSEARCH using the UCHIME *de novo* algorithm [@edgarUCHIMEImprovesSensitivity2011]. This approach operates on the assumption that 'parent' sequences coexist in the same FASTQ file as their chimeric artifacts. Any sequence with an abundance exceeding a specific threshold (default is 2) is considered a potential parent and stored in a local reference set. The algorithm processes sequences in order of decreasing abundance, if a query sequence is found to be a significant match-constructed from a combination of two parents in reference, it is flagged as a chimera and discarded.
 
 ### Create biom table
+
+The denoised output from the [](#deblur-core) process across all samples is compiled into a single BIOM table. This table consists of a matrix (dimensions: $sOTUs \times samples$) where the cell values represent the remaining frequency (abundance) of each sequence. Note that samples containing zero reads are excluded from the matrix. Additionally, any sOTUs with a total cross-sample abundance falling below a specified threshold (default is 10) are discarded to filter out rare artifacts. Both the final BIOM table and the corresponding sOTU sequences are preserved for downstream analysis.
+
+### Remove artifacts
 
 ## Summary
