@@ -31,11 +31,17 @@ qiime deblur denoise-16S \
 ## Workflow
 
 ```{image} static/deblur_overview.png
-:alt: dada_workflow
+:alt: deblur_workflow
 :height: 700px
 :align: center
 ```
 
+
+The workflow starts with demultiplexed FASTQ files representing each sample, with each sample undergoing the Deblur workflow separately. Each record first passes through [](#quality-filtering), which involves truncation based on quality scores. 
+
+Subsequently, the [](#deblur-core) process is performed to determine sOTUs and remove chimeric sequences (sequences likely belonging to two parents). Finally, a BIOM table is created ([](#create-biom-table)) for downstream analysis, ensuring it is free from the noise of artifacts ([](#remove-artifacts)).
+
+(quality-filtering)=
 ### Quality filtering
 
 The quality filtering process is performed independently for each sample and consists of three main steps: (1) scanning each read for a low-quality window, (2) truncating the FASTQ record based on the position of that window, and (3) tracing and labeling each record based on the results of the filter.
@@ -67,12 +73,18 @@ Metaphorically, **Launch Deblur** initializes a competition where each sequence 
 
 The **Chimera removal** step is performed by VSEARCH using the UCHIME *de novo* algorithm [@edgarUCHIMEImprovesSensitivity2011]. This approach operates on the assumption that 'parent' sequences coexist in the same FASTQ file as their chimeric artifacts. Any sequence with an abundance exceeding a specific threshold (default is 2) is considered a potential parent and stored in a local reference set. The algorithm processes sequences in order of decreasing abundance, if a query sequence is found to be a significant match-constructed from a combination of two parents in reference, it is flagged as a chimera and discarded.
 
+(create-biom-table)=
 ### Create biom table
 
-The denoised output from the [](#deblur-core) process across all samples is compiled into a single BIOM table. This table consists of a matrix (dimensions: $sOTUs \times samples$) where the cell values represent the remaining frequency (abundance) of each sequence. Note that samples containing zero reads are excluded from the matrix. Additionally, any sOTUs with a total cross-sample abundance falling below a specified threshold (default is 10) are discarded to filter out rare artifacts. Both the final BIOM table and the corresponding sOTU sequences are preserved for downstream analysis.
+The denoised output from the [](#deblur-core) process across all samples is compiled into a single BIOM table. This table consists of a matrix (dimensions: $sOTUs \times samples$) where the cell values represent the remaining frequency (abundance) of each sequence. Note that samples containing zero reads are excluded from the matrix. 
 
+Additionally, any sOTUs with a total cross-sample abundance falling below a specified threshold (default is 10) are discarded to filter out rare artifacts. Both the final BIOM table and the corresponding sOTU sequences are preserved for downstream analysis.
+
+(remove-artifacts)=
 ### Remove artifacts
 
-SortMeRNA v2.0 [@kopylovaSortMeRNAFastAccurate2012] is employed to remove artifact sequences, which by default are composed of PhiX and sequencing adapters , see [artifact.fa](https://github.com/Truongphi20/qiime2_blog/blob/main/support_data/artifacts.fa). Artifact sequences that match the references are stored separately from the sOTU sequences. Any samples that become empty after this filtration are discarded, and the BIOM table and sequence file are updated accordingly.
+SortMeRNA v2.0 [@kopylovaSortMeRNAFastAccurate2012] is employed to remove artifact sequences, which by default are composed of PhiX and sequencing adapters , see [artifact.fa](https://github.com/Truongphi20/qiime2_blog/blob/main/support_data/artifacts.fa). 
+
+Artifact sequences that match the references are stored separately from the sOTU sequences. Any samples that become empty after this filtration are discarded, and the BIOM table and sequence file are updated accordingly.
 
 ## Summary
