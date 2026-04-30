@@ -88,3 +88,9 @@ SortMeRNA v2.0 [@kopylovaSortMeRNAFastAccurate2012] is employed to remove artifa
 Artifact sequences that match the references are stored separately from the sOTU sequences. Any samples that become empty after this filtration are discarded, and the BIOM table and sequence file are updated accordingly.
 
 ## Summary
+
+Overall, Deblur's strategy focuses on removing likely error sequences, which are minor and significantly different from others, by subtracting their abundance from neighboring sequences. This leads to a drop in the observed frequency of these noise reads. In contrast, [](./dada2.md) accounts for these errors by incorporating their abundance into the figures of their respective ASVs (Amplicon Sequence Variants).
+
+Regarding performance, Deblur is generally slower than DADA2. This is because Deblur processes each sample and record sequentially and is primarily written in Python. Conversely, DADA2 utilizes parallel processing for steps such as Trim & Filtering records, and chimera removal. Moreover, its core algorithm executed via a high-performance C++ API.
+
+The [](#quality-filtering) step in Deblur focuses on truncation and the removal of low-quality windows, though the reason for specific labeling has not been understood yet. Another key distinction is that Deblur assumes the parents of chimeras coexist within the same FASTQ file and dominating when removing chimeras, whereas DADA2 performs "chimera voting" across multiple samples to increase accuracy.
