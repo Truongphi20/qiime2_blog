@@ -15,7 +15,7 @@ To determine the primary functions responsible for specific tasks, I employ vari
 | **R debugger** (built-in) | R |
 | **bashdb** | Bash |
 
-Debuggers allow for setting breakpoints to pause the call stack or a specific line of code, enabling the inspection of local variables at runtime. By tracing the moment QIIME 2 assigns a task, the core processing functions are revealed. Important breakpoints for these processes are documented in my [breakpoint graphs](https://github.com/Truongphi20/qiime2_blog/blob/master/docs/static/breakpoints).
+Debuggers allow for setting breakpoints to pause the call stack or a specific line of code, enabling the inspection of local variables at runtime. By tracing the moment QIIME 2 assigns a task, the core processing functions are revealed. Important breakpoints for these processes are documented in my [breakpoint graphs](https://github.com/Truongphi20/qiime2_blog/blob/main/docs/static/breakpoints).
 
 ## Conceptual Dissection and API Bridges
 Once a main function is identified, I combine code analysis with official documentation and research articles to grasp the general purpose and underlying concepts. Based on these references, I dissect the function into clear procedural steps to capture the full picture.
