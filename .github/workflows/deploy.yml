@@ -1,0 +1,32 @@
+name: Deploy MyST Blog
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install MyST CLI
+        run: npm install -g mystmd
+
+      - name: Build Site
+        # This builds your site into the _build/html directory
+        run: myst build --html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # MyST CLI outputs to _build/site by default
+          publish_dir: ./_build/site
