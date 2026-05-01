@@ -11,8 +11,6 @@ The QIIME 2 [Moving Pictures tutorial](https://amplicon-docs.qiime2.org/en/stabl
 
 This motivated me to create this blog: to provide a high-level abstraction of the crucial workflows operating behind the scenes of QIIME 2 commands.
 
----
-
 ## Covered content
 
 This blog explores the internal logic and workflows of the QIIME 2 (v2026.1.0) commands featured in the tutorial: 
@@ -26,13 +24,14 @@ This blog explores the internal logic and workflows of the QIIME 2 (v2026.1.0) c
   - Beta diversity
 - Alpha rarefaction 
 
----
+
+The practiced method to complile context for this blog can be found in [Methology](./methodology.md).
 
 
 :::{attention} Disclaim
 
 I am not a member of the QIIME 2 core development team, just a curious bioinformatician wanting to understand what happens under the hood. I’ve written this blog as a reference for my future self and for anyone else sharing this curiosity. 
 
-The content here is compiled from my own deep-dives into practical workflows behind the source code, as well as my interpretations of the algorithmic and biological concepts found in official documentation and published research.
+I greatly appreciate any contributions. If you have any questions, feel free to create an issue to discuss or open a pull request for any necessary changes.  
 
 :::
