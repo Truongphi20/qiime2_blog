@@ -16,3 +16,5 @@ In order to determine which is main function which actually handles the task, de
 Debuger helps to set breakpoint and stop a stack (function), line of code and view local variables in runtime. By tracking at the moment, QIIME2 assign task, the the main processing functions would be revealed. Important breakpoints of processes can be found in [breakpoints](https://github.com/Truongphi20/pbwt/blob/master/docs/static/breakpoints).
 
 When main function is dentified, combing with reading docummentation and article to catch the general concepts, and purpose. Base on the references, dissecting it into clear steps of the process and understanding meaning of these. Recurring the process until fully capturing the whole picture.  
+
+It is frequently QIIME2 call a system-call API to handle the task. In these cases, I copy full command tranfered to API to another script and continue to debug as a different sesson. See bash script in [debugging_commands](https://github.com/Truongphi20/qiime2_blog/tree/main/commands) for example. 
