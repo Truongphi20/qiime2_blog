@@ -14,3 +14,5 @@ In order to determine which is main function which actually handles the task, de
 | bashdb              | Bash      |
 
 Debuger helps to set breakpoint and stop a stack (function), line of code and view local variables in runtime. By tracking at the moment, QIIME2 assign task, the the main processing functions would be revealed. Important breakpoints of processes can be found in [breakpoints](https://github.com/Truongphi20/pbwt/blob/master/docs/static/breakpoints).
+
+When main function is dentified, combing with reading docummentation and article to catch the general concepts, and purpose. Base on the references, dissecting it into clear steps of the process and understanding meaning of these. Recurring the process until fully capturing the whole picture.  
