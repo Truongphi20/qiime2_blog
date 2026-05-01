@@ -22,15 +22,6 @@ qiime diversity core-metrics-phylogenetic \
   --output-dir diversity-core-metrics-phylogenetic
 ```
 
-Computing alpha diversity according a matrix:
-```bash
-qiime diversity alpha-group-significance \
-  --i-alpha-diversity diversity-core-metrics-phylogenetic/faith_pd_vector.qza \
-  --m-metadata-file sample-metadata.tsv \
-  --o-visualization faith-pd-group-significance.qzv
-```
-
-
 ## Workflow
 
 
