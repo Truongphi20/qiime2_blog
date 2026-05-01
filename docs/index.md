@@ -25,7 +25,7 @@ This blog explores the internal logic and workflows of the QIIME 2 (v2026.1.0) c
 - Alpha rarefaction 
 
 
-The practiced method to complilation content of this blog can be found in [Methology](./methodology.md).
+The practiced method to complile context for this blog can be found in [Methology](./methodology.md).
 
 
 :::{attention} Disclaim
