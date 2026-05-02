@@ -21,7 +21,7 @@ find_package(OpenMP)
 
 # --- Compiler Flags ---
 # Recommended flags from documentation
-set(BASE_FLAGS -O3 -Wall)
+set(BASE_FLAGS -O0 -Wall)
 
 if(USE_NATIVE)
     list(APPEND BASE_FLAGS -march=native)
