@@ -17,3 +17,4 @@ commands/mafft-7.525-with-extensions/install_test
 build
 pre
 trace
+order
