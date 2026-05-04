@@ -34,5 +34,7 @@ qiime diversity core-metrics-phylogenetic \
 
 ## Workflow
 
+![](static/diversity.png)
+
 
 ## Summary
