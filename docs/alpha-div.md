@@ -2,11 +2,15 @@
 
 ## Introduction
 
-Microbes has enormous effects on human life such as environment, heath and disease, and ecosystem. Acknowledging diversity of compositions in ecological units is essential fundamental input to answer ecological questions [@cassolKeyFeaturesGuidelines2025].
+Microbes have a profound impact on human life, influencing the environment, health, disease, and ecosystems. Understanding the diversity and composition of these ecological units is fundamental to answering broader ecological questions [@cassolKeyFeaturesGuidelines2025].
 
-Depending on scale of ecological units, three levels of diversity measurement are: (1) Alpha diversity - describes the richness within a functional community. (2) Beta diversity - analyze about the differenciate between communities, (3) Gamma diversity - study on upper scale of diversity across geographic areas [@andermannEstimatingAlphaBeta2022].
+Depending on the scale of the ecological units, diversity is measured at three levels [@andermannEstimatingAlphaBeta2022].
 
-In the QIIME 2 tutorial, focusing on alpha and beta diversity. Following steps are building phylogenetic tree, generating core matrices to analyse alpha and beta diversity.
+  - **Alpha diversity**: Describes the richness and evenness within a single community.
+  - **Beta diversity**: Analyzes the differentiation between distinct communities.
+  - **Gamma diversity**: Studies diversity at a larger landscape or geographic scale.
+
+In this QIIME 2 tutorial, the focus is on alpha and beta diversity. The subsequent steps involve constructing a phylogenetic tree and generating core metrics matrices to facilitate these analyses.
 
 Command for creating phylogenetic tree:
 ```bash
