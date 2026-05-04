@@ -1,4 +1,4 @@
-# Alpha diversity
+# Diversity analysis
 
 ## Introduction
 
@@ -10,7 +10,7 @@ Depending on the scale of the ecological units, diversity is measured at three l
   - **Beta diversity**: Analyzes the differentiation between distinct communities.
   - **Gamma diversity**: Studies diversity at a larger landscape or geographic scale.
 
-In this QIIME 2 tutorial, the focus is on alpha and beta diversity. The subsequent steps involve constructing a phylogenetic tree and generating core metrics matrices to facilitate these analyses.
+In the QIIME 2 tutorial, the focus is on alpha and beta diversity. The subsequent steps involve constructing a phylogenetic tree and generating core metrics matrices to facilitate these analyses.
 
 Command for creating phylogenetic tree:
 ```bash

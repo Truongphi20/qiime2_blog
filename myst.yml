@@ -25,12 +25,8 @@ project:
           file: docs/dada2.md
         - title: Deblur
           file: docs/deblur.md
-    - title: Diversity
-      children:
-        - title: Alpha diversity
-          file: docs/alpha-div.md
-        - title: Beta diversity
-          file: docs/beta-div.md
+    - title: Diversity analysis
+      file: docs/alpha-div.md
     - title: Alpha rarefaction
       file: docs/alpha-rarefaction.md
     - title: Methodology
