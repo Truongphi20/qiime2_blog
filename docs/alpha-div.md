@@ -36,5 +36,11 @@ qiime diversity core-metrics-phylogenetic \
 
 ![](static/diversity.png)
 
+### Phylogenetics
+
+### Computation of core matrices
+
+### Computation of evolutional matrices
+
 
 ## Summary
