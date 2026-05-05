@@ -3,6 +3,9 @@
 
 #include "datastructs.h"
 
+void InitOptions(FastTreeOptions_t *opt);
+void ParseCommandLine(int argc, char **argv, FastTreeOptions_t *opt);
+
 distance_matrix_t *ReadDistanceMatrix(char *prefix);
 void SetupDistanceMatrix(/*IN/OUT*/distance_matrix_t *); /* set eigentot, codeFreq, gapFreq */
 void ReadMatrix(char *filename, /*OUT*/numeric_t codes[MAXCODES][MAXCODES], bool check_codes);

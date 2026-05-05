@@ -48,7 +48,7 @@ if(TRACK_MEMORY)
 endif()
 
 # --- Source Files ---
-set(FASTTREE_SOURCES src/FastTree.c src/FastNJ.c src/hyper_parameters.c)
+set(FASTTREE_SOURCES src/FastTree.c src/FastNJ.c src/hyper_parameters.c src/command_line.c)
 
 # --- Targets ---
 

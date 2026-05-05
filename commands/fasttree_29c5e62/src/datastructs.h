@@ -19,6 +19,34 @@ typedef float numeric_t;
 #define NOCODE 127
 
 typedef struct {
+  int nAlign;
+  char *matrixPrefix;
+  char *transitionFile;
+  bool make_matrix;
+  char *constraintsFile;
+  char *intreeFile;
+  bool intree1;
+  int nni;
+  int spr;
+  int maxSPRLength;
+  int MLnni;
+  bool MLlen;
+  int nBootstrap;
+  int nRateCats;
+  char *logfile;
+  bool bUseGtr;
+  bool bUseLg;
+  bool bUseWag;
+  bool bUseGtrRates;
+  double gtrrates[6];
+  bool bUseGtrFreq;
+  double gtrfreq[4];
+  bool bQuote;
+  FILE *fpOut;
+  char *fileName;
+} FastTreeOptions_t;
+
+typedef struct {
   int nPos;
   int nSeq;
   char **names;
