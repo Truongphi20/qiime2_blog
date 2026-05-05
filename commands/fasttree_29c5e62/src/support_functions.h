@@ -6,6 +6,7 @@
 #include "hyper_parameters.h"
 
 int FastTree(FastTreeOptions_t opt);
+void ReportSetting(FastTreeOptions_t opt, int nFPs, FILE *fps[2]);
 
 void InitOptions(FastTreeOptions_t *opt);
 void ParseCommandLine(int argc, char **argv, FastTreeOptions_t *opt);
