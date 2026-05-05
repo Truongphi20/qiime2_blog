@@ -54,6 +54,7 @@ set(FASTTREE_SOURCES
         src/hyper_parameters.c 
         src/command_line.c
         src/ReadAATransitionMatrix.c
+        src/simd_vectors.c
 )
 
 # --- Targets ---

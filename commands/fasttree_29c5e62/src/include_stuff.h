@@ -299,6 +299,7 @@
 #include <sys/time.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <xmmintrin.h>
 
 #ifdef TRACK_MEMORY
 /* malloc.h apparently doesn't exist on MacOS */

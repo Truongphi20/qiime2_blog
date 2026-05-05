@@ -2,6 +2,8 @@
 #define SUPPORT_FUNC_H
 
 #include "datastructs.h"
+#include "include_stuff.h"
+#include "hyper_parameters.h"
 
 void InitOptions(FastTreeOptions_t *opt);
 void ParseCommandLine(int argc, char **argv, FastTreeOptions_t *opt);
@@ -705,5 +707,18 @@ int *PathToRoot(NJ_t *NJ, int node, /*OUT*/int *depth);
 int *FreePath(int *path, NJ_t *NJ); /* returns NULL */
 
 transition_matrix_t *ReadAATransitionMatrix(/*IN*/char *filename);
+
+// SIMD vector handler
+float mm_sum(register __m128 sum);
+void vector_multiply(/*IN*/numeric_t *f1, /*IN*/numeric_t *f2, int n, /*OUT*/numeric_t *fOut);
+numeric_t vector_multiply_sum(/*IN*/numeric_t *f1, /*IN*/numeric_t *f2, int n);
+numeric_t vector_multiply3_sum(/*IN*/numeric_t *f1, /*IN*/numeric_t *f2, /*IN*/numeric_t* f3, int n);
+numeric_t vector_dot_product_rot(/*IN*/numeric_t *f1, /*IN*/numeric_t *f2, /*IN*/numeric_t *fBy, int n);
+numeric_t vector_sum(/*IN*/numeric_t *f1, int n);
+void vector_multiply_by(/*IN/OUT*/numeric_t *f, /*IN*/numeric_t fBy, int n);
+void vector_add_mult(/*IN/OUT*/numeric_t *fTot, /*IN*/numeric_t *fAdd, numeric_t weight, int n);
+void matrixt_by_vector4(/*IN*/numeric_t mat[4][MAXCODES], /*IN*/numeric_t vec[4], /*OUT*/numeric_t out[4]);
+
+
 
 #endif
