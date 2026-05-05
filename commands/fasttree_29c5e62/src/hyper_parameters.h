@@ -2,6 +2,7 @@
 #define HYPER_PARAMETERS_H
 
 #include "include_stuff.h"
+#include "datastructs.h"
 
 /* Global variables */
 /* Options */
@@ -99,5 +100,14 @@ extern long nStarTests;		/* # of times we use star test to avoid testing an NNI 
 extern unsigned char *codesStringAA;
 extern unsigned char *codesStringNT;
 extern unsigned char *codesString;
+
+/* Matrix and stationary distributions */
+extern distance_matrix_t matrixBLOSUM45;
+extern double matrixJTT92[MAXCODES][MAXCODES];
+extern double statJTT92[MAXCODES];
+extern double matrixLG08[MAXCODES][MAXCODES];
+extern double statLG08[MAXCODES];
+extern double matrixWAG01[MAXCODES][MAXCODES];
+extern double statWAG01[MAXCODES];
 
 #endif

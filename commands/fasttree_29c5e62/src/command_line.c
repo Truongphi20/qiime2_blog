@@ -1,5 +1,6 @@
 #include "hyper_parameters.h"
 #include "support_functions.h"
+#include "datastructs.h"
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
