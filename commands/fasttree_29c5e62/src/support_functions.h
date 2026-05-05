@@ -704,4 +704,6 @@ double QuartetWeight(profile_t *profiles[4], distance_matrix_t *dmat, int nPos);
 int *PathToRoot(NJ_t *NJ, int node, /*OUT*/int *depth);
 int *FreePath(int *path, NJ_t *NJ); /* returns NULL */
 
+transition_matrix_t *ReadAATransitionMatrix(/*IN*/char *filename);
+
 #endif
