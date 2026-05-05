@@ -19,9 +19,7 @@ This blog explores the internal logic and workflows of the QIIME 2 (v2026.1.0) c
 - Denoising
   - [DADA2](./dada2.md)
   - [Deblur](./deblur.md) 
-- Diversity
-  - Alpha diversity
-  - Beta diversity
+- [Diversity analysis](alpha-div.md)
 - Alpha rarefaction 
 
 
