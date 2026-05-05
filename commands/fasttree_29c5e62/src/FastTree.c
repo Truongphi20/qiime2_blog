@@ -38,12 +38,12 @@ int FastTree(FastTreeOptions_t opt) {
     	fprintf(stderr, "The -trans option is only supported for amino acid alignments\n");
     	exit(1);
   	}
-#ifndef USE_DOUBLE
+	#ifndef USE_DOUBLE
 	if (transitionFile)
-    fprintf(stderr,
-            "Warning: custom matrices may create numerical problems for single-precision FastTree.\n"
-            "You may want to recompile with -DUSE_DOUBLE\n");
-#endif
+		fprintf(stderr,
+				"Warning: custom matrices may create numerical problems for single-precision FastTree.\n"
+				"You may want to recompile with -DUSE_DOUBLE\n");
+	#endif
 
 	char *fileName = opt.fileName;
 
