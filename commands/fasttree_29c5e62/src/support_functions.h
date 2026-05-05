@@ -724,5 +724,9 @@ void matrixt_by_vector4(/*IN*/numeric_t mat[4][MAXCODES], /*IN*/numeric_t vec[4]
 void tred2 (double *a, const int n, const int np, double *d, double *e);
 double pythag(double a, double b);
 
+// Transition matrix
+transition_matrix_t *CreateTransitionMatrix(/*IN*/double matrix[MAXCODES][MAXCODES],
+					    /*IN*/double stat[MAXCODES]);
+distance_matrix_t *TransMatToDistanceMat(transition_matrix_t *transmat);
 
 #endif
