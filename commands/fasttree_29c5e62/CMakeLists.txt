@@ -67,6 +67,18 @@ set(FASTTREE_SOURCES
         src/abs_accuracy.c
         src/SetOutDistance.c
         src/CreateGTR.c
+        src/AllocRateCategories.c
+        src/ExhaustiveNJSearch.c
+        src/FastNJSearch.c
+        src/Free.c
+        src/FreeNJ.c
+        src/InitNJ.c
+        src/Log.c
+        src/Print.c
+        src/ProgressReport.c
+        src/ReadAlignment.c
+        src/ReadTreeToken.c
+        src/read_tree.c
 )
 
 # --- Targets ---

@@ -727,4 +727,6 @@ int *FreePath(int *path, NJ_t *NJ); /* returns NULL */
 void ran_array(long aa[],int n);
 long ran_arr_cycle();
 
+void ReadTreeError(char *err, char *token);
+
 #endif
