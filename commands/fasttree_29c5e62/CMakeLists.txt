@@ -64,6 +64,7 @@ set(FASTTREE_SOURCES
         src/hit_supports.c
         src/GetBestFromTopHits.c
         src/SetAllLeafTopHits.c
+        src/SetOutDistance.c
 )
 
 # --- Targets ---
