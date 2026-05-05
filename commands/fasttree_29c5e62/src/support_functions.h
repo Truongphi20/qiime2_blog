@@ -18,6 +18,20 @@ void ReadConstraints(
     int iAln,
     uniquify_t *unique 
 );
+void PrintStats(
+    int nFPs,
+    FILE *fps[2],
+    struct timeval clock_start,
+    NJ_t *NJ,
+    alignment_t *aln,
+    SplitCount_t splitcount,
+    char **uniqConstraints,
+    int MLnniToDo,
+    bool MLlen,
+    FILE *fpLog,
+    int nniToDo,
+    int spr
+);
 
 void InitOptions(FastTreeOptions_t *opt);
 void ParseCommandLine(int argc, char **argv, FastTreeOptions_t *opt);
@@ -81,17 +95,6 @@ void UpdateBranchLengths(/*IN/OUT*/NJ_t *NJ);
 
 /* Recomputes all branch lengths and, optionally, internal profiles */
 double TreeLength(/*IN/OUT*/NJ_t *NJ, bool recomputeProfiles);
-
-typedef struct {
-  int nBadSplits;
-  int nConstraintViolations;
-  int nBadBoth;
-  int nSplits;
-  /* How much length would be reduce or likelihood would be increased by the
-     best NNI we find (the worst "miss") */
-  double dWorstDeltaUnconstrained;
-  double dWorstDeltaConstrained;
-} SplitCount_t;
 
 void TestSplitsMinEvo(NJ_t *NJ, /*OUT*/SplitCount_t *splitcount);
 

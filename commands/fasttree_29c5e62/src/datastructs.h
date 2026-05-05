@@ -49,6 +49,17 @@ typedef struct {
 } FastTreeOptions_t;
 
 typedef struct {
+  int nBadSplits;
+  int nConstraintViolations;
+  int nBadBoth;
+  int nSplits;
+  /* How much length would be reduce or likelihood would be increased by the
+     best NNI we find (the worst "miss") */
+  double dWorstDeltaUnconstrained;
+  double dWorstDeltaConstrained;
+} SplitCount_t;
+
+typedef struct {
   int nPos;
   int nSeq;
   char **names;
