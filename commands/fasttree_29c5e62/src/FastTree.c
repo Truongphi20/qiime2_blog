@@ -332,228 +332,228 @@ int FastTree(FastTreeOptions_t opt) {
 				SplitCount_t splitcount = {0,0,0,0,0.0,0.0};
 
 				if (MLnniToDo > 0 || MLlen) {
-				bool warn_len = total_len/NJ->maxnode < 0.001 && MLMinBranchLengthTolerance > 1.0/aln->nPos;
-				bool warn = warn_len || (total_len/NJ->maxnode < 0.001 && aln->nPos >= 10000);
-				if (warn)
-					fprintf(stderr, "\nWARNING! This alignment consists of closely-related and very-long sequences.\n");
-				if (warn_len)
-					fprintf(stderr,
-					"This version of FastTree may not report reasonable branch lengths!\n"
-				#ifdef USE_DOUBLE
-					"Consider changing MLMinBranchLengthTolerance.\n"
-				#else
-					"Consider recompiling FastTree with -DUSE_DOUBLE.\n"
-				#endif
-					"For more information, visit\n"
-					"http://www.microbesonline.org/fasttree/#BranchLen\n\n");
-				if (warn)
-					fprintf(stderr, "WARNING! FastTree (or other standard maximum-likelihood tools)\n"
-						"may not be appropriate for aligments of very closely-related sequences\n"
-						"like this one, as FastTree does not account for recombination or gene conversion\n\n");
+					bool warn_len = total_len/NJ->maxnode < 0.001 && MLMinBranchLengthTolerance > 1.0/aln->nPos;
+					bool warn = warn_len || (total_len/NJ->maxnode < 0.001 && aln->nPos >= 10000);
+					if (warn)
+						fprintf(stderr, "\nWARNING! This alignment consists of closely-related and very-long sequences.\n");
+					if (warn_len)
+						fprintf(stderr,
+						"This version of FastTree may not report reasonable branch lengths!\n"
+					#ifdef USE_DOUBLE
+						"Consider changing MLMinBranchLengthTolerance.\n"
+					#else
+						"Consider recompiling FastTree with -DUSE_DOUBLE.\n"
+					#endif
+						"For more information, visit\n"
+						"http://www.microbesonline.org/fasttree/#BranchLen\n\n");
+					if (warn)
+						fprintf(stderr, "WARNING! FastTree (or other standard maximum-likelihood tools)\n"
+							"may not be appropriate for aligments of very closely-related sequences\n"
+							"like this one, as FastTree does not account for recombination or gene conversion\n\n");
 
-				/* Do maximum-likelihood computations */
-				/* Convert profiles to use the transition matrix */
-				distance_matrix_t *tmatAsDist = TransMatToDistanceMat(/*OPTIONAL*/NJ->transmat);
-				RecomputeProfiles(NJ, /*OPTIONAL*/tmatAsDist);
-				tmatAsDist = myfree(tmatAsDist, sizeof(distance_matrix_t));
-				double lastloglk = -1e20;
-				nni_stats_t *nni_stats = InitNNIStats(NJ);
-				bool resetGtr = nCodes == 4 && bUseGtr && !bUseGtrRates;
+					/* Do maximum-likelihood computations */
+					/* Convert profiles to use the transition matrix */
+					distance_matrix_t *tmatAsDist = TransMatToDistanceMat(/*OPTIONAL*/NJ->transmat);
+					RecomputeProfiles(NJ, /*OPTIONAL*/tmatAsDist);
+					tmatAsDist = myfree(tmatAsDist, sizeof(distance_matrix_t));
+					double lastloglk = -1e20;
+					nni_stats_t *nni_stats = InitNNIStats(NJ);
+					bool resetGtr = nCodes == 4 && bUseGtr && !bUseGtrRates;
 
-				if (MLlen) {
-					int iRound;
-					int maxRound = (int)(0.5 + log(NJ->nSeq)/log(2));
-					double dLastLogLk = -1e20;
-					for (iRound = 1; iRound <= maxRound; iRound++) {
-						int node;
-						numeric_t *oldlength = (numeric_t*)mymalloc(sizeof(numeric_t)*NJ->maxnodes);
-						for (node = 0; node < NJ->maxnode; node++)
-						oldlength[node] = NJ->branchlength[node];
-						OptimizeAllBranchLengths(/*IN/OUT*/NJ);
-						LogTree("ML_Lengths",iRound, fpLog, NJ, aln->names, unique, bQuote);
-						double dMaxChange = 0; /* biggest change in branch length */
-						for (node = 0; node < NJ->maxnode; node++) {
-						double d = fabs(oldlength[node] - NJ->branchlength[node]);
-						if (dMaxChange < d)
-						dMaxChange = d;
-						}
-						oldlength = myfree(oldlength, sizeof(numeric_t)*NJ->maxnodes);
-						double loglk = TreeLogLk(NJ, /*site_likelihoods*/NULL);
-						bool bConverged = iRound > 1 && (dMaxChange < 0.001 || loglk < (dLastLogLk+treeLogLkDelta));
-						if (verbose)
-						fprintf(stderr, "%d rounds ML lengths: LogLk %s= %.3lf Max-change %.4lf%s Time %.2f\n",
-							iRound,
-							exactML || nCodes != 20 ? "" : "~",
-							loglk,
-							dMaxChange,
-							bConverged ? " (converged)" : "",
-							clockDiff(&clock_start));
-						if (fpLog)
-						fprintf(fpLog, "TreeLogLk\tLength%d\t%.4lf\tMaxChange\t%.4lf\n",
-							iRound, loglk, dMaxChange);
-						if (iRound == 1) {
-						if (resetGtr)
-						SetMLGtr(/*IN/OUT*/NJ, bUseGtrFreq ? gtrfreq : NULL, fpLog);
-						SetMLRates(/*IN/OUT*/NJ, nRateCats);
-						LogMLRates(fpLog, NJ);
-						}
-						if (bConverged)
-						break;
-					}
-				}
-
-				if (MLnniToDo > 0) {
-					/* This may help us converge faster, and is fast */
-					OptimizeAllBranchLengths(/*IN/OUT*/NJ);
-					LogTree("ML_Lengths%d",1, fpLog, NJ, aln->names, unique, bQuote);
-				}
-
-				int iMLnni;
-				double maxDelta;
-				bool bConverged = false;
-				for (iMLnni = 0; iMLnni < MLnniToDo; iMLnni++) {
-					int changes = NNI(/*IN/OUT*/NJ, iMLnni, MLnniToDo, /*use ml*/true, /*IN/OUT*/nni_stats, /*OUT*/&maxDelta);
-					LogTree("ML_NNI%d",iMLnni+1, fpLog, NJ, aln->names, unique, bQuote);
-					double loglk = TreeLogLk(NJ, /*site_likelihoods*/NULL);
-					bool bConvergedHere = (iMLnni > 0) && ((loglk < lastloglk + treeLogLkDelta) || maxDelta < treeLogLkDelta);
-					if (verbose)
-						fprintf(stderr, "ML-NNI round %d: LogLk %s= %.3f NNIs %d max delta %.2f Time %.2f%s\n",
-								iMLnni+1,
+					if (MLlen) {
+						int iRound;
+						int maxRound = (int)(0.5 + log(NJ->nSeq)/log(2));
+						double dLastLogLk = -1e20;
+						for (iRound = 1; iRound <= maxRound; iRound++) {
+							int node;
+							numeric_t *oldlength = (numeric_t*)mymalloc(sizeof(numeric_t)*NJ->maxnodes);
+							for (node = 0; node < NJ->maxnode; node++)
+							oldlength[node] = NJ->branchlength[node];
+							OptimizeAllBranchLengths(/*IN/OUT*/NJ);
+							LogTree("ML_Lengths",iRound, fpLog, NJ, aln->names, unique, bQuote);
+							double dMaxChange = 0; /* biggest change in branch length */
+							for (node = 0; node < NJ->maxnode; node++) {
+							double d = fabs(oldlength[node] - NJ->branchlength[node]);
+							if (dMaxChange < d)
+							dMaxChange = d;
+							}
+							oldlength = myfree(oldlength, sizeof(numeric_t)*NJ->maxnodes);
+							double loglk = TreeLogLk(NJ, /*site_likelihoods*/NULL);
+							bool bConverged = iRound > 1 && (dMaxChange < 0.001 || loglk < (dLastLogLk+treeLogLkDelta));
+							if (verbose)
+							fprintf(stderr, "%d rounds ML lengths: LogLk %s= %.3lf Max-change %.4lf%s Time %.2f\n",
+								iRound,
 								exactML || nCodes != 20 ? "" : "~",
-								loglk, changes, maxDelta,  clockDiff(&clock_start),
-								bConverged ? " (final)" : "");
-					if (fpLog)
-						fprintf(fpLog, "TreeLogLk\tML_NNI%d\t%.4lf\tMaxChange\t%.4lf\n", iMLnni+1, loglk, maxDelta);
-					if (bConverged)
-						break;		/* we did our extra round */
-					if (bConvergedHere)
-						bConverged = true;
-					if (bConverged || iMLnni == MLnniToDo-2) {
-						/* last round uses high-accuracy seettings -- reset NNI stats to tone down heuristics */
-						nni_stats = FreeNNIStats(nni_stats, NJ);
-						nni_stats = InitNNIStats(NJ);
-						if (verbose)
-							fprintf(stderr, "Turning off heuristics for final round of ML NNIs%s\n",
-							bConvergedHere? " (converged)" : "");
-						if (fpLog)
-							fprintf(fpLog, "Turning off heuristics for final round of ML NNIs%s\n",
-							bConvergedHere? " (converged)" : "");
-					}
-					lastloglk = loglk;
-					if (iMLnni == 0 && NJ->rates.nRateCategories == 1) {
-						if (resetGtr)
-							SetMLGtr(/*IN/OUT*/NJ, bUseGtrFreq ? gtrfreq : NULL, fpLog);
-						SetMLRates(/*IN/OUT*/NJ, nRateCats);
-						LogMLRates(fpLog, NJ);
-					}
-				}
-				nni_stats = FreeNNIStats(nni_stats, NJ);	
-
-				/* This does not take long and improves the results */
-				if (MLnniToDo > 0) {
-					OptimizeAllBranchLengths(/*IN/OUT*/NJ);
-					LogTree("ML_Lengths%d",2, fpLog, NJ, aln->names, unique, bQuote);
-					if (verbose || fpLog) {
-						double loglk = TreeLogLk(NJ, /*site_likelihoods*/NULL);
-						if (verbose)
-							fprintf(stderr, "Optimize all lengths: LogLk %s= %.3f Time %.2f\n",
-								exactML || nCodes != 20 ? "" : "~",
-								loglk, 
+								loglk,
+								dMaxChange,
+								bConverged ? " (converged)" : "",
 								clockDiff(&clock_start));
-						if (fpLog) {
-							fprintf(fpLog, "TreeLogLk\tML_Lengths%d\t%.4f\n", 2, loglk);
-							fflush(fpLog);
+							if (fpLog)
+							fprintf(fpLog, "TreeLogLk\tLength%d\t%.4lf\tMaxChange\t%.4lf\n",
+								iRound, loglk, dMaxChange);
+							if (iRound == 1) {
+							if (resetGtr)
+							SetMLGtr(/*IN/OUT*/NJ, bUseGtrFreq ? gtrfreq : NULL, fpLog);
+							SetMLRates(/*IN/OUT*/NJ, nRateCats);
+							LogMLRates(fpLog, NJ);
+							}
+							if (bConverged)
+							break;
 						}
 					}
-				}
 
-				/* Count bad splits and compute SH-like supports if desired */
-				if ((MLnniToDo > 0 && !fastest) || nBootstrap > 0)
-					TestSplitsML(NJ, /*OUT*/&splitcount, nBootstrap);
-
-				/* Compute gamma-based likelihood? */
-				if (gammaLogLk && nRateCats > 1) {
-					numeric_t *rates = MLSiteRates(nRateCats);
-					double *site_loglk = MLSiteLikelihoodsByRate(NJ, rates, nRateCats);
-					double scale = RescaleGammaLogLk(NJ->nPos, nRateCats, rates, /*IN*/site_loglk, /*OPTIONAL*/fpLog);
-					rates = myfree(rates, sizeof(numeric_t) * nRateCats);
-					site_loglk = myfree(site_loglk, sizeof(double) * nRateCats * NJ->nPos);
-
-					for (i = 0; i < NJ->maxnodes; i++)
-						NJ->branchlength[i] *= scale;
-				}
-			} else {
-				/* Minimum evolution supports */
-				TestSplitsMinEvo(NJ, /*OUT*/&splitcount);
-				if (nBootstrap > 0)
-					ReliabilityNJ(NJ, nBootstrap);
-			}
-
-			for (i = 0; i < nFPs; i++) {
-				FILE *fp = fps[i];
-				fprintf(fp, "Total time: %.2f seconds Unique: %d/%d Bad splits: %d/%d",
-					clockDiff(&clock_start),
-					NJ->nSeq, aln->nSeq,
-					splitcount.nBadSplits, splitcount.nSplits);
-				if (splitcount.dWorstDeltaUnconstrained >  0)
-					fprintf(fp, " Worst %sdelta-%s %.3f",
-						uniqConstraints != NULL ? "unconstrained " : "",
-						(MLnniToDo > 0 || MLlen) ? "LogLk" : "Len",
-						splitcount.dWorstDeltaUnconstrained);
-				fprintf(fp,"\n");
-				if (NJ->nSeq > 3 && NJ->nConstraints > 0) {
-					fprintf(fp, "Violating constraints: %d both bad: %d",
-						splitcount.nConstraintViolations, splitcount.nBadBoth);
-					if (splitcount.dWorstDeltaConstrained >  0)
-						fprintf(fp, " Worst delta-%s due to constraints: %.3f",
-							(MLnniToDo > 0 || MLlen) ? "LogLk" : "Len",
-							splitcount.dWorstDeltaConstrained);
-					fprintf(fp,"\n");
-				}
-				if (verbose > 1 || fp == fpLog) {
-					double dN2 = NJ->nSeq*(double)NJ->nSeq;
-					fprintf(fp, "Dist/N**2: by-profile %.3f (out %.3f) by-leaf %.3f avg-prof %.3f\n",
-						profileOps/dN2, outprofileOps/dN2, seqOps/dN2, profileAvgOps/dN2);
-					if (nCloseUsed>0 || nClose2Used > 0 || nRefreshTopHits>0)
-						fprintf(fp, "Top hits: close neighbors %ld/%d 2nd-level %ld refreshes %ld",
-							nCloseUsed, NJ->nSeq, nClose2Used, nRefreshTopHits);
-					if(!slow) fprintf(fp, " Hill-climb: %ld Update-best: %ld\n", nHillBetter, nVisibleUpdate);
-					if (nniToDo > 0 || spr > 0 || MLnniToDo > 0)
-						fprintf(fp, "NNI: %ld SPR: %ld ML-NNI: %ld\n", nNNI, nSPR, nML_NNI);
 					if (MLnniToDo > 0) {
-						fprintf(fp, "Max-lk operations: lk %ld posterior %ld", nLkCompute, nPosteriorCompute);
-						if (nAAPosteriorExact > 0 || nAAPosteriorRough > 0)
-						fprintf(fp, " approximate-posteriors %.2f%%",
-							(100.0*nAAPosteriorRough)/(double)(nAAPosteriorExact+nAAPosteriorRough));
-						if (mlAccuracy < 2)
-							fprintf(fp, " star-only %ld", nStarTests);
-						fprintf(fp, "\n");
+						/* This may help us converge faster, and is fast */
+						OptimizeAllBranchLengths(/*IN/OUT*/NJ);
+						LogTree("ML_Lengths%d",1, fpLog, NJ, aln->names, unique, bQuote);
 					}
+
+					int iMLnni;
+					double maxDelta;
+					bool bConverged = false;
+					for (iMLnni = 0; iMLnni < MLnniToDo; iMLnni++) {
+						int changes = NNI(/*IN/OUT*/NJ, iMLnni, MLnniToDo, /*use ml*/true, /*IN/OUT*/nni_stats, /*OUT*/&maxDelta);
+						LogTree("ML_NNI%d",iMLnni+1, fpLog, NJ, aln->names, unique, bQuote);
+						double loglk = TreeLogLk(NJ, /*site_likelihoods*/NULL);
+						bool bConvergedHere = (iMLnni > 0) && ((loglk < lastloglk + treeLogLkDelta) || maxDelta < treeLogLkDelta);
+						if (verbose)
+							fprintf(stderr, "ML-NNI round %d: LogLk %s= %.3f NNIs %d max delta %.2f Time %.2f%s\n",
+									iMLnni+1,
+									exactML || nCodes != 20 ? "" : "~",
+									loglk, changes, maxDelta,  clockDiff(&clock_start),
+									bConverged ? " (final)" : "");
+						if (fpLog)
+							fprintf(fpLog, "TreeLogLk\tML_NNI%d\t%.4lf\tMaxChange\t%.4lf\n", iMLnni+1, loglk, maxDelta);
+						if (bConverged)
+							break;		/* we did our extra round */
+						if (bConvergedHere)
+							bConverged = true;
+						if (bConverged || iMLnni == MLnniToDo-2) {
+							/* last round uses high-accuracy seettings -- reset NNI stats to tone down heuristics */
+							nni_stats = FreeNNIStats(nni_stats, NJ);
+							nni_stats = InitNNIStats(NJ);
+							if (verbose)
+								fprintf(stderr, "Turning off heuristics for final round of ML NNIs%s\n",
+								bConvergedHere? " (converged)" : "");
+							if (fpLog)
+								fprintf(fpLog, "Turning off heuristics for final round of ML NNIs%s\n",
+								bConvergedHere? " (converged)" : "");
+						}
+						lastloglk = loglk;
+						if (iMLnni == 0 && NJ->rates.nRateCategories == 1) {
+							if (resetGtr)
+								SetMLGtr(/*IN/OUT*/NJ, bUseGtrFreq ? gtrfreq : NULL, fpLog);
+							SetMLRates(/*IN/OUT*/NJ, nRateCats);
+							LogMLRates(fpLog, NJ);
+						}
+					}
+					nni_stats = FreeNNIStats(nni_stats, NJ);	
+
+					/* This does not take long and improves the results */
+					if (MLnniToDo > 0) {
+						OptimizeAllBranchLengths(/*IN/OUT*/NJ);
+						LogTree("ML_Lengths%d",2, fpLog, NJ, aln->names, unique, bQuote);
+						if (verbose || fpLog) {
+							double loglk = TreeLogLk(NJ, /*site_likelihoods*/NULL);
+							if (verbose)
+								fprintf(stderr, "Optimize all lengths: LogLk %s= %.3f Time %.2f\n",
+									exactML || nCodes != 20 ? "" : "~",
+									loglk, 
+									clockDiff(&clock_start));
+							if (fpLog) {
+								fprintf(fpLog, "TreeLogLk\tML_Lengths%d\t%.4f\n", 2, loglk);
+								fflush(fpLog);
+							}
+						}
+					}
+
+					/* Count bad splits and compute SH-like supports if desired */
+					if ((MLnniToDo > 0 && !fastest) || nBootstrap > 0)
+						TestSplitsML(NJ, /*OUT*/&splitcount, nBootstrap);
+
+					/* Compute gamma-based likelihood? */
+					if (gammaLogLk && nRateCats > 1) {
+						numeric_t *rates = MLSiteRates(nRateCats);
+						double *site_loglk = MLSiteLikelihoodsByRate(NJ, rates, nRateCats);
+						double scale = RescaleGammaLogLk(NJ->nPos, nRateCats, rates, /*IN*/site_loglk, /*OPTIONAL*/fpLog);
+						rates = myfree(rates, sizeof(numeric_t) * nRateCats);
+						site_loglk = myfree(site_loglk, sizeof(double) * nRateCats * NJ->nPos);
+
+						for (i = 0; i < NJ->maxnodes; i++)
+							NJ->branchlength[i] *= scale;
+					}
+				} else {
+					/* Minimum evolution supports */
+					TestSplitsMinEvo(NJ, /*OUT*/&splitcount);
+					if (nBootstrap > 0)
+						ReliabilityNJ(NJ, nBootstrap);
 				}
-				#ifdef TRACK_MEMORY
-				fprintf(fp, "Memory: %.2f MB (%.1f byte/pos) ",
-					maxmallocHeap/1.0e6, maxmallocHeap/(double)(aln->nSeq*(double)aln->nPos));
-				/* Only report numbers from before we do reliability estimates */
-				fprintf(fp, "profile-freq-alloc %ld avoided %.2f%%\n", 
-					svProfileFreqAlloc,
-					svProfileFreqAvoid > 0 ?
-					100.0*svProfileFreqAvoid/(double)(svProfileFreqAlloc+svProfileFreqAvoid)
-					: 0);
-				#endif
-				fflush(fp);
-			}
+
+				for (i = 0; i < nFPs; i++) {
+					FILE *fp = fps[i];
+					fprintf(fp, "Total time: %.2f seconds Unique: %d/%d Bad splits: %d/%d",
+						clockDiff(&clock_start),
+						NJ->nSeq, aln->nSeq,
+						splitcount.nBadSplits, splitcount.nSplits);
+					if (splitcount.dWorstDeltaUnconstrained >  0)
+						fprintf(fp, " Worst %sdelta-%s %.3f",
+							uniqConstraints != NULL ? "unconstrained " : "",
+							(MLnniToDo > 0 || MLlen) ? "LogLk" : "Len",
+							splitcount.dWorstDeltaUnconstrained);
+					fprintf(fp,"\n");
+					if (NJ->nSeq > 3 && NJ->nConstraints > 0) {
+						fprintf(fp, "Violating constraints: %d both bad: %d",
+							splitcount.nConstraintViolations, splitcount.nBadBoth);
+						if (splitcount.dWorstDeltaConstrained >  0)
+							fprintf(fp, " Worst delta-%s due to constraints: %.3f",
+								(MLnniToDo > 0 || MLlen) ? "LogLk" : "Len",
+								splitcount.dWorstDeltaConstrained);
+						fprintf(fp,"\n");
+					}
+					if (verbose > 1 || fp == fpLog) {
+						double dN2 = NJ->nSeq*(double)NJ->nSeq;
+						fprintf(fp, "Dist/N**2: by-profile %.3f (out %.3f) by-leaf %.3f avg-prof %.3f\n",
+							profileOps/dN2, outprofileOps/dN2, seqOps/dN2, profileAvgOps/dN2);
+						if (nCloseUsed>0 || nClose2Used > 0 || nRefreshTopHits>0)
+							fprintf(fp, "Top hits: close neighbors %ld/%d 2nd-level %ld refreshes %ld",
+								nCloseUsed, NJ->nSeq, nClose2Used, nRefreshTopHits);
+						if(!slow) fprintf(fp, " Hill-climb: %ld Update-best: %ld\n", nHillBetter, nVisibleUpdate);
+						if (nniToDo > 0 || spr > 0 || MLnniToDo > 0)
+							fprintf(fp, "NNI: %ld SPR: %ld ML-NNI: %ld\n", nNNI, nSPR, nML_NNI);
+						if (MLnniToDo > 0) {
+							fprintf(fp, "Max-lk operations: lk %ld posterior %ld", nLkCompute, nPosteriorCompute);
+							if (nAAPosteriorExact > 0 || nAAPosteriorRough > 0)
+							fprintf(fp, " approximate-posteriors %.2f%%",
+								(100.0*nAAPosteriorRough)/(double)(nAAPosteriorExact+nAAPosteriorRough));
+							if (mlAccuracy < 2)
+								fprintf(fp, " star-only %ld", nStarTests);
+							fprintf(fp, "\n");
+						}
+					}
+					#ifdef TRACK_MEMORY
+					fprintf(fp, "Memory: %.2f MB (%.1f byte/pos) ",
+						maxmallocHeap/1.0e6, maxmallocHeap/(double)(aln->nSeq*(double)aln->nPos));
+					/* Only report numbers from before we do reliability estimates */
+					fprintf(fp, "profile-freq-alloc %ld avoided %.2f%%\n", 
+						svProfileFreqAlloc,
+						svProfileFreqAvoid > 0 ?
+						100.0*svProfileFreqAvoid/(double)(svProfileFreqAlloc+svProfileFreqAvoid)
+						: 0);
+					#endif
+					fflush(fp);
+				}
 			
-			PrintNJ(fpOut, NJ, aln->names, unique, /*support*/nBootstrap > 0, bQuote);
-			fflush(fpOut);
-			if (fpLog) {
-				fprintf(fpLog,"TreeCompleted\n");
-				fflush(fpLog);
-			}
-			FreeNJ(NJ);
-			if (uniqConstraints != NULL)
-				uniqConstraints = myfree(uniqConstraints, sizeof(char*) * unique->nUnique);
-			constraints = FreeAlignment(constraints);
-			unique = FreeUniquify(unique);
+				PrintNJ(fpOut, NJ, aln->names, unique, /*support*/nBootstrap > 0, bQuote);
+				fflush(fpOut);
+				if (fpLog) {
+					fprintf(fpLog,"TreeCompleted\n");
+					fflush(fpLog);
+				}
+				FreeNJ(NJ);
+				if (uniqConstraints != NULL)
+					uniqConstraints = myfree(uniqConstraints, sizeof(char*) * unique->nUnique);
+				constraints = FreeAlignment(constraints);
+				unique = FreeUniquify(unique);
     	} /* end build tree */
     	
 		hashnames = FreeHashtable(hashnames);
