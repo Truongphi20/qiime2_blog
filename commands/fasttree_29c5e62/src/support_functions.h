@@ -296,7 +296,17 @@ top_hits_t *FreeTopHits(top_hits_t *tophits); /* returns NULL */
  */
 void SetAllLeafTopHits(/*IN/UPDATE*/NJ_t *NJ, /*IN/OUT*/top_hits_t *tophits);
 
-/* Find the best join to do. */
+/* 
+   Find the best join to do. 
+   Find best hit to do in O(N*log(N) + m*L*log(N)) time, by
+   copying and sorting the visible list
+   updating out-distances for the top (up to m) candidates
+   selecting the best hit
+   if !fastest then
+      local hill-climbing for a better join,
+      using best-hit lists only, and updating
+      all out-distances in every best-hit list
+*/
 void TopHitNJSearch(/*IN/UPDATE*/NJ_t *NJ,
 		    int nActive,
 		    /*IN/OUT*/top_hits_t *tophits,
@@ -305,6 +315,8 @@ void TopHitNJSearch(/*IN/UPDATE*/NJ_t *NJ,
 /* Returns the best hit within top hits
    NJ may be modified because it updates out-distances if they are too stale
    Does *not* update visible set
+   Updates out-distances but does not reset or update visible set
+   
 */
 void GetBestFromTopHits(int iNode, /*IN/UPDATE*/NJ_t *NJ, int nActive,
 			/*IN*/top_hits_t *tophits,
@@ -313,6 +325,11 @@ void GetBestFromTopHits(int iNode, /*IN/UPDATE*/NJ_t *NJ, int nActive,
 /* visible set is modifiable so that we can reset it more globally when we do
    a "refresh", but we also set the visible set for newnode and do any
    "reset" updates too. And, we update many outdistances.
+
+   Create a top hit list for the new node, either
+   from children (if there are enough best hits left) or by a "refresh"
+   Also set visible set for newnode
+   Also update visible set for other nodes if we stumble across a "better" hit
  */
 void TopHitJoin(int newnode,
 		/*IN/UPDATE*/NJ_t *NJ, int nActive,
@@ -706,33 +723,8 @@ double QuartetWeight(profile_t *profiles[4], distance_matrix_t *dmat, int nPos);
 int *PathToRoot(NJ_t *NJ, int node, /*OUT*/int *depth);
 int *FreePath(int *path, NJ_t *NJ); /* returns NULL */
 
-transition_matrix_t *ReadAATransitionMatrix(/*IN*/char *filename);
-
-// SIMD vector handler
-float mm_sum(register __m128 sum);
-void vector_multiply(/*IN*/numeric_t *f1, /*IN*/numeric_t *f2, int n, /*OUT*/numeric_t *fOut);
-numeric_t vector_multiply_sum(/*IN*/numeric_t *f1, /*IN*/numeric_t *f2, int n);
-numeric_t vector_multiply3_sum(/*IN*/numeric_t *f1, /*IN*/numeric_t *f2, /*IN*/numeric_t* f3, int n);
-numeric_t vector_dot_product_rot(/*IN*/numeric_t *f1, /*IN*/numeric_t *f2, /*IN*/numeric_t *fBy, int n);
-numeric_t vector_sum(/*IN*/numeric_t *f1, int n);
-void vector_multiply_by(/*IN/OUT*/numeric_t *f, /*IN*/numeric_t fBy, int n);
-void vector_add_mult(/*IN/OUT*/numeric_t *fTot, /*IN*/numeric_t *fAdd, numeric_t weight, int n);
-void matrixt_by_vector4(/*IN*/numeric_t mat[4][MAXCODES], /*IN*/numeric_t vec[4], /*OUT*/numeric_t out[4]);
-
-// rev_functions
-/* Numerical recipes code for eigen decomposition (actually taken from RAxML rev_functions.c) */
-void tred2 (double *a, const int n, const int np, double *d, double *e);
-double pythag(double a, double b);
-
-// Transition matrix
-transition_matrix_t *CreateTransitionMatrix(/*IN*/double matrix[MAXCODES][MAXCODES],
-					    /*IN*/double stat[MAXCODES]);
-distance_matrix_t *TransMatToDistanceMat(transition_matrix_t *transmat);
-
 // Knuth code - random number generator
 void ran_array(long aa[],int n);
-void ran_start(long seed);
 long ran_arr_cycle();
-double knuth_rand();
 
 #endif

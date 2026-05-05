@@ -58,6 +58,11 @@ set(FASTTREE_SOURCES
         src/rev_functions.c
         src/trans_matrix.c
         src/random_number_generator.c
+        src/TopHitJoin.c
+        src/UniqueBestHits.c
+        src/TopHitNJSearch.c
+        src/hit_supports.c
+        src/GetBestFromTopHits.c
 )
 
 # --- Targets ---
