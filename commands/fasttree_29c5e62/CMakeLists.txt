@@ -79,6 +79,18 @@ set(FASTTREE_SOURCES
         src/ReadAlignment.c
         src/ReadTreeToken.c
         src/read_tree.c
+        src/AddToFreq.c
+        src/AlnToConstraints.c
+        src/CorrectedPairDistances.c
+        src/NormalizeFreq.c
+        src/OutProfile.c
+        src/ProfileDist.c
+        src/ProfileDistPiece.c
+        src/SeqDist.c
+        src/SeqToProfile.c
+        src/SetProfile.c
+        src/UpdateOutProfile.c
+        src/constraint.c
 )
 
 # --- Targets ---

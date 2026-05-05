@@ -37,3 +37,13 @@ void ReadTreeError(char *err, char *token) {
 	  err);
   exit(1);
 }
+
+double LogCorrect(double dist) {
+  const double maxscore = 3.0;
+  if (nCodes == 4 && !useMatrix) { /* Jukes-Cantor */
+    dist = dist < 0.74 ? -0.75*log(1.0 - dist * 4.0/3.0) : maxscore;
+  } else {			/* scoredist-like */
+    dist = dist < 0.99 ? -1.3*log(1.0 - dist) : maxscore;
+  }
+  return (dist < maxscore ? dist : maxscore);
+}

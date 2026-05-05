@@ -358,4 +358,11 @@
 #define MAX(X,Y) ((X) >  (Y) ? (X) : (Y))
 
 
+/* E.g. GET_FREQ(profile,iPos,iVector)
+   Gets the next element of the vectors (and updates iVector), or
+   returns NULL if we didn't store a vector
+*/
+#define GET_FREQ(P,I,IVECTOR) \
+(P->weights[I] > 0 && P->codes[I] == NOCODE ? &P->vectors[nCodes*(IVECTOR++)] : NULL)
+
 #endif
