@@ -91,6 +91,29 @@ set(FASTTREE_SOURCES
         src/SetProfile.c
         src/UpdateOutProfile.c
         src/constraint.c
+        src/ChooseNNI.c
+        src/ExpEigenRates.c
+        src/GTRNegLogLk.c
+        src/MLQuartetLogLk.c
+        src/MLQuartetNNI.c
+        src/MLQuartetOptimize.c
+        src/MLSiteLikelihoodsByRate.c
+        src/MLSiteRates.c
+        src/PDiffVector.c
+        src/PSameVector.c
+        src/PairLogLk.c
+        src/PairNegLogLk.c
+        src/PosteriorProfile.c
+        src/ReadDistanceMatrix.c
+        src/ReadMatrix.c
+        src/ReadVector.c
+        src/SetBestHit.c
+        src/SetCodeDist.c
+        src/SetMLGtr.c
+        src/SetMLRates.c
+        src/SetupDistanceMatrix.c
+        src/TreeLength.c
+        src/TreeLogLk.c
 )
 
 # --- Targets ---
