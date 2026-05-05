@@ -179,17 +179,8 @@ int FastTree(FastTreeOptions_t opt) {
 			/* read constraints */
 			alignment_t *constraints = NULL;
 			char **uniqConstraints = NULL;
-			if (constraintsFile != NULL) {
-				constraints = ReadAlignment(fpConstraints, bQuote);
-				if (constraints->nSeq < 4) {
-					fprintf(stderr, "Warning: constraints file with less than 4 sequences ignored:\nalignment #%d in %s\n",
-					iAln+1, constraintsFile);
-					constraints = FreeAlignment(constraints);
-				} else {
-					uniqConstraints = AlnToConstraints(constraints, unique, hashnames);
-					ProgressReport("Read the constraints",0,0,0,0);
-				}
-      		}	/* end load constraints */
+			ReadConstraints(constraints, uniqConstraints, hashnames, constraintsFile, fpConstraints, bQuote, iAln, unique);
+			
 
       		transition_matrix_t *transmat = NULL;
 			if (nCodes == 20) {

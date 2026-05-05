@@ -197,6 +197,7 @@ set(FASTTREE_SOURCES
         src/main.c
         src/ReportSetting.c
         src/MakeMatrix.c
+        src/ReadConstraints.c
 )
 
 # --- Targets ---
