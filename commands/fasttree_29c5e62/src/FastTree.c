@@ -3,10 +3,7 @@
 #include "hyper_parameters.h"
 #include "support_functions.h"
 
-int main(int argc, char **argv) {
-  FastTreeOptions_t opt;
-  InitOptions(&opt);
-  ParseCommandLine(argc, argv, &opt);
+int FastTree(FastTreeOptions_t opt) {
 
   int nAlign = opt.nAlign;
   char *matrixPrefix = opt.matrixPrefix;
@@ -67,8 +64,8 @@ int main(int argc, char **argv) {
     }
     fprintf(fpLog, "Command:");
     int i;
-    for (i=0; i < argc; i++)
-      fprintf(fpLog, " %s", argv[i]);
+    for (i=0; i < opt.argc; i++)
+      fprintf(fpLog, " %s", opt.argv[i]);
     fprintf(fpLog,"\n");
     fflush(fpLog);
   }

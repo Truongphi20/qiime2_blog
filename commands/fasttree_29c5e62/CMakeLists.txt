@@ -194,6 +194,7 @@ set(FASTTREE_SOURCES
         src/PathToRoot.c
         src/QuartetWeight.c
         src/FreePath.c
+        src/main.c
 )
 
 # --- Targets ---

@@ -44,6 +44,8 @@ typedef struct {
   bool bQuote;
   FILE *fpOut;
   char *fileName;
+  int argc;
+  char **argv;
 } FastTreeOptions_t;
 
 typedef struct {

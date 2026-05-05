@@ -5,6 +5,8 @@
 #include "include_stuff.h"
 #include "hyper_parameters.h"
 
+int FastTree(FastTreeOptions_t opt);
+
 void InitOptions(FastTreeOptions_t *opt);
 void ParseCommandLine(int argc, char **argv, FastTreeOptions_t *opt);
 

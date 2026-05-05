@@ -229,6 +229,8 @@ void InitOptions(FastTreeOptions_t *opt) {
 }
 
 void ParseCommandLine(int argc, char **argv, FastTreeOptions_t *opt) {
+  opt->argc = argc;
+  opt->argv = argv;
   int iArg;
 
   if (isatty(STDIN_FILENO) && argc == 1) {
