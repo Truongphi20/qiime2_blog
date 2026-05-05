@@ -55,6 +55,7 @@ set(FASTTREE_SOURCES
         src/command_line.c
         src/ReadAATransitionMatrix.c
         src/simd_vectors.c
+        src/rev_functions.c
 )
 
 # --- Targets ---

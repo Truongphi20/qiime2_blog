@@ -719,6 +719,10 @@ void vector_multiply_by(/*IN/OUT*/numeric_t *f, /*IN*/numeric_t fBy, int n);
 void vector_add_mult(/*IN/OUT*/numeric_t *fTot, /*IN*/numeric_t *fAdd, numeric_t weight, int n);
 void matrixt_by_vector4(/*IN*/numeric_t mat[4][MAXCODES], /*IN*/numeric_t vec[4], /*OUT*/numeric_t out[4]);
 
+// rev_functions
+/* Numerical recipes code for eigen decomposition (actually taken from RAxML rev_functions.c) */
+void tred2 (double *a, const int n, const int np, double *d, double *e);
+double pythag(double a, double b);
 
 
 #endif
