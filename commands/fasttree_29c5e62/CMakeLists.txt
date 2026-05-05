@@ -63,6 +63,7 @@ set(FASTTREE_SOURCES
         src/TopHitNJSearch.c
         src/hit_supports.c
         src/GetBestFromTopHits.c
+        src/SetAllLeafTopHits.c
 )
 
 # --- Targets ---
