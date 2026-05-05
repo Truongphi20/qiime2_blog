@@ -327,6 +327,10 @@
 #define USE_SSE3
 #endif
 
+#ifndef SSE_STRING
+#define SSE_STRING ""
+#endif
+
 #ifdef USE_SSE3
 #define SSE_STRING "SSE3"
 #define ALIGNED __attribute__((aligned(16)))

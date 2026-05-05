@@ -2,10 +2,15 @@
 #define DATASTRUCTS_H
 
 #ifdef USE_DOUBLE
+#ifndef SSE_STRING
 #define SSE_STRING "Double precision"
+#endif
 typedef double numeric_t;
 #define ScanNumericSpec "%lf"
 #else
+#ifndef SSE_STRING
+#define SSE_STRING "Single precision"
+#endif
 typedef float numeric_t;
 #define ScanNumericSpec "%f"
 #endif
@@ -276,4 +281,21 @@ typedef struct {
   omp_lock_t *locks;
 #endif
 } top_hits_t;
-#endif DATASTRUCTS_H
+
+/* Hashtable functions */
+typedef struct
+{
+  char *string;
+  int nCount;			/* number of times this entry was seen */
+  int first;			/* index of first entry with this value */
+} hashbucket_t;
+
+typedef struct {
+  int nBuckets;
+  /* hashvalue -> bucket. Or look in bucket + 1, +2, etc., till you hit a NULL string */
+  hashbucket_t *buckets;
+} hashstrings_t;
+typedef int hashiterator_t;
+
+
+#endif /* DATASTRUCTS_H */

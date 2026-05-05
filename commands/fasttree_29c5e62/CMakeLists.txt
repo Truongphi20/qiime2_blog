@@ -47,20 +47,25 @@ if(TRACK_MEMORY)
     add_definitions(-DTRACK_MEMORY)
 endif()
 
+# --- Source Files ---
+set(FASTTREE_SOURCES src/FastTree.c src/FastNJ.c src/hyper_parameters.c)
+
 # --- Targets ---
 
 # 1. FastTree (Serial)
-add_executable(FastTree FastTree.c)
+add_executable(FastTree ${FASTTREE_SOURCES})
 target_compile_options(FastTree PRIVATE ${BASE_FLAGS} ${SIMD_FLAGS})
+target_include_directories(FastTree PRIVATE src)
 if(MATH_LIBRARY)
     target_link_libraries(FastTree PRIVATE ${MATH_LIBRARY})
 endif()
 
 # 2. FastTreeMP (Multi-threaded)
 if(OpenMP_C_FOUND)
-    add_executable(FastTreeMP FastTree.c)
+    add_executable(FastTreeMP ${FASTTREE_SOURCES})
     # FastTreeMP requires -DOPENMP and -fopenmp
     target_compile_options(FastTreeMP PRIVATE ${BASE_FLAGS} ${SIMD_FLAGS} -DOPENMP)
+    target_include_directories(FastTreeMP PRIVATE src)
     target_link_libraries(FastTreeMP PRIVATE OpenMP::OpenMP_C)
     if(MATH_LIBRARY)
         target_link_libraries(FastTreeMP PRIVATE ${MATH_LIBRARY})
