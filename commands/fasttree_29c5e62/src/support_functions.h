@@ -7,6 +7,7 @@
 
 int FastTree(FastTreeOptions_t opt);
 void ReportSetting(FastTreeOptions_t opt, int nFPs, FILE *fps[2]);
+void MakeMatrix(alignment_t *aln, distance_matrix_t *distance_matrix);
 
 void InitOptions(FastTreeOptions_t *opt);
 void ParseCommandLine(int argc, char **argv, FastTreeOptions_t *opt);

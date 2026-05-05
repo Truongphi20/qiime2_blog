@@ -196,6 +196,7 @@ set(FASTTREE_SOURCES
         src/FreePath.c
         src/main.c
         src/ReportSetting.c
+        src/MakeMatrix.c
 )
 
 # --- Targets ---
