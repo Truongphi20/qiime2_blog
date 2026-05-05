@@ -86,7 +86,7 @@ int FastTree(FastTreeOptions_t opt) {
       		fprintf(stderr,"Cannot use both -matrix and -nomatrix arguments!");
       		exit(1);
     	}
-    distance_matrix = ReadDistanceMatrix(matrixPrefix);
+    	distance_matrix = ReadDistanceMatrix(matrixPrefix);
   	} else if (useMatrix) { 	/* use default matrix */
     	assert(nCodes==20);
     	distance_matrix = &matrixBLOSUM45;
@@ -179,7 +179,7 @@ int FastTree(FastTreeOptions_t opt) {
 			/* read constraints */
 			alignment_t *constraints = NULL;
 			char **uniqConstraints = NULL;
-			ReadConstraints(constraints, uniqConstraints, hashnames, constraintsFile, fpConstraints, bQuote, iAln, unique);
+			ReadConstraints(&constraints, &uniqConstraints, &hashnames, &constraintsFile, &fpConstraints, bQuote, iAln, &unique);
 			
 
       		transition_matrix_t *transmat = NULL;
