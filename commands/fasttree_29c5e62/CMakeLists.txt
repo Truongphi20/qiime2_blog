@@ -57,6 +57,7 @@ set(FASTTREE_SOURCES
         src/simd_vectors.c
         src/rev_functions.c
         src/trans_matrix.c
+        src/random_number_generator.c
 )
 
 # --- Targets ---

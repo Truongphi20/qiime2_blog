@@ -729,4 +729,10 @@ transition_matrix_t *CreateTransitionMatrix(/*IN*/double matrix[MAXCODES][MAXCOD
 					    /*IN*/double stat[MAXCODES]);
 distance_matrix_t *TransMatToDistanceMat(transition_matrix_t *transmat);
 
+// Knuth code - random number generator
+void ran_array(long aa[],int n);
+void ran_start(long seed);
+long ran_arr_cycle();
+double knuth_rand();
+
 #endif
