@@ -157,3 +157,59 @@ bool UpdateBestHit(/*IN/UPDATE*/NJ_t *NJ, int nActive, /*IN/OUT*/besthit_t *hit,
   }
   return(true);
 }
+
+top_hits_t *FreeTopHits(top_hits_t *tophits) {
+  if (tophits == NULL)
+    return(NULL);
+  int iNode;
+  for (iNode = 0; iNode < tophits->maxnodes; iNode++) {
+    top_hits_list_t *l = &tophits->top_hits_lists[iNode];
+    if (l->hits != NULL)
+      l->hits = myfree(l->hits, sizeof(hit_t) * l->nHits);
+  }
+  tophits->top_hits_lists = myfree(tophits->top_hits_lists, sizeof(top_hits_list_t) * tophits->maxnodes);
+  tophits->visible = myfree(tophits->visible, sizeof(hit_t*) * tophits->maxnodes);
+  tophits->topvisible = myfree(tophits->topvisible, sizeof(int) * tophits->nTopVisible);
+#ifdef OPENMP
+  for (iNode = 0; iNode < tophits->maxnodes; iNode++)
+    omp_destroy_lock(&tophits->locks[iNode]);
+  tophits->locks = myfree(tophits->locks, sizeof(omp_lock_t) * tophits->maxnodes);
+#endif
+  return(myfree(tophits, sizeof(top_hits_t)));
+}
+
+top_hits_t *InitTopHits(NJ_t *NJ, int m) {
+  int iNode;
+  assert(m > 0);
+  top_hits_t *tophits = mymalloc(sizeof(top_hits_t));
+  tophits->m = m;
+  tophits->q = (int)(0.5 + tophits2Mult * sqrt(tophits->m));
+  if (!useTopHits2nd || tophits->q >= tophits->m)
+    tophits->q = 0;
+  tophits->maxnodes = NJ->maxnodes;
+  tophits->top_hits_lists = mymalloc(sizeof(top_hits_list_t) * tophits->maxnodes);
+  tophits->visible = mymalloc(sizeof(hit_t) * tophits->maxnodes);
+  tophits->nTopVisible = (int)(0.5 + topvisibleMult*m);
+  tophits->topvisible = mymalloc(sizeof(int) * tophits->nTopVisible);
+#ifdef OPENMP
+  tophits->locks = mymalloc(sizeof(omp_lock_t) * tophits->maxnodes);
+  for (iNode = 0; iNode < tophits->maxnodes; iNode++)
+    omp_init_lock(&tophits->locks[iNode]);
+#endif
+  int i;
+  for (i = 0; i < tophits->nTopVisible; i++)
+    tophits->topvisible[i] = -1; /* empty */
+  tophits->topvisibleAge = 0;
+
+  for (iNode = 0; iNode < tophits->maxnodes; iNode++) {
+    top_hits_list_t *l = &tophits->top_hits_lists[iNode];
+    l->nHits = 0;
+    l->hits = NULL;
+    l->hitSource = -1;
+    l->age = 0;
+    hit_t *v = &tophits->visible[iNode];
+    v->j = -1;
+    v->dist = 1e20;
+  }
+  return(tophits);
+}
