@@ -77,23 +77,22 @@ void FastNJ(NJ_t *NJ) {
     }
 
     if (verbose>2) {
-      double penalty = constraintWeight
-	* (double)JoinConstraintPenalty(NJ, join.i, join.j);
+      double penalty = constraintWeight * (double)JoinConstraintPenalty(NJ, join.i, join.j);
       if (penalty > 0.001) {
-	fprintf(stderr, "Constraint violation during neighbor-joining %d %d into %d penalty %.3f\n",
-		join.i, join.j, NJ->maxnode, penalty);
-	int iC;
-	for (iC = 0; iC < NJ->nConstraints; iC++) {
-	  int local = JoinConstraintPenaltyPiece(NJ, join.i, join.j, iC);
-	  if (local > 0)
-	    fprintf(stderr, "Constraint %d piece %d %d/%d %d/%d %d/%d\n", iC, local,
-		    NJ->profiles[join.i]->nOn[iC],
-		    NJ->profiles[join.i]->nOff[iC],
-		    NJ->profiles[join.j]->nOn[iC],
-		    NJ->profiles[join.j]->nOff[iC],
-		    NJ->outprofile->nOn[iC] - NJ->profiles[join.i]->nOn[iC] - NJ->profiles[join.j]->nOn[iC],
-		    NJ->outprofile->nOff[iC] - NJ->profiles[join.i]->nOff[iC] - NJ->profiles[join.j]->nOff[iC]);
-	}
+	      fprintf(stderr, "Constraint violation during neighbor-joining %d %d into %d penalty %.3f\n",
+		          join.i, join.j, NJ->maxnode, penalty);
+	      int iC;
+	      for (iC = 0; iC < NJ->nConstraints; iC++) {
+	        int local = JoinConstraintPenaltyPiece(NJ, join.i, join.j, iC);
+	        if (local > 0)
+	          fprintf(stderr, "Constraint %d piece %d %d/%d %d/%d %d/%d\n", iC, local,
+		      NJ->profiles[join.i]->nOn[iC],
+		      NJ->profiles[join.i]->nOff[iC],
+		      NJ->profiles[join.j]->nOn[iC],
+		      NJ->profiles[join.j]->nOff[iC],
+		      NJ->outprofile->nOn[iC] - NJ->profiles[join.i]->nOn[iC] - NJ->profiles[join.j]->nOn[iC],
+		      NJ->outprofile->nOff[iC] - NJ->profiles[join.i]->nOff[iC] - NJ->profiles[join.j]->nOff[iC]);
+	      }
       }
     }
 
@@ -124,25 +123,25 @@ void FastNJ(NJ_t *NJ) {
 
     if (bionj && join.weight > 0.01 && varIJ > 0.001) {
       /* Set bionjWeight according to the BIONJ formula, where
-	 the variance matrix is approximated by
+      the variance matrix is approximated by
 
-	 Vij = ProfileVar(i,j) - varDiameter(i) - varDiameter(j)
-	 ProfileVar(i,j) = distance(i,j) = top(i,j)/weight(i,j)
+      Vij = ProfileVar(i,j) - varDiameter(i) - varDiameter(j)
+      ProfileVar(i,j) = distance(i,j) = top(i,j)/weight(i,j)
 
-	 (The node's distance diameter does not affect the variances.)
+      (The node's distance diameter does not affect the variances.)
 
-	 The BIONJ formula is equation 9 from Gascuel 1997:
+      The BIONJ formula is equation 9 from Gascuel 1997:
 
-	 bionjWeight = 1/2 + sum(k!=i,j) (Vjk - Vik) / ((nActive-2)*Vij)
-	 sum(k!=i,j) (Vjk - Vik) = sum(k!=i,j) Vik - varDiameter(j) + varDiameter(i)
-	 = sum(k!=i,j) ProfileVar(j,k) - sum(k!=i,j) ProfileVar(i,k) + (nActive-2)*(varDiameter(i)-varDiameter(j))
+      bionjWeight = 1/2 + sum(k!=i,j) (Vjk - Vik) / ((nActive-2)*Vij)
+      sum(k!=i,j) (Vjk - Vik) = sum(k!=i,j) Vik - varDiameter(j) + varDiameter(i)
+      = sum(k!=i,j) ProfileVar(j,k) - sum(k!=i,j) ProfileVar(i,k) + (nActive-2)*(varDiameter(i)-varDiameter(j))
 
-	 sum(k!=i,j) ProfileVar(i,k)
-	 ~= (sum(k!=i,j) distance(i,k) * weight(i,k))/(mean(k!=i,j) weight(i,k))
-	 ~= (N-2) * top(i, Out-i-j) / weight(i, Out-i-j)
+      sum(k!=i,j) ProfileVar(i,k)
+      ~= (sum(k!=i,j) distance(i,k) * weight(i,k))/(mean(k!=i,j) weight(i,k))
+      ~= (N-2) * top(i, Out-i-j) / weight(i, Out-i-j)
 
-	 weight(i, Out-i-j) = N*weight(i,Out) - weight(i,i) - weight(i,j)
-	 top(i, Out-i-j) = N*top(i,Out) - top(i,i) - top(i,j)
+      weight(i, Out-i-j) = N*weight(i,Out) - weight(i,i) - weight(i,j)
+      top(i, Out-i-j) = N*top(i,Out) - top(i,i) - top(i,j)
       */
       besthit_t outI;
       besthit_t outJ;
@@ -153,15 +152,13 @@ void FastNJ(NJ_t *NJ) {
       double varIWeight = (nActive * outI.weight - NJ->selfweight[join.i] - join.weight);
       double varJWeight = (nActive * outJ.weight - NJ->selfweight[join.j] - join.weight);
 
-      double varITop = outI.dist * outI.weight * nActive
-	- NJ->selfdist[join.i] * NJ->selfweight[join.i] - rawIJ * join.weight;
-      double varJTop = outJ.dist * outJ.weight * nActive
-	- NJ->selfdist[join.j] * NJ->selfweight[join.j] - rawIJ * join.weight;
+      double varITop = outI.dist * outI.weight * nActive - NJ->selfdist[join.i] * NJ->selfweight[join.i] - rawIJ * join.weight;
+      double varJTop = outJ.dist * outJ.weight * nActive - NJ->selfdist[join.j] * NJ->selfweight[join.j] - rawIJ * join.weight;
 
       double deltaProfileVarOut = (nActive-2) * (varJTop/varJWeight - varITop/varIWeight);
       double deltaVarDiam = (nActive-2)*(NJ->varDiameter[join.i] - NJ->varDiameter[join.j]);
       if (varJWeight > 0.01 && varIWeight > 0.01)
-	bionjWeight = 0.5 + (deltaProfileVarOut+deltaVarDiam)/(2*(nActive-2)*varIJ);
+        bionjWeight = 0.5 + (deltaProfileVarOut+deltaVarDiam)/(2*(nActive-2)*varIJ);
       if(bionjWeight<0) bionjWeight=0;
       if(bionjWeight>1) bionjWeight=1;
       if (verbose>2) fprintf(stderr,"dVarO %f dVarDiam %f varIJ %f from dist %f weight %f (pos %d) bionjWeight %f %f\n",
@@ -169,22 +166,22 @@ void FastNJ(NJ_t *NJ) {
 			     varIJ, join.dist, join.weight, NJ->nPos,
 			     bionjWeight, 1-bionjWeight);
       if (verbose>3 && (newnode%5) == 0) {
-	/* Compare weight estimated from outprofiles from weight made by summing over other nodes */
-	double deltaProfileVarTot = 0;
-	for (iNode = 0; iNode < newnode; iNode++) {
-	  if (NJ->parent[iNode] < 0) { /* excludes join.i, join.j */
-	    besthit_t di, dj;
-	    ProfileDist(NJ->profiles[join.i],NJ->profiles[iNode],NJ->nPos,NJ->distance_matrix,/*OUT*/&di);
-	    ProfileDist(NJ->profiles[join.j],NJ->profiles[iNode],NJ->nPos,NJ->distance_matrix,/*OUT*/&dj);
-	    deltaProfileVarTot += dj.dist - di.dist;
-	  }
-	}
-	double lambdaTot = 0.5 + (deltaProfileVarTot+deltaVarDiam)/(2*(nActive-2)*varIJ);
-	if (lambdaTot < 0) lambdaTot = 0;
-	if (lambdaTot > 1) lambdaTot = 1;
-	if (fabs(bionjWeight-lambdaTot) > 0.01 || verbose > 4)
-	  fprintf(stderr, "deltaProfileVar actual %.6f estimated %.6f lambda actual %.3f estimated %.3f\n",
-		  deltaProfileVarTot,deltaProfileVarOut,lambdaTot,bionjWeight);
+        /* Compare weight estimated from outprofiles from weight made by summing over other nodes */
+        double deltaProfileVarTot = 0;
+        for (iNode = 0; iNode < newnode; iNode++) {
+          if (NJ->parent[iNode] < 0) { /* excludes join.i, join.j */
+            besthit_t di, dj;
+            ProfileDist(NJ->profiles[join.i],NJ->profiles[iNode],NJ->nPos,NJ->distance_matrix,/*OUT*/&di);
+            ProfileDist(NJ->profiles[join.j],NJ->profiles[iNode],NJ->nPos,NJ->distance_matrix,/*OUT*/&dj);
+            deltaProfileVarTot += dj.dist - di.dist;
+          }
+        }
+        double lambdaTot = 0.5 + (deltaProfileVarTot+deltaVarDiam)/(2*(nActive-2)*varIJ);
+        if (lambdaTot < 0) lambdaTot = 0;
+        if (lambdaTot > 1) lambdaTot = 1;
+        if (fabs(bionjWeight-lambdaTot) > 0.01 || verbose > 4)
+          fprintf(stderr, "deltaProfileVar actual %.6f estimated %.6f lambda actual %.3f estimated %.3f\n",
+            deltaProfileVarTot,deltaProfileVarOut,lambdaTot,bionjWeight);
       }
     }
     if (verbose > 2) fprintf(stderr, "Join\t%d\t%d\t%.6f\tlambda\t%.6f\tselfw\t%.3f\t%.3f\tnew\t%d\n",
@@ -208,18 +205,17 @@ void FastNJ(NJ_t *NJ) {
 
     /* Update out-distances and total diameters */
     int changedActiveOutProfile = nActiveOutProfileReset - (nActive-1);
-    if (changedActiveOutProfile >= nResetOutProfile
-	&& changedActiveOutProfile >= fResetOutProfile * nActiveOutProfileReset) {
+    if (changedActiveOutProfile >= nResetOutProfile && changedActiveOutProfile >= fResetOutProfile * nActiveOutProfileReset) {
       /* Recompute the outprofile from scratch to avoid roundoff error */
       profile_t **activeProfiles = (profile_t**)mymalloc(sizeof(profile_t*)*(nActive-1));
       int nSaved = 0;
       NJ->totdiam = 0;
       for (iNode=0;iNode<NJ->maxnode;iNode++) {
-	if (NJ->parent[iNode]<0) {
-	  assert(nSaved < nActive-1);
-	  activeProfiles[nSaved++] = NJ->profiles[iNode];
-	  NJ->totdiam += NJ->diameter[iNode];
-	}
+        if (NJ->parent[iNode]<0) {
+          assert(nSaved < nActive-1);
+          activeProfiles[nSaved++] = NJ->profiles[iNode];
+          NJ->totdiam += NJ->diameter[iNode];
+        }
       }
       assert(nSaved==nActive-1);
       FreeProfile(NJ->outprofile, NJ->nPos, NJ->nConstraints);
@@ -250,55 +246,54 @@ void FastNJ(NJ_t *NJ) {
     } else {
       /* Not using top-hits, so we update all out-distances */
       for (iNode = 0; iNode < NJ->maxnode; iNode++) {
-	if (NJ->parent[iNode] < 0) {
-	  /* True nActive is now nActive-1 */
-	  SetOutDistance(/*IN/UPDATE*/NJ, iNode, nActive-1);
-	}
+        if (NJ->parent[iNode] < 0) {
+          /* True nActive is now nActive-1 */
+          SetOutDistance(/*IN/UPDATE*/NJ, iNode, nActive-1);
+        }
       }
     
       if(visible != NULL) {
-	SetBestHit(newnode, NJ, nActive-1, /*OUT*/&visible[newnode], /*OUT OPTIONAL*/besthitNew);
-	if (verbose>2)
-	  fprintf(stderr,"Visible %d %d %f %f\n",
-		  visible[newnode].i, visible[newnode].j,
-		  visible[newnode].dist, visible[newnode].criterion);
-	if (besthitNew != NULL) {
-	  /* Use distances to new node to update visible set entries that are non-optimal */
-	  for (iNode = 0; iNode < NJ->maxnode; iNode++) {
-	    if (NJ->parent[iNode] >= 0 || iNode == newnode)
-	      continue;
-	    int iOldVisible = visible[iNode].j;
-	    assert(iOldVisible>=0);
-	    assert(visible[iNode].i == iNode);
-	      
-	    /* Update the criterion; use nActive-1 because haven't decremented nActive yet */
-	    if (NJ->parent[iOldVisible] < 0)
-	      SetCriterion(/*IN/OUT*/NJ, nActive-1, &visible[iNode]);
-	    
-	    if (NJ->parent[iOldVisible] >= 0
-		|| besthitNew[iNode].criterion < visible[iNode].criterion) {
-	      if(verbose>3) fprintf(stderr,"Visible %d reset from %d to %d (%f vs. %f)\n",
-				     iNode, iOldVisible, 
-				     newnode, visible[iNode].criterion, besthitNew[iNode].criterion);
-	      if(NJ->parent[iOldVisible] < 0) nVisibleUpdate++;
-	      visible[iNode].j = newnode;
-	      visible[iNode].dist = besthitNew[iNode].dist;
-	      visible[iNode].criterion = besthitNew[iNode].criterion;
-	    }
-	  } /* end loop over all nodes */
-	} /* end if recording all hits of new node */
+        SetBestHit(newnode, NJ, nActive-1, /*OUT*/&visible[newnode], /*OUT OPTIONAL*/besthitNew);
+        if (verbose>2)
+          fprintf(stderr,"Visible %d %d %f %f\n",
+        visible[newnode].i, visible[newnode].j,
+        visible[newnode].dist, visible[newnode].criterion);
+        if (besthitNew != NULL) {
+          /* Use distances to new node to update visible set entries that are non-optimal */
+          for (iNode = 0; iNode < NJ->maxnode; iNode++) {
+            if (NJ->parent[iNode] >= 0 || iNode == newnode)
+              continue;
+            int iOldVisible = visible[iNode].j;
+            assert(iOldVisible>=0);
+            assert(visible[iNode].i == iNode);
+            
+            /* Update the criterion; use nActive-1 because haven't decremented nActive yet */
+            if (NJ->parent[iOldVisible] < 0)
+              SetCriterion(/*IN/OUT*/NJ, nActive-1, &visible[iNode]);
+          
+            if (NJ->parent[iOldVisible] >= 0 || besthitNew[iNode].criterion < visible[iNode].criterion) {
+              if(verbose>3) fprintf(stderr,"Visible %d reset from %d to %d (%f vs. %f)\n",
+                  iNode, iOldVisible, 
+                  newnode, visible[iNode].criterion, besthitNew[iNode].criterion);
+              if(NJ->parent[iOldVisible] < 0) nVisibleUpdate++;
+              visible[iNode].j = newnode;
+              visible[iNode].dist = besthitNew[iNode].dist;
+              visible[iNode].criterion = besthitNew[iNode].criterion;
+            }
+          } /* end loop over all nodes */
+        } /* end if recording all hits of new node */
       } /* end if keeping a visible set */
     } /* end else (m==0) */
   } /* end loop over nActive */
 
-#ifdef TRACK_MEMORY
+  #ifdef TRACK_MEMORY
   if (verbose>1) {
     struct mallinfo mi = mallinfo();
     fprintf(stderr, "Memory @ end of FastNJ(): %.2f MB (%.1f byte/pos) useful %.2f expected %.2f\n",
 	    (mi.arena+mi.hblkhd)/1.0e6, (mi.arena+mi.hblkhd)/(double)(NJ->nSeq*(double)NJ->nPos),
 	    mi.uordblks/1.0e6, mymallocUsed/1e6);
   }
-#endif
+  #endif
 
   /* We no longer need the tophits, visible set, etc. */
   if (visible != NULL) visible = myfree(visible,sizeof(besthit_t)*NJ->maxnodes);
@@ -346,7 +341,7 @@ void FastNJ(NJ_t *NJ) {
       weighterror += fabs(out->weights[i] - NJ->outprofile->weights[i]);
       int k;
       for(k=0;k<nCodes;k++)
-	freqerror += fabs(out->vectors[nCodes*i+k] - NJ->outprofile->vectors[nCodes*i+k]);
+	      freqerror += fabs(out->vectors[nCodes*i+k] - NJ->outprofile->vectors[nCodes*i+k]);
     }
     fprintf(stderr,"Roundoff error in outprofile@end: WeightError %f FreqError %f\n", weighterror, freqerror);
     FreeProfile(out, NJ->nPos, NJ->nConstraints);
