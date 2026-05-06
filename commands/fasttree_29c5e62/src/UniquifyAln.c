@@ -21,18 +21,18 @@ uniquify_t *UniquifyAln(alignment_t *aln) {
       hashiterator_t hi = FindMatch(hashseqs,aln->seqs[i]);
       int first = HashFirst(hashseqs,hi);
       if (first == i) {
-	uniqueSeq[nUniqueSeq] = aln->seqs[i];
-	uniqueFirst[nUniqueSeq] = i;
-	alnToUniq[i] = nUniqueSeq;
-	nUniqueSeq++;
+        uniqueSeq[nUniqueSeq] = aln->seqs[i];
+        uniqueFirst[nUniqueSeq] = i;
+        alnToUniq[i] = nUniqueSeq;
+        nUniqueSeq++;
       } else {
-	int last = first;
-	while (alnNext[last] != -1)
-	  last = alnNext[last];
-	assert(last>=0);
-	alnNext[last] = i;
-	assert(alnToUniq[last] >= 0 && alnToUniq[last] < nUniqueSeq);
-	alnToUniq[i] = alnToUniq[last];
+	      int last = first;
+	      while (alnNext[last] != -1)
+	        last = alnNext[last];
+	      assert(last>=0);
+	      alnNext[last] = i;
+	      assert(alnToUniq[last] >= 0 && alnToUniq[last] < nUniqueSeq);
+	      alnToUniq[i] = alnToUniq[last];
       }
     }
     assert(nUniqueSeq>0);
