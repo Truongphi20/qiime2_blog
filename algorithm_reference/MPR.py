@@ -1,7 +1,7 @@
 from skbio import TreeNode
 
 ## Copy from https://github.com/scikit-bio/scikit-bio/blob/0.6.2/skbio/tree/_tree.py#L1371:
-def root_at_midpoint(reset=False, branch_attrs=["name"], root_name="root") -> TreeNode:
+def root_at_midpoint(tree: TreeNode, reset=False, branch_attrs=["name"], root_name="root") -> TreeNode:
     """Reroot the tree at the midpoint of the two tips farthest apart."""
         
     if reset:
