@@ -44,6 +44,8 @@ Following the MSA step, positions are masked to retain if satisfying the gap fre
 
 Using the MSA, FastTree v2.2.0 [@priceFastTree2Approximately2010] generates an initial unrooted tree via a heuristic Neighbor-Joining (NJ) method. Nearest-Neighbor Interchanges (NNIs) are then employed to explore alternative topologies and branch lengths. These candidate trees serve as the basis for Maximum Likelihood (ML) computations, which statistically estimate the most likely topology and branch lengths to produce the final phylogenetic tree.
 
+Finally, the workflow utilizes the Midpoint Rooting (MPR) method [@farris1972estimating], implemented in the [scikit bio](https://scikit.bio/docs/latest/generated/skbio.tree.TreeNode.root_at_midpoint.html#skbio.tree.TreeNode.root_at_midpoint) package, to restructure the tree and determine the root.
+
 ### Computation of core matrices
 
 ### Computation of evolutional matrices
