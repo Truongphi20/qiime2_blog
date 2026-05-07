@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import skbio
 import sklearn.metrics
+import skbio.diversity
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/beta.py:187
 def jaccard(table: biom.Table, n_jobs: int = 1) -> skbio.DistanceMatrix:
