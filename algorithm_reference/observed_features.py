@@ -1,15 +1,13 @@
 import biom
 import pandas as pd
-import skbio
 import numpy as np
-import functools
 
 # Reference: /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/alpha.py:92
 def _skbio_alpha_diversity_from_1d(v):
     # alpha_diversity expects a 2d structure
     v = np.reshape(v, (1, len(v)))
 
-    results = pd.Series([skbio.diversity.alpha.observed_features(c) for c in v], index=['placeholder', ])
+    results = pd.Series([c.sum() for c in v], index=['placeholder', ])
     return results.iloc[0]
 
 # Reference: /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/alpha.py:103
