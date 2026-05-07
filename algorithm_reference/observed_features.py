@@ -2,16 +2,17 @@ import biom
 import pandas as pd
 import skbio
 import numpy as np
+import functools
 
-def _skbio_alpha_diversity_from_1d(v, metric):
+# Reference: /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/alpha.py:92
+def _skbio_alpha_diversity_from_1d(v):
     # alpha_diversity expects a 2d structure
     v = np.reshape(v, (1, len(v)))
-    result = skbio.diversity.alpha_diversity(metric=metric,
-                                             counts=v,
-                                             ids=['placeholder', ],
-                                             validate=False)
-    return result.iloc[0]
 
+    results = pd.Series([skbio.diversity.alpha.observed_features(c) for c in v], index=['placeholder', ])
+    return results.iloc[0]
+
+# Reference: /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/alpha.py:103
 def observed_features(table: biom.Table) -> pd.Series:
     # Convert the table to presence/absence data
     presence_absence_table = table.pa(inplace=False)
@@ -19,8 +20,7 @@ def observed_features(table: biom.Table) -> pd.Series:
     results = []
     # Loop through each sample
     for v in presence_absence_table.iter_data():          
-        results.append(_skbio_alpha_diversity_from_1d(v.astype(int),
-                                                      'observed_otus'))
+        results.append(_skbio_alpha_diversity_from_1d(v.astype(int)))
     
     results = pd.Series(results, index=table.ids(), name='observed_features')
     return results
