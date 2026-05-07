@@ -8,23 +8,28 @@ def _shannon(counts, base=2):
     nonzero_freqs = freqs[freqs.nonzero()]
     return -(nonzero_freqs * np.log(nonzero_freqs)).sum() / np.log(base)
 
-# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/alpha.py:136
-def shannon_entropy(table: biom.Table,
-                    drop_undefined_samples: bool = False,
-                    base: float = 2) -> pd.Series:
-    if base == 'e':
-        base = np.e
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/skbio/_methods.py:69
+def _p_evenness(counts):
+    return _shannon(counts, base=np.e) / np.log(np.count_nonzero(counts))
 
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/alpha.py:114
+def pielou_evenness(table: biom.Table,
+                    drop_undefined_samples: bool = False) -> pd.Series:
     if drop_undefined_samples:
-        table = table.remove_empty(inplace=False)
+        def transform_(v, i, m):
+            if (v > 0).sum() < 2:
+                return np.zeros(len(v))
+            else:
+                return v
+
+        table = table.transform(transform_, inplace=False).remove_empty()
 
     results = []
     for v in table.iter_data(dense=True):
         v = np.reshape(v, (1, len(v)))
-        results.extend([_shannon(c, base=base)for c in v])
-    results = pd.Series(results, index=table.ids(), name='shannon_entropy')
+        results.extend([_p_evenness(c)for c in v])
+    results = pd.Series(results, index=table.ids(), name='pielou_evenness')
     return results
-
 
 
 if __name__ == "__main__":
@@ -36,5 +41,5 @@ if __name__ == "__main__":
         table = biom.Table.from_tsv(f, None, None, lambda x: x)
 
     # Compute
-    results = shannon_entropy(table)
+    results = pielou_evenness(table)
     print(results)

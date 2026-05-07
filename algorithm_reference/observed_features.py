@@ -28,7 +28,7 @@ def observed_features(table: biom.Table) -> pd.Series:
 
 
 if __name__ == "__main__":
-    # Mini table (10 ASVs x 10 samples) extracted from the "table.qza" of DADA2 output 
+    # Mini table (10 ASVs x 11 samples) extracted from the "table.qza" of DADA2 output 
     table_path = "/workspaces/qiime2_blog/support_data/mini-feature-table.tsv"
 
     # Read table
