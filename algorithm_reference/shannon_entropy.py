@@ -20,8 +20,6 @@ def shannon_entropy(table: biom.Table,
 
     results = []
     for v in table.iter_data(dense=True):
-        # using in-house metrics temporarily
-        # results.append(_skbio_alpha_diversity_from_1d(v, 'shannon'))
         v = np.reshape(v, (1, len(v)))
         results.extend([_shannon(c, base=base)for c in v])
     results = pd.Series(results, index=table.ids(), name='shannon_entropy')
