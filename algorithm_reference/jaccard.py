@@ -1,18 +1,13 @@
 import biom
 import pandas as pd
 import numpy as np
-import skbio
-from skbio.stats.distance import DistanceMatrix
 from scipy.spatial.distance import _METRIC_ALIAS
-from scipy._lib._util import _asarray_validated
 
 import sys
 sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:1864
 def pdist(X, metric='euclidean', *, out=None, **kwargs):
-    X = _asarray_validated(X, sparse_ok=False, objects_ok=True, mask_ok=True,
-                           check_finite=False)
     s = X.shape
     m, n = s
     mstr = metric.lower()
@@ -75,10 +70,10 @@ def pairwise_distances(X, Y=None, metric="euclidean", *, n_jobs=None, force_all_
 def beta_diversity(metric, counts, ids=None, pairwise_func=None):
     counts = (counts > 0.0)
     distances = pairwise_func(counts, metric=metric)
-    return DistanceMatrix(distances, ids)
+    return pd.DataFrame(distances, columns=ids, index=ids)
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/beta.py:187
-def jaccard(table: biom.Table, n_jobs: int = 1) -> skbio.DistanceMatrix:
+def jaccard(table: biom.Table, n_jobs: int = 1) -> pd.DataFrame:
     counts = table.matrix_data.toarray().T.copy()
     sample_ids = table.ids(axis='sample')
     jaccard_table = beta_diversity(
@@ -87,7 +82,7 @@ def jaccard(table: biom.Table, n_jobs: int = 1) -> skbio.DistanceMatrix:
             ids=sample_ids,
             pairwise_func=pairwise_distances
     )
-    return jaccard_table.to_data_frame()
+    return jaccard_table
 
 if __name__ == "__main__":
     # Mini table (10 ASVs x 11 samples) extracted from the "table.qza" of DADA2 output 
