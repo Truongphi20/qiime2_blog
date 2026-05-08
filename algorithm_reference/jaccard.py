@@ -2,13 +2,13 @@ import biom
 import pandas as pd
 import numpy as np
 import skbio
-import sklearn.metrics
-from sklearn.utils.validation import check_array
 from skbio.stats.distance import DistanceMatrix
-from scipy.spatial import distance
-from scipy.spatial import _distance_wrap
 from scipy.spatial.distance import _METRIC_ALIAS
 from scipy._lib._util import _asarray_validated
+
+import sys
+sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
+import _distance_wrap # type: ignore
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:1864
 def pdist(X, metric='euclidean', *, out=None, **kwargs):
@@ -20,6 +20,10 @@ def pdist(X, metric='euclidean', *, out=None, **kwargs):
     metric_info = _METRIC_ALIAS.get(mstr, None)
     pdist_fn = metric_info.pdist_func
     return pdist_fn(X, out=out, **kwargs)
+
+# commands/scipy_7dcd8c5_src/distance_impl.h:706
+def dist_to_squareform_from_vector_double(M: np.array, X: np.array):
+    pass
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:2196
 def squareform(X, force="no", checks=True):
@@ -36,6 +40,7 @@ def squareform(X, force="no", checks=True):
 
     # Fill in the values of the distance matrix.
     _distance_wrap.to_squareform_from_vector_wrap(M, X)
+    # dist_to_squareform_from_vector_double(M, X)
 
     # Return the distance matrix.
     return M
