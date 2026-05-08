@@ -49,6 +49,10 @@ def squareform(X, force="no", checks=True):
     # Return the distance matrix.
     return M
 
+# commands/scipy_7dcd8c5_src/distance_pybind.cpp:485
+def pdist_jaccard(X: np.array):
+    pass
+
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/sklearn/metrics/pairwise.py:2168
 def pairwise_distances(X, Y=None, metric="euclidean", *, n_jobs=None, force_all_finite=True, **kwds):
