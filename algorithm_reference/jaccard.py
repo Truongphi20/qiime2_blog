@@ -8,7 +8,6 @@ from scipy._lib._util import _asarray_validated
 
 import sys
 sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
-import _distance_wrap # type: ignore
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:1864
 def pdist(X, metric='euclidean', *, out=None, **kwargs):
@@ -22,8 +21,28 @@ def pdist(X, metric='euclidean', *, out=None, **kwargs):
     return pdist_fn(X, out=out, **kwargs)
 
 # commands/scipy_7dcd8c5_src/distance_impl.h:706
-def dist_to_squareform_from_vector_double(M: np.array, X: np.array):
-    pass
+def dist_to_squareform_from_vector_double(M_flat, X, d):
+    # it1 is the start of the horizontal fill (diagonal + 1)
+    # v is the index into our source vector X
+    v = 0
+    
+    for i in range(1, d):
+        # 1. The Horizontal Fill (memcpy equivalent)
+        # C code: memcpy(it1, v, (n - i) * sizeof(double))
+        it1 = (i - 1) * d + i 
+        length = d - i
+        M_flat[it1 : it1 + length] = X[v : v + length]
+        
+        # 2. The Vertical Fill (Symmetry)
+        # C code: it2 = M + i * (n + 1) - 1
+        it2 = i * (d + 1) - 1
+        
+        for j in range(i, d):
+            M_flat[it2] = X[v] # Mirror the single value
+            v += 1             # Move the source pointer
+            it2 += d           # Jump down one row (same column)
+
+    return M_flat.reshape(d, d)
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:2196
 def squareform(X, force="no", checks=True):
@@ -36,11 +55,10 @@ def squareform(X, force="no", checks=True):
     d = int(np.ceil(np.sqrt(s[0] * 2)))
 
     # Allocate memory for the distance matrix.
-    M = np.zeros((d, d), dtype=X.dtype)
+    M = np.zeros(d**2, dtype=X.dtype)
 
     # Fill in the values of the distance matrix.
-    _distance_wrap.to_squareform_from_vector_wrap(M, X)
-    # dist_to_squareform_from_vector_double(M, X)
+    M = dist_to_squareform_from_vector_double(M, X, d)
 
     # Return the distance matrix.
     return M
