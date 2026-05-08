@@ -1,19 +1,10 @@
 import biom
 import pandas as pd
 import numpy as np
-from scipy.spatial.distance import _METRIC_ALIAS
 
 import sys
 sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
-
-# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:1864
-def pdist(X, metric='euclidean', *, out=None, **kwargs):
-    s = X.shape
-    m, n = s
-    mstr = metric.lower()
-    metric_info = _METRIC_ALIAS.get(mstr, None)
-    pdist_fn = metric_info.pdist_func
-    return pdist_fn(X, out=out, **kwargs)
+import _distance_pybind
 
 # commands/scipy_7dcd8c5_src/distance_impl.h:706
 def dist_to_squareform_from_vector_double(M_flat, X, d):
@@ -64,7 +55,9 @@ def pairwise_distances(X, Y=None, metric="euclidean", *, n_jobs=None, force_all_
     # precompute data-derived metric params
     params = {}
     kwds.update(**params)
-    return squareform(pdist(X, metric=metric, **kwds))
+    return squareform(
+        _distance_pybind.pdist_jaccard(X)
+    )
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(metric, counts, ids=None, pairwise_func=None):
