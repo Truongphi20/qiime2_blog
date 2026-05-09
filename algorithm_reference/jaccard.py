@@ -51,7 +51,7 @@ def jaccard_distance(u, v):
 
 # commands/scipy_7dcd8c5_src/distance_pybind.cpp:485
 def pdist_jaccard(X: np.array):
-    X = np.asanyarray(X).astype(bool)
+    
     n = X.shape[0]
     
     # Calculate the size of the condensed distance matrix: nC2
