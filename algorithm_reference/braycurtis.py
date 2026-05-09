@@ -4,8 +4,27 @@ import numpy as np
 
 import sys
 sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
-import _distance_wrap
 import _distance_pybind
+
+# commands/scipy_7dcd8c5_src/distance_impl.h:706
+def dist_to_squareform_from_vector_double(M_flat, X, d):
+    v = 0
+    
+    for i in range(1, d):
+        # The Horizontal Fill
+        it1 = (i - 1) * d + i 
+        length = d - i
+        M_flat[it1 : it1 + length] = X[v : v + length]
+        
+        # The Vertical Fill (Symmetry)
+        it2 = i * (d + 1) - 1
+        
+        for _ in range(i, d):
+            M_flat[it2] = X[v]
+            v += 1
+            it2 += d 
+
+    return M_flat.reshape(d, d)
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:2196
 def squareform(X):
@@ -17,10 +36,10 @@ def squareform(X):
     d = int(np.ceil(np.sqrt(s[0] * 2)))
 
     # Allocate memory for the distance matrix.
-    M = np.zeros((d, d), dtype=X.dtype)
+    M = np.zeros(d**2, dtype=X.dtype)
     
     # Fill in the values of the distance matrix.
-    _distance_wrap.to_squareform_from_vector_wrap(M, X)
+    M = dist_to_squareform_from_vector_double(M, X, d)
 
     return M
 
