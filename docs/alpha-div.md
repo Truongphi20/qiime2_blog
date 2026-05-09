@@ -52,8 +52,8 @@ Before computing core matrices, the abundance table is subsampled (rarefied) to 
 
 | Matrix name |  Meaning   |   Calculation method   |    References   |
 | :---------  | :--------- | :-------------------   |:---------------:|
-| observed feature | Measure the presence of microbial member in sample | Count the number of existed ASVs in each samples ([observed_features.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/observed_features.py))   | [@olsonFrameworkAssessing16S2020] |
-| shannon entropy  |       |                        | [@shannon1948mathematical] |
+| observed feature | Measure the presence of ecological member in sample | Count the number of existed type of ASVs in each samples ([observed_features.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/observed_features.py))   | [@olsonFrameworkAssessing16S2020] |
+| shannon entropy  | Measure the complexity level of ecology in each sample  | $S = \sum{p \times log_2(p) }$, ([shannon_entropy.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/shannon_entropy.py))  | [@shannon1948mathematical] |
 | pielou evenness  |       |                        |                 |
 | jaccard          |       |                        |                 |
 | bray curtis      |       |                        |                 |
