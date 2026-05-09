@@ -10,13 +10,9 @@ def _shannon(counts, base=2):
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/alpha.py:136
 def shannon_entropy(table: biom.Table,
-                    drop_undefined_samples: bool = False,
                     base: float = 2) -> pd.Series:
     if base == 'e':
         base = np.e
-
-    if drop_undefined_samples:
-        table = table.remove_empty(inplace=False)
 
     results = []
     for v in table.iter_data(dense=True):
