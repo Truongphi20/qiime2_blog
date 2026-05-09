@@ -50,22 +50,22 @@ Finally, the workflow utilizes the Midpoint Rooting (MPR) method [@farris1972est
 
 Before computing core matrices, the abundance table is subsampled (rarefied) to ensure the total number of sequences across all ASVs in each sample is exactly 1103 (`--p-sampling-depth`). Samples are discarded if their total sequence count is below this threshold.
 
-The sample table coming from DADA2, containing 678 ASVs $\times$ 31 samples, is used to calculate core matrices:
-  - **Alpha matrices:** Measure diversity in each sample (*observed feature, shannon entropy, pielou evenness*)
-  - **Beta matrices:** Compute distance matrices, distance between pairs of samples (*jaccard, bray curtis*)
+The resulting feature table (678 ASVs $\times$ 31 samples) is used to calculate core matrices:
+  - **Alpha matrices:** Measure diversity within individual samples (*observed feature, shannon entropy, pielou evenness*)
+  - **Beta matrices:** Compute dissimilarity matrices, containing distance between pairs of samples (*jaccard, bray curtis*)
 
 | Matrix name |  Meaning   |   Calculation method   |    References   |
 | :---------  | :--------- | :-------------------   |:---------------|
-| observed feature | Measure the **presence** of ecological member in sample | $O = n$ <br> ([observed_features.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/observed_features.py))   |  |
-| shannon entropy  | Measure the **complexity level** of ecology in each sample  | $S = \sum{p_i \times log_2(p_i) }$, ([shannon_entropy.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/shannon_entropy.py))  | [@shannon1948mathematical] |
-| pielou evenness  | Measure both the **complexity level and ecological presence** in each sample      | $P = \sum{p_i \times log_{n}(p_i) }$, ([pielou_evenness.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/pielou_evenness.py))      |    [@pielou1966measurement] |
-| jaccard          | Compute dissimilarity of **ecological presence** accross pairs of samples        |  See [the method](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jaccard.html),  <br> ([jaccard.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/jaccard.py))                     | [@jaccard1908nouvelles]    |
-| bray curtis      |  Compute dissimilarity of **number of each ecological member** accross pairs of samples  |  See [the method](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html), <br> ([braycurtis.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/braycurtis.py))    | [@bray1957ordination]      |
+| observed feature | Measures the **richness** (count) of unique ASVs present. | $S_{\text{obs}} = n$ <br> ([observed_features.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/observed_features.py))   |  |
+| shannon entropy  | Measures the **complexity** in each sample  | $S = -\sum{p_i \times log_2(p_i) }$, ([shannon_entropy.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/shannon_entropy.py))  | [@shannon1948mathematical] |
+| pielou evenness  | Measures the **complexity distribution** in each sample      | $J = -\sum p_i \times \log_n(p_i)$, ([pielou_evenness.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/pielou_evenness.py))      |    [@pielou1966measurement] |
+| jaccard          | Computes dissimilarity of **richness** accross pairs of samples        |  See [the method](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jaccard.html),  <br> ([jaccard.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/jaccard.py))                     | [@jaccard1908nouvelles]    |
+| bray curtis      |  Computes dissimilarity of **abundance distribution** accross pairs of samples  |  See [the method](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html), <br> ([braycurtis.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/braycurtis.py))    | [@bray1957ordination]      |
 
 Note: 
 
-- $p_i$ is propability of $\text{ASV}_i$ in the sample 
-- $n$ is the number of existed type of ASVs in the sample  
+- $p_i$: The relative abundance (probability) of $\text{ASV}_i$, where $p_i = \frac{\text{count}_i}{\text{total count}}$.
+- $n$: The total number of observed ASVs in the sample.  
 
 ### Computation of evolutional matrices
 
