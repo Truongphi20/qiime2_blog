@@ -63,24 +63,15 @@ def pdist_braycurtis(X: np.array):
             
     return dm
 
-# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/sklearn/metrics/pairwise.py:2168
-def pairwise_distances(X):    
-    return squareform(pdist_braycurtis(X))
-
-# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
-def beta_diversity(counts, ids=None, pairwise_func=None):
-    distances = pairwise_func(counts)
-    return pd.DataFrame(distances, columns=ids, index=ids)
-
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/beta.py:172
 def bray_curtis(table: biom.Table):
     counts = table.matrix_data.toarray().T.copy()
     sample_ids = table.ids(axis='sample')
-    return beta_diversity(
-        counts=counts,
-        ids=sample_ids,
-        pairwise_func=pairwise_distances
-    )
+
+    distances = squareform(pdist_braycurtis(counts))
+    beta_diversity = pd.DataFrame(distances, columns=sample_ids, index=sample_ids)
+
+    return beta_diversity
 
 
 if __name__ == "__main__":
