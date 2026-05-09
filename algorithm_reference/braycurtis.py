@@ -3,14 +3,14 @@ import pandas as pd
 import numpy as np
 import skbio
 from skbio.stats.distance import DistanceMatrix
-from scipy.spatial.distance import _METRIC_ALIAS
 
 import sys
 sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
 import _distance_wrap
+import _distance_pybind
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:2196
-def squareform(X, force="no", checks=True):
+def squareform(X):
     s = X.shape
 
     # Grab the closest value to the square root of the number
@@ -26,34 +26,23 @@ def squareform(X, force="no", checks=True):
 
     return M
 
-# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:1864
-def pdist(X, metric='euclidean', *, out=None, **kwargs):
-    mstr = metric.lower()
-    metric_info = _METRIC_ALIAS.get(mstr, None)
-    pdist_fn = metric_info.pdist_func
-
-    return pdist_fn(X, out=out, **kwargs)
-
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/sklearn/metrics/pairwise.py:2168
-def pairwise_distances(X, Y=None, metric="euclidean", *, n_jobs=None, force_all_finite=True, **kwds):    
-    return squareform(pdist(X, metric=metric, **kwds))
+def pairwise_distances(X):    
+    return squareform(_distance_pybind.pdist_braycurtis(X))
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
-def beta_diversity(metric, counts, ids=None, validate=True, pairwise_func=None, **kwargs):
-    distances = pairwise_func(counts, metric=metric, **kwargs)
+def beta_diversity(counts, ids=None, pairwise_func=None):
+    distances = pairwise_func(counts)
     return DistanceMatrix(distances, ids)
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/beta.py:172
-def bray_curtis(table: biom.Table, n_jobs: int = 1) -> skbio.DistanceMatrix:
+def bray_curtis(table: biom.Table) -> skbio.DistanceMatrix:
     counts = table.matrix_data.toarray().T.copy()
     sample_ids = table.ids(axis='sample')
     return beta_diversity(
-        metric='braycurtis',
         counts=counts,
         ids=sample_ids,
-        validate=False,
-        pairwise_func=pairwise_distances,
-        n_jobs=n_jobs
+        pairwise_func=pairwise_distances
     ).to_data_frame()
 
 
