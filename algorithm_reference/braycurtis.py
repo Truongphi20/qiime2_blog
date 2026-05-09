@@ -2,13 +2,19 @@ import biom
 import pandas as pd
 import numpy as np
 import skbio
-import sklearn.metrics
 from skbio.stats.distance import DistanceMatrix
+from scipy.spatial import distance
 
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/sklearn/metrics/pairwise.py:2168
+def pairwise_distances(X, Y=None, metric="euclidean", *, n_jobs=None, force_all_finite=True, **kwds):    
+    return distance.squareform(distance.pdist(X, metric=metric, **kwds))
+
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(metric, counts, ids=None, validate=True, pairwise_func=None, **kwargs):
     distances = pairwise_func(counts, metric=metric, **kwargs)
     return DistanceMatrix(distances, ids)
 
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/beta.py:172
 def bray_curtis(table: biom.Table, n_jobs: int = 1) -> skbio.DistanceMatrix:
     counts = table.matrix_data.toarray().T.copy()
     sample_ids = table.ids(axis='sample')
@@ -17,7 +23,7 @@ def bray_curtis(table: biom.Table, n_jobs: int = 1) -> skbio.DistanceMatrix:
         counts=counts,
         ids=sample_ids,
         validate=False,
-        pairwise_func=sklearn.metrics.pairwise_distances,
+        pairwise_func=pairwise_distances,
         n_jobs=n_jobs
     ).to_data_frame()
 
