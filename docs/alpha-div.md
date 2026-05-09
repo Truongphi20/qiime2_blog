@@ -50,6 +50,14 @@ Finally, the workflow utilizes the Midpoint Rooting (MPR) method [@farris1972est
 
 Before computing core matrices, the abundance table is subsampled (rarefied) to ensure the total number of sequences across all ASVs in each sample is exactly 1103 (`--p-sampling-depth`). Samples are discarded if their total sequence count is below this threshold.
 
+| Matrix name |  Meaning   |   Calculation method   |    References   |
+| :---------  | :--------- | :-------------------   |:---------------:|
+| observed feature |       |                        |                 |
+| shannon entropy  |       |                        |                 |
+| pielou evenness  |       |                        |                 |
+| jaccard          |       |                        |                 |
+| bray curtis      |       |                        |                 |
+
 ### Computation of evolutional matrices
 
 
