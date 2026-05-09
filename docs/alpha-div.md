@@ -60,7 +60,7 @@ The resulting feature table (678 ASVs $\times$ 31 samples) is used to calculate 
 | shannon entropy  | Measures the **complexity** in each sample  | $S = -\sum{p_i \times log_2(p_i) }$, ([shannon_entropy.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/shannon_entropy.py))  | [@shannon1948mathematical] |
 | pielou evenness  | Measures the **complexity distribution** in each sample      | $J = -\sum p_i \times \log_n(p_i)$, ([pielou_evenness.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/pielou_evenness.py))      |    [@pielou1966measurement] |
 | jaccard          | Computes dissimilarity of **richness** accross pairs of samples        |  See [the method](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jaccard.html),  <br> ([jaccard.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/jaccard.py))                     | [@jaccard1908nouvelles]    |
-| bray curtis      |  Computes dissimilarity of **abundance distribution** accross pairs of samples  |  See [the method](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html), <br> ([braycurtis.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/braycurtis.py))    | [@bray1957ordination]      |
+| bray curtis      |  Computes dissimilarity of **relative abundance distribution** accross pairs of samples  |  See [the method](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html), <br> ([braycurtis.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/braycurtis.py))    | [@bray1957ordination]      |
 
 Note: 
 
