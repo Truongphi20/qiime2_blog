@@ -2,10 +2,6 @@ import biom
 import pandas as pd
 import numpy as np
 
-import sys
-sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
-import _distance_pybind
-
 # commands/scipy_7dcd8c5_src/distance_impl.h:706
 def dist_to_squareform_from_vector_double(M_flat, X, d):
     v = 0
@@ -43,9 +39,33 @@ def squareform(X):
 
     return M
 
+def braycurtis(u: np.array, v:np.array):
+    # https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html
+
+    num = np.abs(u-v).sum()
+    denom = np.abs(u+v).sum()
+
+    return num/denom
+
+def pdist_braycurtis(X: np.array):
+
+    n = X.shape[0]
+
+    # Calculate the size of the condensed distance matrix: nC2
+    out_size = n * (n - 1) // 2
+    dm = np.zeros(out_size, dtype=np.double)
+    
+    k = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            dm[k] = braycurtis(X[i], X[j])
+            k += 1
+            
+    return dm
+
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/sklearn/metrics/pairwise.py:2168
 def pairwise_distances(X):    
-    return squareform(_distance_pybind.pdist_braycurtis(X))
+    return squareform(pdist_braycurtis(X))
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(counts, ids=None, pairwise_func=None):
