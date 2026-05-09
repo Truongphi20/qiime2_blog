@@ -2,31 +2,23 @@ import biom
 import pandas as pd
 import numpy as np
 
-import sys
-sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
-import _distance_pybind
-
 # commands/scipy_7dcd8c5_src/distance_impl.h:706
 def dist_to_squareform_from_vector_double(M_flat, X, d):
-    # it1 is the start of the horizontal fill (diagonal + 1)
-    # v is the index into our source vector X
     v = 0
     
     for i in range(1, d):
-        # 1. The Horizontal Fill (memcpy equivalent)
-        # C code: memcpy(it1, v, (n - i) * sizeof(double))
+        # The Horizontal Fill
         it1 = (i - 1) * d + i 
         length = d - i
         M_flat[it1 : it1 + length] = X[v : v + length]
         
-        # 2. The Vertical Fill (Symmetry)
-        # C code: it2 = M + i * (n + 1) - 1
+        # The Vertical Fill (Symmetry)
         it2 = i * (d + 1) - 1
         
-        for j in range(i, d):
-            M_flat[it2] = X[v] # Mirror the single value
-            v += 1             # Move the source pointer
-            it2 += d           # Jump down one row (same column)
+        for _ in range(i, d):
+            M_flat[it2] = X[v]
+            v += 1
+            it2 += d 
 
     return M_flat.reshape(d, d)
 
@@ -49,9 +41,31 @@ def squareform(X, force="no", checks=True):
     # Return the distance matrix.
     return M
 
+def jaccard_distance(u, v):
+    # https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jaccard.html
+    
+    num = np.sum((u != v) & (u | v))
+    denom = np.sum(u | v)
+    
+    # Return 0 if both vectors are all zeros
+    return num / denom if denom != 0 else 0.0
+
 # commands/scipy_7dcd8c5_src/distance_pybind.cpp:485
 def pdist_jaccard(X: np.array):
-    pass
+    X = np.asanyarray(X).astype(bool)
+    n = X.shape[0]
+    
+    # Calculate the size of the condensed distance matrix: nC2
+    out_size = n * (n - 1) // 2
+    dm = np.zeros(out_size, dtype=np.double)
+    
+    k = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            dm[k] = jaccard_distance(X[i], X[j])
+            k += 1
+            
+    return dm
 
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/sklearn/metrics/pairwise.py:2168
@@ -60,7 +74,7 @@ def pairwise_distances(X, Y=None, metric="euclidean", *, n_jobs=None, force_all_
     params = {}
     kwds.update(**params)
     return squareform(
-        _distance_pybind.pdist_jaccard(X)
+        pdist_jaccard(X)
     )
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
