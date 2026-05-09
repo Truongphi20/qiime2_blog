@@ -10,7 +10,7 @@ def _shannon(counts, base=2):
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/skbio/_methods.py:69
 def _p_evenness(counts):
-    return _shannon(counts, base=np.e) / np.log(np.count_nonzero(counts))
+    return _shannon(counts, base=np.count_nonzero(counts))
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/alpha.py:114
 def pielou_evenness(table: biom.Table) -> pd.Series:
