@@ -2,12 +2,17 @@ import biom
 import pandas as pd
 import numpy as np
 import skbio
-import skbio.diversity, sklearn.metrics
+import sklearn.metrics
+from skbio.stats.distance import DistanceMatrix
+
+def beta_diversity(metric, counts, ids=None, validate=True, pairwise_func=None, **kwargs):
+    distances = pairwise_func(counts, metric=metric, **kwargs)
+    return DistanceMatrix(distances, ids)
 
 def bray_curtis(table: biom.Table, n_jobs: int = 1) -> skbio.DistanceMatrix:
     counts = table.matrix_data.toarray().T.copy()
     sample_ids = table.ids(axis='sample')
-    return skbio.diversity.beta_diversity(
+    return beta_diversity(
         metric='braycurtis',
         counts=counts,
         ids=sample_ids,
