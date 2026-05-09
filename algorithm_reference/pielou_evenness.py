@@ -13,16 +13,7 @@ def _p_evenness(counts):
     return _shannon(counts, base=np.e) / np.log(np.count_nonzero(counts))
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/alpha.py:114
-def pielou_evenness(table: biom.Table,
-                    drop_undefined_samples: bool = False) -> pd.Series:
-    if drop_undefined_samples:
-        def transform_(v, i, m):
-            if (v > 0).sum() < 2:
-                return np.zeros(len(v))
-            else:
-                return v
-
-        table = table.transform(transform_, inplace=False).remove_empty()
+def pielou_evenness(table: biom.Table) -> pd.Series:
 
     results = []
     for v in table.iter_data(dense=True):
