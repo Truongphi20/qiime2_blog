@@ -1,8 +1,6 @@
 import biom
 import pandas as pd
 import numpy as np
-import skbio
-from skbio.stats.distance import DistanceMatrix
 
 import sys
 sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
@@ -33,17 +31,17 @@ def pairwise_distances(X):
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(counts, ids=None, pairwise_func=None):
     distances = pairwise_func(counts)
-    return DistanceMatrix(distances, ids)
+    return pd.DataFrame(distances, columns=ids, index=ids)
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/beta.py:172
-def bray_curtis(table: biom.Table) -> skbio.DistanceMatrix:
+def bray_curtis(table: biom.Table):
     counts = table.matrix_data.toarray().T.copy()
     sample_ids = table.ids(axis='sample')
     return beta_diversity(
         counts=counts,
         ids=sample_ids,
         pairwise_func=pairwise_distances
-    ).to_data_frame()
+    )
 
 
 if __name__ == "__main__":
