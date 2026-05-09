@@ -24,7 +24,6 @@ def dist_to_squareform_from_vector_double(M_flat, X, d):
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:2196
 def squareform(X, force="no", checks=True):
-    X = np.ascontiguousarray(X)
     s = X.shape
 
     # Grab the closest value to the square root of the number
@@ -67,32 +66,15 @@ def pdist_jaccard(X: np.array):
             
     return dm
 
-
-# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/sklearn/metrics/pairwise.py:2168
-def pairwise_distances(X, Y=None, metric="euclidean", *, n_jobs=None, force_all_finite=True, **kwds):
-    # precompute data-derived metric params
-    params = {}
-    kwds.update(**params)
-    return squareform(
-        pdist_jaccard(X)
-    )
-
-# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
-def beta_diversity(metric, counts, ids=None, pairwise_func=None):
-    counts = (counts > 0.0)
-    distances = pairwise_func(counts, metric=metric)
-    return pd.DataFrame(distances, columns=ids, index=ids)
-
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/q2_diversity_lib/beta.py:187
 def jaccard(table: biom.Table, n_jobs: int = 1) -> pd.DataFrame:
     counts = table.matrix_data.toarray().T.copy()
     sample_ids = table.ids(axis='sample')
-    jaccard_table = beta_diversity(
-            metric='jaccard', 
-            counts=counts, 
-            ids=sample_ids,
-            pairwise_func=pairwise_distances
-    )
+    
+    counts = (counts > 0.0)
+    distances = squareform(pdist_jaccard(counts))
+
+    jaccard_table = pd.DataFrame(distances, columns=sample_ids, index=sample_ids)
     return jaccard_table
 
 if __name__ == "__main__":
