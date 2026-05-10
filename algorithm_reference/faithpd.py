@@ -2,11 +2,16 @@ import biom
 import skbio
 from skbio.diversity import alpha
 from skbio.diversity.alpha import _pd
+from skbio.diversity import _util
 import pandas as pd
 import numpy as np
 
+def _setup_pd(counts, taxa, tree, validate, rooted, single_sample):
+    counts_by_node, _, branch_lengths = _util._vectorize_counts_and_tree(counts, taxa, tree)
+    return counts_by_node, branch_lengths
+
 def faith_pd(counts, taxa=None, tree=None, validate=True, otu_ids=None):
-    counts_by_node, branch_lengths = _pd._setup_pd(
+    counts_by_node, branch_lengths = _setup_pd(
         counts, taxa, tree, validate, rooted=True, single_sample=True
     )
 
