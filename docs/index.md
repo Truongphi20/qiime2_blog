@@ -30,6 +30,6 @@ The practiced method to complile context for this blog can be found in [Metholog
 
 I am not a member of the QIIME 2 core development team, just a curious bioinformatician wanting to understand what happens under the hood. I’ve written this blog as a reference for my future self and for anyone else sharing this curiosity. 
 
-I greatly appreciate any contributions. If you have any questions, feel free to create an issue to discuss or open a pull request for any necessary changes.  
+I greatly appreciate any contributions. If you have any questions, feel free to [create an issue](https://github.com/Truongphi20/qiime2_blog/issues/new) to discuss or open a pull request for any necessary changes.  
 
 :::
