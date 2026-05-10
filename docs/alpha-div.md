@@ -57,14 +57,14 @@ The resulting feature table (678 ASVs $\times$ 31 samples) is used to calculate 
 | Matrix name |  Meaning   |   Calculation method   |    References   |
 | :---------  | :--------- | :-------------------   |:---------------|
 | observed feature | Measures the **richness** (count) of unique ASVs present. | $S_{\text{obs}} = n$ <br> ([observed_features.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/observed_features.py))   |  |
-| shannon entropy  | Measures the **complexity** in each sample  | $S = -\sum{p_i \times log_2(p_i) }$, ([shannon_entropy.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/shannon_entropy.py))  | [@shannon1948mathematical] |
-| pielou evenness  | Measures the **complexity distribution** in each sample      | $J = -\sum p_i \times \log_n(p_i)$, ([pielou_evenness.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/pielou_evenness.py))      |    [@pielou1966measurement] |
-| jaccard          | Computes dissimilarity of **richness** accross pairs of samples        |  See [the method](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jaccard.html),  <br> ([jaccard.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/jaccard.py))                     | [@jaccard1908nouvelles]    |
-| bray curtis      |  Computes dissimilarity of **relative abundance distribution** accross pairs of samples  |  See [the method](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html), <br> ([braycurtis.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/braycurtis.py))    | [@bray1957ordination]      |
+| shannon entropy  | Measures the **complexity** in each sample  | $H = -\sum{p_i \times log_2(p_i) }$, ([shannon_entropy.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/shannon_entropy.py))  | [@shannon1948mathematical] |
+| pielou evenness  | Measures the **normalized complexity** (evenness of abundance) in each sample      | $J = -\sum p_i \times \log_n(p_i)$, ([pielou_evenness.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/pielou_evenness.py))      |    [@pielou1966measurement] |
+| jaccard          | Computes dissimilarity of **richness** across pairs of samples        |  See [the method](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jaccard.html),  <br> ([jaccard.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/jaccard.py))                     | [@jaccard1908nouvelles]    |
+| bray curtis      |  Computes dissimilarity of **relative abundance distribution** across pairs of samples  |  See [the method](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html), <br> ([braycurtis.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/braycurtis.py))    | [@bray1957ordination]      |
 
 Note: 
 
-- $p_i$: The relative abundance (probability) of $\text{ASV}_i$, where $p_i = \frac{\text{count}_i}{\text{total count}}$.
+- $p_i$: The relative abundance (probability) of $\text{ASV}_i$ in a sample, where $p_i = \frac{\text{\#ASV}_i}{\text{\#total sequences}}$. (\#total_sequences is 1103)
 - $n$: The total number of observed ASVs in the sample.  
 
 ### Computation of evolutional matrices
