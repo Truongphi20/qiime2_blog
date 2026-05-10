@@ -2,7 +2,6 @@ import biom
 import skbio
 from skbio.diversity import beta_diversity
 from skbio.diversity.beta import _unifrac
-from skbio.stats.distance import DistanceMatrix
 import scipy
 import pandas as pd
 import numpy as np
