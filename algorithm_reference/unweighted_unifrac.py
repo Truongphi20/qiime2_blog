@@ -3,6 +3,7 @@ import skbio
 from skbio.diversity.beta import _unifrac
 import pandas as pd
 import numpy as np
+import functools
 
 import sys
 sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
@@ -37,11 +38,19 @@ def _pdist_callable(X, metric):
             k += 1
     return dm
 
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:506
+def _setup_multiple_unweighted_unifrac(counts, taxa, tree, validate):
+    counts_by_node, _, branch_lengths = _unifrac._setup_multiple_unifrac(
+        counts, taxa, tree, validate
+    )
+
+    f = functools.partial(_unifrac._unweighted_unifrac, branch_lengths=branch_lengths)
+    return f, counts_by_node 
+
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
-def beta_diversity(
-    metric, counts, ids, taxa, tree, validate=True
-):
-    metric, counts_by_node = _unifrac._setup_multiple_unweighted_unifrac(
+def beta_diversity(metric, counts, ids, taxa, tree, validate=True):
+    
+    metric, counts_by_node = _setup_multiple_unweighted_unifrac(
             counts, taxa=taxa, tree=tree, validate=validate
         )
     counts = counts_by_node
