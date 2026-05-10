@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 import sys
-sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
+sys.path.insert(0, "/workspaces/qiime2_blog/commands/scikit-bio-0.6.2")
 import _phylogenetic # type: ignore
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_util.py:186
