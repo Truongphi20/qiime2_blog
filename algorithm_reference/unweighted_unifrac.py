@@ -6,8 +6,9 @@ import numpy as np
 import functools
 
 import sys
-sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
+sys.path.extend(["/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src", "/workspaces/qiime2_blog/commands/scikit-bio-0.6.2"])
 import _distance_wrap # type: ignore
+import _phylogenetic # type: ignore
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/stats/distance/_base.py:47
 def squareform(X):
@@ -38,20 +39,41 @@ def _pdist_callable(X, metric):
             k += 1
     return dm
 
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_util.py:186
+def _vectorize_counts_and_tree(counts, taxa, tree):
+    tree_index = tree.to_array(nan_length_value=0.0)
+    taxa = np.asarray(taxa)
+    counts = np.atleast_2d(counts)
+    counts_by_node = _phylogenetic._nodes_by_counts(counts, taxa, tree_index)
+    branch_lengths = tree_index["length"]
+
+    # branch_lengths is just a reference to the array inside of tree_index,
+    # but it's used so much that it's convenient to just pull it out here.
+    return counts_by_node.T, tree_index, branch_lengths
+
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:495
+def _setup_multiple_unifrac(counts, taxa, tree):
+
+    counts_by_node, tree_index, branch_lengths = _vectorize_counts_and_tree(
+        counts, taxa, tree
+    )
+
+    return counts_by_node, tree_index, branch_lengths
+
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:506
-def _setup_multiple_unweighted_unifrac(counts, taxa, tree, validate):
-    counts_by_node, _, branch_lengths = _unifrac._setup_multiple_unifrac(
-        counts, taxa, tree, validate
+def _setup_multiple_unweighted_unifrac(counts, taxa, tree):
+    counts_by_node, _, branch_lengths = _setup_multiple_unifrac(
+        counts, taxa, tree
     )
 
     f = functools.partial(_unifrac._unweighted_unifrac, branch_lengths=branch_lengths)
     return f, counts_by_node 
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
-def beta_diversity(metric, counts, ids, taxa, tree, validate=True):
+def beta_diversity(metric, counts, ids, taxa, tree):
     
     metric, counts_by_node = _setup_multiple_unweighted_unifrac(
-            counts, taxa=taxa, tree=tree, validate=validate
+            counts, taxa=taxa, tree=tree
         )
     counts = counts_by_node
     
