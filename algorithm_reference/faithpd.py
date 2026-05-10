@@ -1,8 +1,16 @@
 import biom
 import skbio
 from skbio.diversity import alpha
+from skbio.diversity.alpha import _pd
 import pandas as pd
 import numpy as np
+
+def faith_pd(counts, taxa=None, tree=None, validate=True, otu_ids=None):
+    counts_by_node, branch_lengths = _pd._setup_pd(
+        counts, taxa, tree, validate, rooted=True, single_sample=True
+    )
+
+    return _pd._faith_pd(counts_by_node, branch_lengths)
 
 def calculate_faith_pd(table: biom.Table, tree: skbio.TreeNode):
     
@@ -17,7 +25,7 @@ def calculate_faith_pd(table: biom.Table, tree: skbio.TreeNode):
         sample_counts = counts[i]
         
         # Calculate the metric
-        result = alpha.faith_pd(sample_counts, otu_ids, tree)
+        result = faith_pd(sample_counts, otu_ids, tree)
         pd_results.append(result)
 
     return pd.Series(pd_results, index=sample_ids, name='faith_pd')
