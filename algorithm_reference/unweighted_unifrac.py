@@ -38,14 +38,6 @@ def _pdist_callable(X, metric):
             k += 1
     return dm
 
-
-# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:1864
-def pdist(X, metric='euclidean'):
-    s = X.shape
-    m, n = s
-
-    return _pdist_callable(X, metric=metric)
-
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(
     metric, counts, ids, taxa, tree, validate=True
@@ -55,7 +47,7 @@ def beta_diversity(
         )
     counts = counts_by_node
     
-    distances = pdist(counts, metric=metric)
+    distances = _pdist_callable(counts, metric=metric)
     data = squareform(distances)
 
     return pd.DataFrame(data, columns=ids, index=ids)
