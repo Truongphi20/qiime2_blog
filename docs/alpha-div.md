@@ -46,11 +46,13 @@ Using the MSA, FastTree v2.2.0 [@priceFastTree2Approximately2010] generates an i
 
 Finally, the workflow utilizes the Midpoint Rooting (MPR) method [@farris1972estimating], implemented in the [scikit bio](https://scikit.bio/docs/latest/generated/skbio.tree.TreeNode.root_at_midpoint.html#skbio.tree.TreeNode.root_at_midpoint) package, to restructure the tree and determine the root. The algorithmic implementation can be referenced in [MPR.py](https://github.com/Truongphi20/qiime2_blog/tree/main/algorithm_reference/MPR.py).
 
-### Computation of core matrices
+### Rarefaction
 
 Before computing core matrices, the abundance table is subsampled (rarefied) to ensure the total number of sequences across all ASVs in each sample is exactly 1103 (`--p-sampling-depth`). Samples are discarded if their total sequence count is below this threshold.
 
-The resulting feature table (674 ASVs $\times$ 31 samples) is used to calculate core matrices:
+### Computation of core matrices
+
+The refied feature table (674 ASVs $\times$ 31 samples) is used to calculate core matrices:
   - **Alpha matrices:** Measure diversity within individual samples (*observed feature, shannon entropy, pielou evenness*)
   - **Beta matrices:** Compute dissimilarity matrices, containing distance between pairs of samples (*jaccard, bray curtis*)
 
