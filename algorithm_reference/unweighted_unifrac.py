@@ -1,6 +1,5 @@
 import biom
 import skbio
-from skbio.diversity import beta_diversity
 from skbio.diversity.beta import _unifrac
 import pandas as pd
 import numpy as np
