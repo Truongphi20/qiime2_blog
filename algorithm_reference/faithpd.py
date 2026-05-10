@@ -1,12 +1,26 @@
 import biom
 import skbio
-from skbio.diversity import _util
 import pandas as pd
 import numpy as np
 
+import sys
+sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
+import _phylogenetic # type: ignore
+
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_util.py:186
+def _vectorize_counts_and_tree(counts, taxa, tree):
+    tree_index = tree.to_array(nan_length_value=0.0)
+
+    counts_by_node = _phylogenetic._nodes_by_counts(counts, taxa, tree_index)
+    branch_lengths = tree_index["length"]
+
+    # branch_lengths is just a reference to the array inside of tree_index,
+    # but it's used so much that it's convenient to just pull it out here.
+    return counts_by_node.T, tree_index, branch_lengths 
+
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/alpha/_pd.py:19
 def _setup_pd(counts, taxa, tree, validate, rooted, single_sample):
-    counts_by_node, _, branch_lengths = _util._vectorize_counts_and_tree(counts, taxa, tree)
+    counts_by_node, _, branch_lengths = _vectorize_counts_and_tree(counts, taxa, tree)
     return counts_by_node, branch_lengths
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/alpha/_pd.py:53
