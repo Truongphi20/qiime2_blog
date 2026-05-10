@@ -1,21 +1,22 @@
 import biom
 import skbio
-from skbio.diversity import alpha
-from skbio.diversity.alpha import _pd
 from skbio.diversity import _util
 import pandas as pd
 import numpy as np
 
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/alpha/_pd.py:19
 def _setup_pd(counts, taxa, tree, validate, rooted, single_sample):
     counts_by_node, _, branch_lengths = _util._vectorize_counts_and_tree(counts, taxa, tree)
     return counts_by_node, branch_lengths
 
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/alpha/_pd.py:53
 def faith_pd(counts, taxa=None, tree=None, validate=True, otu_ids=None):
+    
     counts_by_node, branch_lengths = _setup_pd(
         counts, taxa, tree, validate, rooted=True, single_sample=True
     )
 
-    return _pd._faith_pd(counts_by_node, branch_lengths)
+    return (branch_lengths * (counts_by_node > 0)).sum()
 
 def calculate_faith_pd(table: biom.Table, tree: skbio.TreeNode):
     
