@@ -7,11 +7,32 @@ import scipy
 import pandas as pd
 import numpy as np
 
+import sys
+sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
+import _distance_wrap # type: ignore
+
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_util.py:224
 def _get_phylogenetic_kwargs(counts, **kwargs):
     taxa = kwargs.pop("taxa")
     tree = kwargs.pop("tree")
     return taxa, tree, kwargs
+
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/stats/distance/_base.py:47
+def squareform(X):
+    s = X.shape
+
+    # Grab the closest value to the square root of the number
+    # of elements times 2 to see if the number of elements
+    # is indeed a binomial coefficient.
+    d = int(np.ceil(np.sqrt(s[0] * 2)))
+
+    # Allocate memory for the distance matrix.
+    M = np.zeros((d, d), dtype=X.dtype)
+
+    # Fill in the values of the distance matrix.
+    _distance_wrap.to_squareform_from_vector_wrap(M, X)
+
+    return M
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(
@@ -22,9 +43,11 @@ def beta_diversity(
             counts, taxa=taxa, tree=tree, validate=validate
         )
     counts = counts_by_node
-    pairwise_func = scipy.spatial.distance.pdist
-    distances = pairwise_func(counts, metric=metric, **kwargs)
-    return DistanceMatrix(distances, ids)
+    
+    distances = scipy.spatial.distance.pdist(counts, metric=metric, **kwargs)
+    data = squareform(distances)
+
+    return pd.DataFrame(data, columns=ids, index=ids)
 
 def calculate_unweighted_unifrac(table, tree):
     """
@@ -45,7 +68,7 @@ def calculate_unweighted_unifrac(table, tree):
     )
 
     # Convert to a readable DataFrame
-    return dm.to_data_frame()
+    return dm
 
 if __name__ == "__main__":
     BIOM_FILE = "/workspaces/qiime2_blog/support_data/feature-table-rarefied.biom"
