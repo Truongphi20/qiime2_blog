@@ -9,12 +9,6 @@ import sys
 sys.path.insert(0, "/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
 import _distance_wrap # type: ignore
 
-# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_util.py:224
-def _get_phylogenetic_kwargs(counts, **kwargs):
-    taxa = kwargs.pop("taxa")
-    tree = kwargs.pop("tree")
-    return taxa, tree, kwargs
-
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/stats/distance/_base.py:47
 def squareform(X):
     s = X.shape
@@ -46,7 +40,7 @@ def _pdist_callable(X, metric):
 
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:1864
-def pdist(X, metric='euclidean', *, out=None):
+def pdist(X, metric='euclidean'):
     s = X.shape
     m, n = s
 
@@ -54,9 +48,8 @@ def pdist(X, metric='euclidean', *, out=None):
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(
-    metric, counts, ids=None, validate=True, pairwise_func=None, **kwargs
+    metric, counts, ids, taxa, tree, validate=True
 ):
-    taxa, tree, kwargs = _get_phylogenetic_kwargs(counts, **kwargs)
     metric, counts_by_node = _unifrac._setup_multiple_unweighted_unifrac(
             counts, taxa=taxa, tree=tree, validate=validate
         )
