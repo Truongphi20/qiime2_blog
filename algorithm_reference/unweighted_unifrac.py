@@ -72,9 +72,6 @@ def _nodes_by_counts(counts, tip_ids, indexed):
 
     nodes = indexed['name']
 
-    # Allow counts to be a vector
-    counts = np.atleast_2d(counts)
-
     # Determine observed IDs
     observed_indices = counts.sum(axis=0).nonzero()[0]
     observed_ids = tip_ids[observed_indices]
