@@ -163,15 +163,12 @@ def calculate_unweighted_unifrac(table, tree):
     otu_ids = table.ids(axis='observation')
 
     # Calculate Distance Matrix
-    dm = beta_diversity(
+    return beta_diversity(
         counts=counts,
         ids=sample_ids,
         taxa=otu_ids,
         tree=tree
     )
-
-    # Convert to a readable DataFrame
-    return dm
 
 if __name__ == "__main__":
     BIOM_FILE = "/workspaces/qiime2_blog/support_data/feature-table-rarefied.biom"
