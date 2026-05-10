@@ -25,9 +25,6 @@ def _nodes_by_counts(counts, tip_ids, indexed):
     # Allow counts to be a vector
     counts = np.atleast_2d(counts)
 
-    # Equivalent to Cython DTYPE conversion
-    counts = counts.astype(np.intp, copy=False)
-
     # Determine observed IDs
     observed_indices = counts.sum(axis=0).nonzero()[0]
     observed_ids = tip_ids[observed_indices]
@@ -83,21 +80,7 @@ def _vectorize_counts_and_tree(counts, taxa, tree):
 
     # branch_lengths is just a reference to the array inside of tree_index,
     # but it's used so much that it's convenient to just pull it out here.
-    return counts_by_node.T, tree_index, branch_lengths 
-
-# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/alpha/_pd.py:19
-def _setup_pd(counts, taxa, tree, validate, rooted, single_sample):
-    counts_by_node, _, branch_lengths = _vectorize_counts_and_tree(counts, taxa, tree)
-    return counts_by_node, branch_lengths
-
-# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/alpha/_pd.py:53
-def faith_pd(counts, taxa=None, tree=None, validate=True, otu_ids=None):
-    
-    counts_by_node, branch_lengths = _setup_pd(
-        counts, taxa, tree, validate, rooted=True, single_sample=True
-    )
-
-    return (branch_lengths * (counts_by_node > 0)).sum()
+    return counts_by_node.T, branch_lengths 
 
 def calculate_faith_pd(table: biom.Table, tree: skbio.TreeNode):
     
@@ -111,8 +94,9 @@ def calculate_faith_pd(table: biom.Table, tree: skbio.TreeNode):
     for i in range(len(sample_ids)):
         sample_counts = counts[i]
         
-        # Calculate the metric
-        result = faith_pd(sample_counts, otu_ids, tree)
+        # Calculate the faith_pd metric
+        counts_by_node, branch_lengths = _vectorize_counts_and_tree(sample_counts, otu_ids, tree)
+        result = (branch_lengths * (counts_by_node > 0)).sum()
         pd_results.append(result)
 
     return pd.Series(pd_results, index=sample_ids, name='faith_pd')
