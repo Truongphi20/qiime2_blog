@@ -1,6 +1,5 @@
 import biom
 import skbio
-from skbio.diversity.beta import _unifrac
 import pandas as pd
 import numpy as np
 import functools
@@ -118,13 +117,23 @@ def _vectorize_counts_and_tree(counts, taxa, tree):
     # but it's used so much that it's convenient to just pull it out here.
     return counts_by_node.T, branch_lengths
 
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:392
+def _unweighted_unifrac(u_node_counts, v_node_counts, branch_lengths):
+
+    unique_nodes = np.logical_xor(u_node_counts, v_node_counts)
+    observed_nodes = np.logical_or(u_node_counts, v_node_counts)
+    unique_branch_length = (branch_lengths * unique_nodes).sum()
+    observed_branch_length = (branch_lengths * observed_nodes).sum()
+
+    return unique_branch_length / observed_branch_length
+
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
-def beta_diversity(metric, counts, ids, taxa, tree):
+def beta_diversity(counts, ids, taxa, tree):
     
     counts_by_node, branch_lengths = _vectorize_counts_and_tree(counts, taxa, tree)
 
     counts = counts_by_node
-    metric = functools.partial(_unifrac._unweighted_unifrac, branch_lengths=branch_lengths)
+    metric = functools.partial(_unweighted_unifrac, branch_lengths=branch_lengths)
     
     distances = _pdist_callable(counts, metric=metric)
     data = squareform(distances)
@@ -142,7 +151,6 @@ def calculate_unweighted_unifrac(table, tree):
 
     # Calculate Distance Matrix
     dm = beta_diversity(
-        metric='unweighted_unifrac',
         counts=counts,
         ids=sample_ids,
         taxa=otu_ids,
