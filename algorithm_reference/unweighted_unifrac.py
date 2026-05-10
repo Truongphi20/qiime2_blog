@@ -2,7 +2,6 @@ import biom
 import skbio
 from skbio.diversity import beta_diversity
 from skbio.diversity.beta import _unifrac
-import scipy
 import pandas as pd
 import numpy as np
 
@@ -34,24 +33,24 @@ def squareform(X):
     return M
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:2627
-def _pdist_callable(X, *, out, metric, **kwargs):
+def _pdist_callable(X, metric):
     n = X.shape[0]
     out_size = (n * (n - 1)) // 2
     dm = np.empty((out_size,), dtype=np.float64)
     k = 0
     for i in range(X.shape[0] - 1):
         for j in range(i + 1, X.shape[0]):
-            dm[k] = metric(X[i], X[j], **kwargs)
+            dm[k] = metric(X[i], X[j])
             k += 1
     return dm
 
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:1864
-def pdist(X, metric='euclidean', *, out=None, **kwargs):
+def pdist(X, metric='euclidean', *, out=None):
     s = X.shape
     m, n = s
 
-    return _pdist_callable(X, metric=metric, out=out, **kwargs)
+    return _pdist_callable(X, metric=metric)
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(
@@ -63,7 +62,7 @@ def beta_diversity(
         )
     counts = counts_by_node
     
-    distances = pdist(counts, metric=metric, **kwargs)
+    distances = pdist(counts, metric=metric)
     data = squareform(distances)
 
     return pd.DataFrame(data, columns=ids, index=ids)
