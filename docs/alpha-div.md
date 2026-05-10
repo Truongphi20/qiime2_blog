@@ -67,6 +67,8 @@ Note:
 - $p_i$: The relative abundance (probability) of $\text{ASV}_i$ in a sample, where $p_i = \frac{\text{\#ASV}_i}{\text{\#total sequences}}$. (\#total_sequences is 1103 in our case)
 - $n$: The total number of observed ASVs in the sample.  
 
+At the end, the beta diversity (distance) matrices, jaccard and bray curtis, are utilized to calculate principal coordinates through Principal Coordinates Analysis (PCoA) [@gower1966some]. This dimensionality reduction technique projects the multi-dimensional distance data into a lower-dimensional space, typically visualized as 2D or 3D plots to reveal ecological patterns.
+
 ### Computation of evolutional matrices
 
 
