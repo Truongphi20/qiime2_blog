@@ -50,7 +50,7 @@ Finally, the workflow utilizes the Midpoint Rooting (MPR) method [@farris1972est
 
 Before computing core matrices, the abundance table is subsampled (rarefied) to ensure the total number of sequences across all ASVs in each sample is exactly 1103 (`--p-sampling-depth`). Samples are discarded if their total sequence count is below this threshold.
 
-The resulting feature table (678 ASVs $\times$ 31 samples) is used to calculate core matrices:
+The resulting feature table (674 ASVs $\times$ 31 samples) is used to calculate core matrices:
   - **Alpha matrices:** Measure diversity within individual samples (*observed feature, shannon entropy, pielou evenness*)
   - **Beta matrices:** Compute dissimilarity matrices, containing distance between pairs of samples (*jaccard, bray curtis*)
 
