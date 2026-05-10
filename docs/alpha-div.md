@@ -64,7 +64,7 @@ The resulting feature table (678 ASVs $\times$ 31 samples) is used to calculate 
 
 Note: 
 
-- $p_i$: The relative abundance (probability) of $\text{ASV}_i$ in a sample, where $p_i = \frac{\text{\#ASV}_i}{\text{\#total sequences}}$. (\#total_sequences is 1103)
+- $p_i$: The relative abundance (probability) of $\text{ASV}_i$ in a sample, where $p_i = \frac{\text{\#ASV}_i}{\text{\#total sequences}}$. (\#total_sequences is 1103 in our case)
 - $n$: The total number of observed ASVs in the sample.  
 
 ### Computation of evolutional matrices
