@@ -82,7 +82,6 @@ def _vectorize_counts_and_tree(counts, taxa, tree):
 
 def calculate_faith_pd(table: biom.Table, tree: skbio.TreeNode):
     
-    # Convert to dense array: rows are ASVs, columns are Samples
     counts = table.matrix_data.toarray().T.astype(int) 
     sample_ids = table.ids(axis='sample')
     otu_ids = table.ids(axis='observation')

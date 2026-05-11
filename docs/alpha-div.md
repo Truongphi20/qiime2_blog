@@ -60,7 +60,7 @@ Setting the threshold too low results in insufficient data for a robust analysis
 
 ### Computation of core matrices
 
-The refied feature table (674 ASVs $\times$ 31 samples) is used to calculate core matrices:
+The refied feature table is used to calculate core matrices:
   - **Alpha matrices:** Measure diversity within individual samples (*observed feature, shannon entropy, pielou evenness*)
   - **Beta matrices:** Compute dissimilarity matrices, containing distance between pairs of samples (*jaccard, bray curtis*)
 
