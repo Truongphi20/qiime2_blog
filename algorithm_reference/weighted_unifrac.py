@@ -11,9 +11,7 @@ import _distance_wrap
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:542
 def _setup_multiple_weighted_unifrac(counts, taxa, tree, normalized, validate):
-    counts_by_node, tree_index, branch_lengths = _unifrac._setup_multiple_unifrac(
-        counts, taxa, tree, validate
-    )
+    counts_by_node, tree_index, branch_lengths = _unifrac._vectorize_counts_and_tree(counts, taxa, tree)
     tip_indices = np.array(
         [n.id for n in tree_index["id_index"].values() if n.is_tip()], dtype=np.intp
     )
@@ -71,7 +69,7 @@ def beta_diversity(
     counts = counts_by_node
     distances = _pdist_callable(counts, metric=metric, **kwargs)
 
-    data = distance.squareform(distances, force="tomatrix", checks=False)
+    data = squareform(distances, force="tomatrix", checks=False)
 
     return pd.DataFrame(data, columns=ids, index=ids)
 
