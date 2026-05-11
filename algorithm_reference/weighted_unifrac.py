@@ -1,6 +1,5 @@
 import biom
 import skbio
-from skbio.diversity.beta import _unifrac
 import pandas as pd
 import numpy as np
 
@@ -22,6 +21,16 @@ def _vectorize_counts_and_tree(counts, taxa, tree):
     # but it's used so much that it's convenient to just pull it out here.
     return counts_by_node.T, tree_index, branch_lengths
 
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:395
+def _weighted_unifrac(
+    u_node_counts, v_node_counts, u_total_count, v_total_count, branch_lengths
+):
+    # convert to relative abundances if there are any counts
+    u_node_proportions = u_node_counts / u_total_count
+
+    v_node_proportions = v_node_counts / v_total_count
+    wu = (branch_lengths * np.absolute(u_node_proportions - v_node_proportions)).sum()
+    return wu, u_node_proportions, v_node_proportions
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:542
 def _setup_multiple_weighted_unifrac(counts, taxa, tree, normalized, validate):
@@ -33,7 +42,7 @@ def _setup_multiple_weighted_unifrac(counts, taxa, tree, normalized, validate):
     def f(u_node_counts, v_node_counts):
             u_total_count = np.take(u_node_counts, tip_indices).sum()
             v_total_count = np.take(v_node_counts, tip_indices).sum()
-            u, _, _ = _unifrac._weighted_unifrac(
+            u, _, _ = _weighted_unifrac(
                 u_node_counts,
                 v_node_counts,
                 u_total_count,
