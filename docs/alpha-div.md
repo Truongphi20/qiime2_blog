@@ -50,7 +50,13 @@ Finally, the workflow utilizes the Midpoint Rooting (MPR) method [@farris1972est
 
 Before computing core matrices, the abundance table is randomly subsampled (rarefied) to ensure the total number of sequences across all ASVs in each sample is exactly 1103 (`--p-sampling-depth`). Samples are discarded if their total sequence count is below this threshold.
 
-This step ensures the evenness among samples.
+![](./static/rarefraction_view.png)
+
+Note: The red dash line is the threshold 1103.
+
+As the rarefaction threshold increases, the number of retained samples decreases, while the total sequence count increases due to the greater contribution from highly abundant samples.
+
+Setting the threshold too low results in insufficient data for a robust analysis. Conversely, setting it too high leads to the elimination of too many samples, reducing statistical power. The goal is to select a threshold that retains as many samples as possible while capturing a "large enough" number of sequences to represent the community. This critical step ensures evenness and comparability across all samples in the study.
 
 ### Computation of core matrices
 
