@@ -5,16 +5,79 @@ import numpy as np
 
 import sys
 sys.path.append("/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
-sys.path.append("/workspaces/qiime2_blog/commands/scikit-bio-0.6.2")
 import _distance_wrap
-import _phylogenetic
+
+def _traverse_reduce(child_index, count_array):
+    """
+    Propagate counts from children to parents.
+    """
+
+    for row in child_index:
+        parent = row[0]
+
+        for child in row[1:]:
+            if child != -1:
+                count_array[parent] += count_array[child]
+
+# commands/scikit-bio-0.6.2/_phylogenetic.pyx:142
+def _nodes_by_counts(counts, tip_ids, indexed):
+    """Construct the count array and propagate counts up the tree.
+    """
+
+    nodes = indexed['name']
+
+    # Determine observed IDs
+    observed_indices = counts.sum(axis=0).nonzero()[0]
+    observed_ids = tip_ids[observed_indices]
+    observed_ids_set = set(observed_ids)
+
+    # Map observed node names to their positions
+    node_lookup = {}
+    for i in range(nodes.shape[0]):
+        n = nodes[i]
+        if n in observed_ids_set:
+            node_lookup[n] = i
+
+    # Determine positions of observed IDs in nodes
+    taxa_in_nodes = np.zeros(observed_ids.shape[0], dtype=np.intp)
+
+    for i in range(observed_ids.shape[0]):
+        n = observed_ids[i]
+        taxa_in_nodes[i] = node_lookup[n]
+
+    # count_array has:
+    # rows = nodes
+    # cols = environments
+    n_count_vectors = counts.shape[0]
+
+    count_array = np.zeros(
+        (nodes.shape[0], n_count_vectors),
+        dtype=np.intp
+    )
+
+    # Populate counts
+    counts_t = counts.transpose()
+    n_count_taxa = taxa_in_nodes.shape[0]
+
+    for i in range(n_count_taxa):
+        for j in range(n_count_vectors):
+            count_array[taxa_in_nodes[i], j] = (
+                counts_t[observed_indices[i], j]
+            )
+
+    # Propagate counts up the tree
+    child_index = indexed['child_index'].astype(np.intp, copy=False)
+
+    _traverse_reduce(child_index, count_array)
+
+    return count_array
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_util.py:186
 def _vectorize_counts_and_tree(counts, taxa, tree):
     tree_index = tree.to_array(nan_length_value=0.0)
     taxa = np.asarray(taxa)
     counts = np.atleast_2d(counts)
-    counts_by_node = _phylogenetic._nodes_by_counts(counts, taxa, tree_index)
+    counts_by_node = _nodes_by_counts(counts, taxa, tree_index)
     branch_lengths = tree_index["length"]
 
     # branch_lengths is just a reference to the array inside of tree_index,
