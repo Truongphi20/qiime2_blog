@@ -54,14 +54,14 @@ def _setup_multiple_weighted_unifrac(counts, taxa, tree):
     return f, counts_by_node
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:2627
-def _pdist_callable(X, metric, **kwargs):
+def _pdist_callable(X, metric):
     n = X.shape[0]
     out_size = (n * (n - 1)) // 2
     dm = np.empty((out_size,), dtype=np.float64)
     k = 0
     for i in range(X.shape[0] - 1):
         for j in range(i + 1, X.shape[0]):
-            dm[k] = metric(X[i], X[j], **kwargs)
+            dm[k] = metric(X[i], X[j])
             k += 1
     return dm
 
@@ -83,12 +83,11 @@ def squareform(X):
     return M 
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
-def beta_diversity(
-    metric, counts, taxa, tree, ids, **kwargs
-):
+def beta_diversity(metric, counts, taxa, tree, ids):
+
     metric, counts_by_node = _setup_multiple_weighted_unifrac(counts, taxa=taxa, tree=tree)
     counts = counts_by_node
-    distances = _pdist_callable(counts, metric=metric, **kwargs)
+    distances = _pdist_callable(counts, metric=metric)
 
     data = squareform(distances)
 
@@ -104,16 +103,13 @@ def calculate_weighted_unifrac(table, tree):
     otu_ids = table.ids(axis='observation')
 
     # Calculate Distance Matrix
-    dm = beta_diversity(
+    return beta_diversity(
         metric='weighted_unifrac',
         counts=counts,
         ids=sample_ids,
         taxa=otu_ids,
         tree=tree
     )
-
-    # Convert to a readable DataFrame
-    return dm
 
 if __name__ == "__main__":
     BIOM_FILE = "/workspaces/qiime2_blog/support_data/feature-table-rarefied.biom"
