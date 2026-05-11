@@ -33,7 +33,7 @@ def _weighted_unifrac(
     return wu, u_node_proportions, v_node_proportions
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:542
-def _setup_multiple_weighted_unifrac(counts, taxa, tree, normalized, validate):
+def _setup_multiple_weighted_unifrac(counts, taxa, tree):
     counts_by_node, tree_index, branch_lengths = _vectorize_counts_and_tree(counts, taxa, tree)
     tip_indices = np.array(
         [n.id for n in tree_index["id_index"].values() if n.is_tip()], dtype=np.intp
@@ -66,7 +66,7 @@ def _pdist_callable(X, metric, **kwargs):
     return dm
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:2196
-def squareform(X, force="no", checks=True):
+def squareform(X):
     s = X.shape
 
     # Grab the closest value to the square root of the number
@@ -84,15 +84,13 @@ def squareform(X, force="no", checks=True):
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(
-    metric, counts, taxa, tree, ids=None, validate=True, pairwise_func=None, **kwargs
+    metric, counts, taxa, tree, ids, **kwargs
 ):
-    metric, counts_by_node = _setup_multiple_weighted_unifrac(
-            counts, taxa=taxa, tree=tree, normalized=False, validate=validate
-        )
+    metric, counts_by_node = _setup_multiple_weighted_unifrac(counts, taxa=taxa, tree=tree)
     counts = counts_by_node
     distances = _pdist_callable(counts, metric=metric, **kwargs)
 
-    data = squareform(distances, force="tomatrix", checks=False)
+    data = squareform(distances)
 
     return pd.DataFrame(data, columns=ids, index=ids)
 
