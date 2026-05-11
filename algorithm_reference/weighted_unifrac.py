@@ -6,12 +6,34 @@ from skbio.diversity import _util
 import pandas as pd
 import numpy as np
 
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:542
+def _setup_multiple_weighted_unifrac(counts, taxa, tree, normalized, validate):
+    counts_by_node, tree_index, branch_lengths = _unifrac._setup_multiple_unifrac(
+        counts, taxa, tree, validate
+    )
+    tip_indices = np.array(
+        [n.id for n in tree_index["id_index"].values() if n.is_tip()], dtype=np.intp
+    )
+
+    def f(u_node_counts, v_node_counts):
+            u_total_count = np.take(u_node_counts, tip_indices).sum()
+            v_total_count = np.take(v_node_counts, tip_indices).sum()
+            u, _, _ = _unifrac._weighted_unifrac(
+                u_node_counts,
+                v_node_counts,
+                u_total_count,
+                v_total_count,
+                branch_lengths,
+            )
+            return u
+    
+    return f, counts_by_node
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(
     metric, counts, taxa, tree, ids=None, validate=True, pairwise_func=None, **kwargs
 ):
-    metric, counts_by_node = _unifrac._setup_multiple_weighted_unifrac(
+    metric, counts_by_node = _setup_multiple_weighted_unifrac(
             counts, taxa=taxa, tree=tree, normalized=False, validate=validate
         )
     counts = counts_by_node
