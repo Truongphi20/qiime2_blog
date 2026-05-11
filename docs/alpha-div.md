@@ -84,7 +84,7 @@ At the end, the beta diversity (distance) matrices, jaccard and bray curtis, are
 | Matrix name |  Meaning   |   Calculation method   |    References   |
 | :---------  | :--------- | :-------------------   |:--------------- |
 | faithpd     | Mearsure total phylogenetic distance among ASVs in each sample. | See [the method](https://scikit.bio/docs/dev/generated/skbio.diversity.alpha.faith_pd.html), <br> ([faithpd.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/faithpd.py))                       | [@faith1992conservation]  |
-| unweighted_unifrac | Compute proportion of phylogenetical dissimilarity across pairs of samples | The ratio of total branch length from the lowest common ancestor (LCA) of unique ASVs over observed ASVs one between 2 samples, <br> ([unweighted_unifrac.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/unweighted_unifrac.py))     | [@sfiligoi2022optimizing] |
+| unweighted_unifrac | Compute proportion of phylogenetical dissimilarity across pairs of samples | The ratio of total branch length from the accumulative (of succeesors) lowest common ancestor (LCA) of unique ASVs over observed ASVs one between 2 samples, <br> ([unweighted_unifrac.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/unweighted_unifrac.py))     | [@sfiligoi2022optimizing] |
 | weighted_unifrac   |           |                  | [@sfiligoi2022optimizing] |
 
 ## Summary
