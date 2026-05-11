@@ -20,7 +20,6 @@ This blog explores the internal logic and workflows of the QIIME 2 (v2026.1.0) c
   - [DADA2](./dada2.md)
   - [Deblur](./deblur.md) 
 - [Diversity analysis](alpha-div.md)
-- Alpha rarefaction 
 
 
 The practiced method to complile context for this blog can be found in [Methology](./methodology.md).

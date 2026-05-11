@@ -27,8 +27,6 @@ project:
           file: docs/deblur.md
     - title: Diversity analysis
       file: docs/alpha-div.md
-    - title: Alpha rarefaction
-      file: docs/alpha-rarefaction.md
     - title: Methodology
       file: docs/methodology.md
     
