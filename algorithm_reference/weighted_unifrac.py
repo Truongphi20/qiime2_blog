@@ -9,9 +9,8 @@ import numpy as np
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(
-    metric, counts, ids=None, validate=True, pairwise_func=None, **kwargs
+    metric, counts, taxa, tree, ids=None, validate=True, pairwise_func=None, **kwargs
 ):
-    taxa, tree, kwargs = _util._get_phylogenetic_kwargs(counts, **kwargs)
     metric, counts_by_node = _unifrac._setup_multiple_weighted_unifrac(
             counts, taxa=taxa, tree=tree, normalized=False, validate=validate
         )
