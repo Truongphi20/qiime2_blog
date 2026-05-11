@@ -1,17 +1,31 @@
 import biom
 import skbio
-from  scipy.spatial import distance
 from skbio.diversity.beta import _unifrac
 import pandas as pd
 import numpy as np
 
 import sys
 sys.path.append("/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
+sys.path.append("/workspaces/qiime2_blog/commands/scikit-bio-0.6.2")
 import _distance_wrap
+import _phylogenetic
+
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_util.py:186
+def _vectorize_counts_and_tree(counts, taxa, tree):
+    tree_index = tree.to_array(nan_length_value=0.0)
+    taxa = np.asarray(taxa)
+    counts = np.atleast_2d(counts)
+    counts_by_node = _phylogenetic._nodes_by_counts(counts, taxa, tree_index)
+    branch_lengths = tree_index["length"]
+
+    # branch_lengths is just a reference to the array inside of tree_index,
+    # but it's used so much that it's convenient to just pull it out here.
+    return counts_by_node.T, tree_index, branch_lengths
+
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:542
 def _setup_multiple_weighted_unifrac(counts, taxa, tree, normalized, validate):
-    counts_by_node, tree_index, branch_lengths = _unifrac._vectorize_counts_and_tree(counts, taxa, tree)
+    counts_by_node, tree_index, branch_lengths = _vectorize_counts_and_tree(counts, taxa, tree)
     tip_indices = np.array(
         [n.id for n in tree_index["id_index"].values() if n.is_tip()], dtype=np.intp
     )
