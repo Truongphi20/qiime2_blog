@@ -41,9 +41,6 @@ def _nodes_by_counts(counts, tip_ids, indexed):
         n = observed_ids[i]
         taxa_in_nodes[i] = node_lookup[n]
 
-    # count_array has:
-    # rows = nodes
-    # cols = environments
     n_count_vectors = counts.shape[0]
 
     count_array = np.zeros(
@@ -70,14 +67,12 @@ def _nodes_by_counts(counts, tip_ids, indexed):
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_util.py:186
 def _vectorize_counts_and_tree(counts, taxa, tree):
+
     tree_index = tree.to_array(nan_length_value=0.0)
-    taxa = np.asarray(taxa)
-    counts = np.atleast_2d(counts)
+    
     counts_by_node = _nodes_by_counts(counts, taxa, tree_index)
     branch_lengths = tree_index["length"]
 
-    # branch_lengths is just a reference to the array inside of tree_index,
-    # but it's used so much that it's convenient to just pull it out here.
     return counts_by_node.T, tree_index, branch_lengths
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:395
