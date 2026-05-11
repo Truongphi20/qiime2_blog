@@ -22,11 +22,8 @@ def _nodes_by_counts(counts, tip_ids, indexed):
 
     nodes = indexed['name']
 
-    # Allow counts to be a vector
-    counts = np.atleast_2d(counts)
-
     # Determine observed IDs
-    observed_indices = counts.sum(axis=0).nonzero()[0]
+    observed_indices = counts.nonzero()[0]
     observed_ids = tip_ids[observed_indices]
     observed_ids_set = set(observed_ids)
 
@@ -44,25 +41,15 @@ def _nodes_by_counts(counts, tip_ids, indexed):
         n = observed_ids[i]
         taxa_in_nodes[i] = node_lookup[n]
 
-    # count_array has:
-    # rows = nodes
-    # cols = environments
-    n_count_vectors = counts.shape[0]
-
-    count_array = np.zeros(
-        (nodes.shape[0], n_count_vectors),
-        dtype=np.intp
-    )
+    count_array = np.zeros(nodes.shape[0], dtype=np.intp)
 
     # Populate counts
-    counts_t = counts.transpose()
     n_count_taxa = taxa_in_nodes.shape[0]
 
     for i in range(n_count_taxa):
-        for j in range(n_count_vectors):
-            count_array[taxa_in_nodes[i], j] = (
-                counts_t[observed_indices[i], j]
-            )
+        count_array[taxa_in_nodes[i]] = (
+            counts[observed_indices[i]]
+        )
 
     # Propagate counts up the tree
     child_index = indexed['child_index'].astype(np.intp, copy=False)
