@@ -71,7 +71,7 @@ Note:
 
 At the end, the beta diversity (distance) matrices, jaccard and bray curtis, are utilized to calculate principal coordinates through Principal Coordinates Analysis (PCoA) [@gower1966some]. This dimensionality reduction technique projects the multi-dimensional distance data into a lower-dimensional space, typically visualized as 2D or 3D plots to reveal ecological patterns.
 
-### Computation of evolutional matrices
+### Computation of phylogenetic matrices
 
 | Matrix name |  Meaning   |   Calculation method   |    References   |
 | :---------  | :--------- | :-------------------   |:--------------- |

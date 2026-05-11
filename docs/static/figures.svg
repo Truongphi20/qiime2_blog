@@ -27,9 +27,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="1.0000001"
-     inkscape:cx="1142.4999"
-     inkscape:cy="2357.4998"
+     inkscape:zoom="1.4142137"
+     inkscape:cx="1179.1004"
+     inkscape:cy="2354.3118"
      inkscape:window-width="1850"
      inkscape:window-height="1016"
      inkscape:window-x="70"
@@ -513,43 +513,43 @@
        transform="matrix(0.08773555,0,0,0.08578489,12.041524,204.77511)"><tspan
          x="396.93405"
          y="-2205.3494"
-         id="tspan121"><tspan
+         id="tspan138"><tspan
    style="fill:#ff0000"
-   id="tspan120">@HWI-EAS440_0386:1:23:17547:1423#0/1</tspan>
+   id="tspan137">@HWI-EAS440_0386:1:23:17547:1423#0/1</tspan>
 </tspan><tspan
          x="396.93405"
          y="-2175.7935"
-         id="tspan150"><tspan
+         id="tspan141"><tspan
    style="fill:#338000"
-   id="tspan122">ATGCAGCTCAGT</tspan>
+   id="tspan140">ATGCAGCTCAGT</tspan>
 </tspan><tspan
          x="396.93405"
          y="-2146.2376"
-         id="tspan151">+
+         id="tspan143">+
 </tspan><tspan
          x="396.93405"
          y="-2116.6817"
-         id="tspan153">IIIIIIIIIIIH
+         id="tspan145">IIIIIIIIIIIH
 </tspan><tspan
          x="396.93405"
          y="-2087.1258"
-         id="tspan155"><tspan
+         id="tspan161"><tspan
    style="fill:#ff0000"
-   id="tspan154">@HWI-EAS440_0386:1:23:14818:1533#0/1</tspan>
+   id="tspan159">@HWI-EAS440_0386:1:23:14818:1533#0/1</tspan>
 </tspan><tspan
          x="396.93405"
          y="-2057.5699"
-         id="tspan166"><tspan
+         id="tspan163"><tspan
    style="fill:#338000"
-   id="tspan157">CCCCTCAGCGGC</tspan>
+   id="tspan162">CCCCTCAGCGGC</tspan>
 </tspan><tspan
          x="396.93405"
          y="-2028.014"
-         id="tspan171">+
+         id="tspan164">+
 </tspan><tspan
          x="396.93405"
          y="-1998.4582"
-         id="tspan178">DDD@D?@B&lt;&lt;+</tspan></text><path
+         id="tspan165">DDD@D?@B&lt;&lt;+</tspan></text><path
        style="fill:none;stroke:#000000;stroke-width:0.264584px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#RoundedArrow)"
        d="m 36.923657,27.397069 h 6.774971"
        id="path26" /><path
@@ -3001,7 +3001,7 @@
              style="font-size:3.175px;line-height:1.25;stroke-width:0.178727"
              x="242.31467"
              y="668.78979"
-             id="tspan177">PcoA analysis</tspan></text></g></g><g
+             id="tspan177">PCoA analysis</tspan></text></g></g><g
        id="g190"
        transform="translate(97.435575,-54.839874)"><path
          style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -3147,7 +3147,7 @@
          style="font-size:3.175px;line-height:1.25;stroke-width:0.178727"
          x="342.40567"
          y="674.5321"
-         id="tspan193">PcoA analysis</tspan></text><path
+         id="tspan193">PCoA analysis</tspan></text><path
        style="fill:none;stroke:#000000;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker111-2-7-7)"
        d="m 341.14657,575.97384 v 5.66881"
        id="path180"
@@ -3203,7 +3203,7 @@
          id="tspan35"
          style="font-weight:bold;font-size:4.93889px;stroke-width:0.179417"
          x="-652.53802"
-         y="314.78333">Evolutional matrices </tspan></text><g
+         y="314.78333">Phylogenetic matrices </tspan></text><g
        id="g87"
        transform="translate(99.155376,-13.035707)"><path
          style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -3356,8 +3356,8 @@
        x="275.96075"
        y="655.59967"
        ry="2.0713819e-13" /><path
-       style="fill:none;stroke:#999999;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:0.265, 0.265;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker111)"
-       d="m 249.36978,687.78434 v 1.85208 h 38.09998 V 678.9208"
+       style="fill:none;stroke:#999999;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:0.36500001,0.36500001;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker111)"
+       d="m 249.36978,687.78434 v 1.85208 h 38.09998 v -9.65729"
        id="path178"
        sodipodi:nodetypes="cccc" /><text
        xml:space="preserve"
