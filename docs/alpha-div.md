@@ -75,8 +75,8 @@ At the end, the beta diversity (distance) matrices, jaccard and bray curtis, are
 
 | Matrix name |  Meaning   |   Calculation method   |    References   |
 | :---------  | :--------- | :-------------------   |:--------------- |
-| faithpd     |            |                        |                 |
-| unweighted_unifrac |           |                  |                 |
-| weighted_unifrac   |           |                  |                 |
+| faithpd     |            |                        | [@faith1992conservation]  |
+| unweighted_unifrac |           |                  | [@sfiligoi2022optimizing] |
+| weighted_unifrac   |           |                  | [@sfiligoi2022optimizing] |
 
 ## Summary
