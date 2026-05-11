@@ -1,8 +1,7 @@
 import biom
 import skbio
 from  scipy.spatial import distance
-from skbio.diversity.beta import _unifrac 
-from skbio.diversity import _util
+from skbio.diversity.beta import _unifrac
 import pandas as pd
 import numpy as np
 
@@ -29,6 +28,18 @@ def _setup_multiple_weighted_unifrac(counts, taxa, tree, normalized, validate):
     
     return f, counts_by_node
 
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:2627
+def _pdist_callable(X, metric, **kwargs):
+    n = X.shape[0]
+    out_size = (n * (n - 1)) // 2
+    dm = np.empty((out_size,), dtype=np.float64)
+    k = 0
+    for i in range(X.shape[0] - 1):
+        for j in range(i + 1, X.shape[0]):
+            dm[k] = metric(X[i], X[j], **kwargs)
+            k += 1
+    return dm
+
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(
     metric, counts, taxa, tree, ids=None, validate=True, pairwise_func=None, **kwargs
@@ -37,8 +48,7 @@ def beta_diversity(
             counts, taxa=taxa, tree=tree, normalized=False, validate=validate
         )
     counts = counts_by_node
-    pairwise_func = distance.pdist
-    distances = pairwise_func(counts, metric=metric, **kwargs)
+    distances = _pdist_callable(counts, metric=metric, **kwargs)
 
     data = distance.squareform(distances, force="tomatrix", checks=False)
 
