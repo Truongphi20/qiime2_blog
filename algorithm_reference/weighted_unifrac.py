@@ -21,7 +21,10 @@ def beta_diversity(
     counts = counts_by_node
     pairwise_func = distance.pdist
     distances = pairwise_func(counts, metric=metric, **kwargs)
-    return DistanceMatrix(distances, ids)
+
+    data = distance.squareform(distances, force="tomatrix", checks=False)
+
+    return pd.DataFrame(data, columns=ids, index=ids)
 
 def calculate_weighted_unifrac(table, tree):
     """
@@ -42,7 +45,7 @@ def calculate_weighted_unifrac(table, tree):
     )
 
     # Convert to a readable DataFrame
-    return dm.to_data_frame()
+    return dm
 
 if __name__ == "__main__":
     BIOM_FILE = "/workspaces/qiime2_blog/support_data/feature-table-rarefied.biom"
