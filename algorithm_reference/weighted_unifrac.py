@@ -5,6 +5,10 @@ from skbio.diversity.beta import _unifrac
 import pandas as pd
 import numpy as np
 
+import sys
+sys.path.append("/workspaces/qiime2_blog/commands/scipy_7dcd8c5_src")
+import _distance_wrap
+
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/beta/_unifrac.py:542
 def _setup_multiple_weighted_unifrac(counts, taxa, tree, normalized, validate):
     counts_by_node, tree_index, branch_lengths = _unifrac._setup_multiple_unifrac(
@@ -39,6 +43,23 @@ def _pdist_callable(X, metric, **kwargs):
             dm[k] = metric(X[i], X[j], **kwargs)
             k += 1
     return dm
+
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/scipy/spatial/distance.py:2196
+def squareform(X, force="no", checks=True):
+    s = X.shape
+
+    # Grab the closest value to the square root of the number
+    # of elements times 2 to see if the number of elements
+    # is indeed a binomial coefficient.
+    d = int(np.ceil(np.sqrt(s[0] * 2)))
+
+    # Allocate memory for the distance matrix.
+    M = np.zeros((d, d), dtype=X.dtype)
+
+    # Fill in the values of the distance matrix.
+    _distance_wrap.to_squareform_from_vector_wrap(M, X)
+
+    return M 
 
 # /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
 def beta_diversity(
