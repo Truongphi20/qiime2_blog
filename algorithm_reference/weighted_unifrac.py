@@ -1,8 +1,27 @@
 import biom
 import skbio
-from skbio.diversity import beta_diversity
+from skbio import diversity
+from  scipy.spatial import distance
+from skbio.stats.distance import DistanceMatrix
+from skbio.diversity.beta import _unifrac 
+from skbio.diversity import _util
 import pandas as pd
 import numpy as np
+
+
+# /opt/conda/envs/qiime2-amplicon-2026.1/lib/python3.10/site-packages/skbio/diversity/_driver.py:367
+def beta_diversity(
+    metric, counts, ids=None, validate=True, pairwise_func=None, **kwargs
+):
+    normalized = kwargs.pop("normalized", _unifrac._normalize_weighted_unifrac_by_default)
+    taxa, tree, kwargs = _util._get_phylogenetic_kwargs(counts, **kwargs)
+    metric, counts_by_node = _unifrac._setup_multiple_weighted_unifrac(
+            counts, taxa=taxa, tree=tree, normalized=normalized, validate=validate
+        )
+    counts = counts_by_node
+    pairwise_func = distance.pdist
+    distances = pairwise_func(counts, metric=metric, **kwargs)
+    return DistanceMatrix(distances, ids)
 
 def calculate_weighted_unifrac(table, tree):
     """
