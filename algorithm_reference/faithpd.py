@@ -78,8 +78,6 @@ def _vectorize_counts_and_tree(counts, taxa, tree):
     counts_by_node = _nodes_by_counts(counts, taxa, tree_index)
     branch_lengths = tree_index["length"]
 
-    # branch_lengths is just a reference to the array inside of tree_index,
-    # but it's used so much that it's convenient to just pull it out here.
     return counts_by_node.T, branch_lengths 
 
 def calculate_faith_pd(table: biom.Table, tree: skbio.TreeNode):
