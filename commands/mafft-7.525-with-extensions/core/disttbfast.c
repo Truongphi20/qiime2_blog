@@ -3306,10 +3306,10 @@ int disttbfast( int ngui, int lgui, char **namegui, char **seqgui, int argc, cha
 		gmsg = 1;
 	}
 	else
-		gmsg = 0; // iranai
+		gmsg = 0; // I don't need it.
 
 	arguments( argc, argv );
-	algbackup = alg; // tbfast wo disttbfast ni ketsugou shitatame.
+	algbackup = alg; // Because tbfast was merged into dstbfast.
 #ifndef enablemultithread
 	nthreadpair = nthread = 0;
 #endif
@@ -3380,7 +3380,7 @@ int disttbfast( int ngui, int lgui, char **namegui, char **seqgui, int argc, cha
 
 
 #if !defined(mingw) && !defined(_MSC_VER)
-	setstacksize( 200 * njob ); // topolorder() de ookime no stack wo shiyou.
+	setstacksize( 200 * njob ); // Let's make a larger stack with topoorder().
 #endif
 
 	if( subalignment )
@@ -3539,11 +3539,11 @@ int disttbfast( int ngui, int lgui, char **namegui, char **seqgui, int argc, cha
 				nguidetree = 1;
 			}
 		}
-		else if ( treein != 0 ) // auto no toki arieru
+		else if ( treein != 0 ) // It's possible to be out.
 			nguidetree = 1;
 	}
 
-# if 0 // tameshini
+# if 0 // Try
 	if( sueff_global < 0.0001 || compacttree == 2 )
 	{
 		nthread = 0;
@@ -3552,7 +3552,7 @@ int disttbfast( int ngui, int lgui, char **namegui, char **seqgui, int argc, cha
 #endif
 //	if( njob > 10000 ) nthreadtb = 0; 
 	if( njob > 20000 ) nthreadtb = 0; 
-// 2018/Jan.  Hairetsu ga ooi toki
+// 2018/Jan.  When there are many arrays
 // 1. topolorder_lessargs no stack ga tarinakunaru
 // 2. localcopy no tame kouritsu warui
 

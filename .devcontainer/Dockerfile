@@ -44,5 +44,7 @@ WORKDIR /workspace
 RUN conda run -n qiime2-amplicon-2026.1 Rscript -e "install.packages('languageserver', repos='https://cloud.r-project.org')"
 ENV R_HOME "/opt/conda/envs/qiime2-amplicon-2026.1/lib/R"
 
+RUN conda run -n qiime2-amplicon-2026.1 conda install -c conda-forge pybind11
+
 # IMPORTANT: use login bash
 ENTRYPOINT ["bash", "-l"]

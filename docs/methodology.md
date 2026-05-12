@@ -1,6 +1,6 @@
 # Methodology
 
-The content presented here is compiled from deep-dives into the practical workflows underlying the source code, alongside my interpretations of the algorithmic and biological concepts found in official documentation and published research.
+The content presented in this blog is compiled from deep-dives into the practical workflows underlying, alongside my interpretations of the algorithmic and biological concepts found in official documentation and published research.
 
 ## QIIME 2 Architecture and Execution
 The entry point for the QIIME 2 codebase is `q2cli`, which utilizes the [Click](https://click.palletsprojects.com/en/stable/) package to parse command-line arguments and identify the required modules for a task. Each module acts as a wrapper that processes these arguments and invokes the necessary APIs through system calls (e.g., `my_api.R arg1 arg2`). For example, when performing denoising with DADA2, the `q2-dada2` interface executes the [DADA2 R code](https://github.com/benjjneb/dada2) with the corresponding arguments.
@@ -16,6 +16,8 @@ To determine the primary functions responsible for specific tasks, I employ vari
 | **bashdb** | Bash |
 
 Debuggers allow for setting breakpoints to pause the call stack or a specific line of code, enabling the inspection of local variables at runtime. By tracing the moment QIIME 2 assigns a task, the core processing functions are revealed. Important breakpoints for these processes are documented in my [breakpoint graphs](https://github.com/Truongphi20/qiime2_blog/blob/main/docs/static/breakpoints).
+
+Sometimes, QIIME 2 utilizes [rachis - former QIIME2 framework](https://github.com/rachis-org/rachis) to embed helper functions from various ecosystem extensions. The function called can be traced by inspecting the `plugin_setup.py` file within each plugin's source code.
 
 ## Conceptual Dissection and API Bridges
 Once a main function is identified, I combine code analysis with official documentation and research articles to grasp the general purpose and underlying concepts. Based on these references, I dissect the function into clear procedural steps to capture the full picture.
