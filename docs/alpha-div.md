@@ -101,6 +101,8 @@ The problem are addressed by phylogenetic matrices, includes:
 | unweighted_unifrac | Computes proportion of phylogenetical dissimilarity across pairs of samples | The ratio of unique branch lengths (exclusive to one sample) over the total branch lengths (union of both samples), <br> ([unweighted_unifrac.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/unweighted_unifrac.py))     | [@sfiligoi2022optimizing] |
 | weighted_unifrac   |  Computes the phylogenetic distance according to the ralative abundance across pairs of samples         | The sum of branch lengths weighted by the absolute difference in abundance proportions between two samples, <br> ([weighted_unifrac.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/weighted_unifrac.py))          | [@sfiligoi2022optimizing] |
 
+Similar to the [non-phylogenetic core matrices](core-matrices), the distance matrices generated via unweighted and weighted UniFrac are used as inputs for PCoA.
+
 ## Summary
 
 Non-phylogenetic (core) matrices treat every ASV as an independent entity, while phylogenetic considers the the shared history encoded in ASVs.
