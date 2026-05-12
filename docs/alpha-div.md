@@ -81,10 +81,20 @@ At the end, the beta diversity (distance) matrices, jaccard and bray curtis, are
 
 ### Computation of phylogenetic matrices
 
+While alpha diversity matrices quantify the richness and abundance of a community, they fail to account for the evolutionary relationships among ASVs. 
+
+For instance, consider a scenario where Sample A contains more unique ASVs than Sample B. If all ASVs in Sample A share extremely high sequence similarity, it is difficult to argue that Sample A is truly more diverse than Sample B in a biological sense.
+
+The problem are addressed by phylogenetic matrices, includes:
+  - **Alpha matrices:** faithpd
+  - **Beta matrices:** unweighted_unifrac and weighted_unifrac
+
 | Matrix name |  Meaning   |   Calculation method   |    References   |
 | :---------  | :--------- | :-------------------   |:--------------- |
 | faithpd     | Measures total phylogenetic distance among ASVs in each sample. | See [the method](https://scikit.bio/docs/dev/generated/skbio.diversity.alpha.faith_pd.html), <br> ([faithpd.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/faithpd.py))                       | [@faith1992conservation]  |
 | unweighted_unifrac | Computes proportion of phylogenetical dissimilarity across pairs of samples | The ratio of unique branch lengths (exclusive to one sample) over the total branch lengths (union of both samples), <br> ([unweighted_unifrac.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/unweighted_unifrac.py))     | [@sfiligoi2022optimizing] |
-| weighted_unifrac   |  Computes the phylogenetic distance according to the ralative abundance across pairs of samples         | The sum of branch lengths weighted by the absolute difference in richnness proportions between two samples, <br> ([weighted_unifrac.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/weighted_unifrac.py))          | [@sfiligoi2022optimizing] |
+| weighted_unifrac   |  Computes the phylogenetic distance according to the ralative abundance across pairs of samples         | The sum of branch lengths weighted by the absolute difference in abundance proportions between two samples, <br> ([weighted_unifrac.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/weighted_unifrac.py))          | [@sfiligoi2022optimizing] |
 
 ## Summary
+
+Non-phylogenetic (core) matrices treat every ASV as an independent entity, while phylogenetic considers the the shared history encoded in ASVs.
