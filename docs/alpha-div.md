@@ -105,4 +105,8 @@ Similar to the [non-phylogenetic core matrices](core-matrices), the distance mat
 
 ## Summary
 
-Non-phylogenetic (core) matrices treat every ASV as an independent entity, while phylogenetic considers the the shared history encoded in ASVs.
+Identifying the root of the phylogenetic tree is a mechanical necessity for diversity analysis. Faith’s PD requires a directed hierarchy to accumulate branch lengths from successors up to the common ancestor (see the algorithmic code). Furthermore, a rooted tree provides the fixed reference points needed to calculate meaningful shared and unique evolutionary branch lengths between samples in UniFrac matrices.
+
+During this deep dive, I also noticed that MAFFT suspiciously "picks out" specific conserved nucleotide positions in the ASV sequences after MSA (see my [MAFFT issue](https://github.com/Truongphi20/qiime2_blog/issues/10)).
+
+Ultimately, while non-phylogenetic (core) matrices treat every ASV as an independent entity, phylogenetic matrices leverage the shared evolutionary history encoded within the sequences to provide a deeper biological context.
