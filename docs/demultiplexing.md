@@ -36,7 +36,9 @@ This demultiplex is designed for data of [Earth Microbiome Project (EMP) amplico
 
 ![input_files](static/input_files.png)
 
-The ultimate purpose is generating fastq files of each sample from a mixed fastq file. Base on the sequencing header on a read (in sequences fastq file), the original sample (in metadata) is retrieved by the barcode associating the same the sequencing header (in barcodes fastq file).  
+The ultimate purpose is generating fastq files of each sample from a mixed fastq file. Base on the sequencing header on a read (in sequences fastq file), the original sample (in metadata) is retrieved by the barcode associating the same the sequencing header (in barcodes fastq file).
+
+Demultiplexing locks in downstream accuracy. Within `demux emp-single`, the process relies on rigid defaults that cause silent data loss if core assumptions are violated, such as unexpected barcode orientations, non-Golay formats, sequencing errors exceeding 3 bits, or altered barcode lengths. Because these issues directly compromise sample-to-read mapping, looking under the hood is essential to diagnose and monitor data attrition.
 
 ## Demultiplex internal steps
 
@@ -85,8 +87,6 @@ Golay error correction assumes that true barcodes belong to the predefined set o
 Full python script for Golay error correction can be found in [GolayDecoder.py](https://github.com/Truongphi20/qiime2_blog/blob/main/algorithm_reference/GolayDecoder.py).
 
 ## Summary
-
-In scope of command `demux emp-single`, demultiplexing can fail when its core assumptions are violated, such as incorrect barcode orientation, non-Golay or mismatched barcodes, excessive sequencing errors (>3 bits), or incorrect barcode length/position. These issues reduce accuracy of sample matching.
 
 **To verify correctness:**
 - Check the proportion of reads assigned (should be reasonably high)  
