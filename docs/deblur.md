@@ -8,6 +8,15 @@ Instead of using traditional Operational Taxonomic Units (OTUs) or Amplicon Sequ
 
 There are two main steps in Deblur pipeline according to two commands mentioned in the tutorial.  
 
+:::::{tip} The command in the tutorial
+:class: dropdown
+:open: true
+
+::::{tab-set}
+:::{tab-item} Quality filtering
+:sync: tab1
+
+
 The command for preparation by quality filtering:
 ```
 qiime quality-filter q-score \
@@ -16,13 +25,18 @@ qiime quality-filter q-score \
   --o-filter-stats demux-filter-stats.qza
 ```
 
-**Command explanation:**
+Command explanation:
 
-- **Inputs**:
+- Inputs:
     - `--i-demux`: The input demultiplexed sequences artifact. Note: Output from [Demultiplexing](demultiplexing.md).
-- **Outputs**:
+- Outputs:
     - `--o-filtered-sequences`: The resulting quality-filtered sequences artifact. Note: Used as input for the next Deblur step.
     - `--o-filter-stats`: A summary of the quality filtering results.
+
+:::
+
+:::{tab-item} Deblur
+:sync: tab2
 
 And the deblur command:
 ```
@@ -35,18 +49,21 @@ qiime deblur denoise-16S \
   --o-stats deblur-stats.qza
 ```
 
-**Command explanation:**
+Command explanation:
 
-- **Inputs**:
-    - `--i-demultiplexed-seqs`: The input quality-filtered sequences artifact. Note: Output of the quality filtering step above.
-- **Parameters**:
+- Inputs:
+    - `--i-demultiplexed-seqs`: The input quality-filtered sequences artifact. Note: Output of the quality filtering step.
+- Parameters:
     - `--p-trim-length`: The fixed length to which all sequences are trimmed.
     - `--p-sample-stats`: A flag to request per-sample statistics.
-- **Outputs**:
+- Outputs:
     - `--o-representative-sequences`: The resulting sequences for each sOTU.
     - `--o-table`: The resulting feature table.
     - `--o-stats`: Detailed statistics for the Deblur process.
 
+:::
+::::
+:::::
 
 ## Workflow
 

@@ -6,7 +6,9 @@ In 16S rRNA analysis, the first step in characterizing the microbiome of a sampl
 
 DADA2 address this issue by attempting to correct sequencing errors at the single-nucleotide level without constructing OTUs. Instead, they generate Amplicon Sequence Variants (ASVs) [@nearingDenoisingDenoisersIndependent2018].
 
-In "Moving Pictures" tutorial, DADA2 is a denoising option after demultiplex, the command:
+:::{tip} The command in the tutorial
+:class: dropdown
+:open: true
 
 ```bash
 qiime dada2 denoise-single \
@@ -20,18 +22,20 @@ qiime dada2 denoise-single \
 
 ```
 
-**Command explanation:**
+Command explanation:
 
-- **Inputs**:
+- Inputs:
     - `--i-demultiplexed-seqs`: The input artifact containing demultiplexed sequences. Note: Output from [Demultiplexing](demultiplexing.md).
-- **Parameters**:
+- Parameters:
     - `--p-trim-left`: The number of bases to remove from the start (5') of the sequence.
     - `--p-trunc-len`: The position at which sequences should be truncated.
-- **Outputs**:
+- Outputs:
     - `--o-representative-sequences`: The resulting sequences for each ASV. Note: Used for [Phylogenetics](alpha-div.md#phylogenetics).
     - `--o-table`: The resulting feature table (ASV table). Note: Used for [Diversity analysis](alpha-div.md).
     - `--o-denoising-stats`: A summary of denoising results.
     - `--o-base-transition-stats`: Statistics on error rates estimated during the learning phase.
+
+:::
 
 ## Workflow
 

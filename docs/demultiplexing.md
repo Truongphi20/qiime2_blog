@@ -4,7 +4,10 @@
 
 "Multiplexing" is a sequencing technique, which pools many samples in the same sequecning batch, where samples are distinguished by barcode sequences. It helps enhance throughput, optimize cost, and simplifiy analysis [@SampleMultiplexingMultiplex]. In contrast, "demultiplexing" resolves that which sample that sequencing read belonging. 
 
-The command in the tutorial:
+:::{tip} The command in the tutorial
+:class: dropdown
+:open: true
+
 ```bash
 qiime demux emp-single \
   --i-seqs emp-single-end-sequences.qza \
@@ -14,16 +17,18 @@ qiime demux emp-single \
   --o-error-correction-details demux-details.qza
 ```
 
-**Command explanation:**
+Command explanation:
 
-- **Inputs**:
+- Inputs:
     - `--i-seqs`: Including fastq files of barcode and sequencing read.
     - `--m-barcodes-file`: The metatdata contains auxiliary information according to barcode.
-- **Parameters**:
+- Parameters:
     - `--m-barcodes-column`: The column in the metadata file that contains the barcode sequences.
-- **Outputs**:
+- Outputs:
     - `--o-per-sample-sequences`: The resulting demultiplexed sequences artifact. Note: This will be the input for denoising steps ([DADA2](dada2.md) or [Deblur](deblur.md)).
     - `--o-error-correction-details`: Detailed information about the barcode error correction process.
+
+:::
 
 :::{caution}
 This demultiplex is designed for data of [Earth Microbiome Project (EMP) amplicon sequencing protocol](https://earthmicrobiome.ucsd.edu/protocols-and-standards/16s/).

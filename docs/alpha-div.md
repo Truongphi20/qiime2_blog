@@ -12,7 +12,14 @@ Depending on the scale of the ecological units, diversity is measured at three l
 
 In the QIIME 2 tutorial, the focus is on alpha and beta diversity. The subsequent steps involve constructing a phylogenetic tree and generating core metrics matrices to facilitate these analyses.
 
-Command for creating phylogenetic tree:
+:::::{tip} The command in the tutorial
+:class: dropdown
+:open: true
+
+::::{tab-set}
+:::{tab-item} Phylogenetics
+:sync: tab3
+
 ```bash
 qiime phylogeny align-to-tree-mafft-fasttree \
   --i-sequences rep-seqs.qza \
@@ -22,17 +29,21 @@ qiime phylogeny align-to-tree-mafft-fasttree \
   --o-rooted-tree rooted-tree.qza
 ```
 
-**Command explanation:**
+Command explanation:
 
-- **Inputs**:
+- Inputs:
     - `--i-sequences`: The representative sequences (ASVs) to be aligned. Note: Output of [DADA2](dada2.md).
-- **Outputs**:
+- Outputs:
     - `--o-alignment`: The unmasked Multiple Sequence Alignment (MSA).
     - `--o-masked-alignment`: The filtered (masked) MSA, used to build the tree.
     - `--o-tree`: The resulting unrooted phylogenetic tree.
     - `--o-rooted-tree`: The final rooted phylogenetic tree (midpoint rooted). Note: Used for [Diversity analysis](#generating-matrices).
 
-Generating matrices:
+:::
+
+:::{tab-item} Generating matrices
+:sync: tab3
+
 ```bash
 qiime diversity core-metrics-phylogenetic \
   --i-phylogeny rooted-tree.qza \
@@ -42,16 +53,21 @@ qiime diversity core-metrics-phylogenetic \
   --output-dir diversity-core-metrics-phylogenetic
 ```
 
-**Command explanation:**
+Command explanation:
 
-- **Inputs**:
-    - `--i-phylogeny`: The rooted phylogenetic tree. Note: Output of the phylogeny step above.
+- Inputs:
+    - `--i-phylogeny`: The rooted phylogenetic tree. Note: Output of the phylogeny step.
     - `--i-table`: The feature table containing counts of features per sample. Note: Output of [DADA2](dada2.md).
-- **Parameters**:
+- Parameters:
     - `--p-sampling-depth`: The total frequency to which each sample should be rarefied.
     - `--m-metadata-file`: The sample metadata file for PCoA visualization.
-- **Outputs**:
+- Outputs:
     - `--output-dir`: The directory where all diversity results (alpha, beta, PCoA plots) are saved.
+
+:::
+::::
+
+:::::
 
 ## Workflow
 
