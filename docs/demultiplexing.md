@@ -14,10 +14,16 @@ qiime demux emp-single \
   --o-error-correction-details demux-details.qza
 ```
 
-There are two main inputs for this process:
-    
-- `emp-single-end-sequences.qza`: Including fastq files of barcode and sequencing read.
-- `sample-metadata.tsv`: Metatdata contains auxiliary information according to barcode. 
+**Command explanation:**
+
+- **Inputs**:
+    - `--i-seqs`: Including fastq files of barcode and sequencing read.
+    - `--m-barcodes-file`: The metatdata contains auxiliary information according to barcode.
+- **Parameters**:
+    - `--m-barcodes-column`: The column in the metadata file that contains the barcode sequences.
+- **Outputs**:
+    - `--o-per-sample-sequences`: The resulting demultiplexed sequences artifact. Note: This will be the input for denoising steps ([DADA2](dada2.md) or [Deblur](deblur.md)).
+    - `--o-error-correction-details`: Detailed information about the barcode error correction process.
 
 :::{caution}
 This demultiplex is designed for data of [Earth Microbiome Project (EMP) amplicon sequencing protocol](https://earthmicrobiome.ucsd.edu/protocols-and-standards/16s/).
@@ -25,7 +31,7 @@ This demultiplex is designed for data of [Earth Microbiome Project (EMP) amplico
 
 ![input_files](static/input_files.png)
 
-Base on the sequencing header on a read (in sequences fastq file), the original sample (in metadata) is retrieved by the barcode associating the same the sequencing header (in barcodes fastq file).  
+The ultimate purpose is generating fastq files of each sample from a mixed fastq file. Base on the sequencing header on a read (in sequences fastq file), the original sample (in metadata) is retrieved by the barcode associating the same the sequencing header (in barcodes fastq file).  
 
 ## Demultiplex internal steps
 

@@ -20,7 +20,18 @@ qiime dada2 denoise-single \
 
 ```
 
-With `demux.qza` is the output of demultiplex obtaining fastq files of each sample. 
+**Command explanation:**
+
+- **Inputs**:
+    - `--i-demultiplexed-seqs`: The input artifact containing demultiplexed sequences. Note: Output from [Demultiplexing](demultiplexing.md).
+- **Parameters**:
+    - `--p-trim-left`: The number of bases to remove from the start (5') of the sequence.
+    - `--p-trunc-len`: The position at which sequences should be truncated.
+- **Outputs**:
+    - `--o-representative-sequences`: The resulting sequences for each ASV. Note: Used for [Phylogenetics](alpha-div.md#phylogenetics).
+    - `--o-table`: The resulting feature table (ASV table). Note: Used for [Diversity analysis](alpha-div.md).
+    - `--o-denoising-stats`: A summary of denoising results.
+    - `--o-base-transition-stats`: Statistics on error rates estimated during the learning phase.
 
 ## Workflow
 

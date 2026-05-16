@@ -16,6 +16,14 @@ qiime quality-filter q-score \
   --o-filter-stats demux-filter-stats.qza
 ```
 
+**Command explanation:**
+
+- **Inputs**:
+    - `--i-demux`: The input demultiplexed sequences artifact. Note: Output from [Demultiplexing](demultiplexing.md).
+- **Outputs**:
+    - `--o-filtered-sequences`: The resulting quality-filtered sequences artifact. Note: Used as input for the next Deblur step.
+    - `--o-filter-stats`: A summary of the quality filtering results.
+
 And the deblur command:
 ```
 qiime deblur denoise-16S \
@@ -26,6 +34,18 @@ qiime deblur denoise-16S \
   --o-table table-deblur.qza \
   --o-stats deblur-stats.qza
 ```
+
+**Command explanation:**
+
+- **Inputs**:
+    - `--i-demultiplexed-seqs`: The input quality-filtered sequences artifact. Note: Output of the quality filtering step above.
+- **Parameters**:
+    - `--p-trim-length`: The fixed length to which all sequences are trimmed.
+    - `--p-sample-stats`: A flag to request per-sample statistics.
+- **Outputs**:
+    - `--o-representative-sequences`: The resulting sequences for each sOTU.
+    - `--o-table`: The resulting feature table.
+    - `--o-stats`: Detailed statistics for the Deblur process.
 
 
 ## Workflow
