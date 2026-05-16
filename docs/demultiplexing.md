@@ -27,9 +27,9 @@ This demultiplex is designed for data of [Earth Microbiome Project (EMP) amplico
 
 Base on the sequencing header on a read (in sequences fastq file), the original sample (in metadata) is retrieved by the barcode associating the same the sequencing header (in barcodes fastq file).  
 
-## Demultiplex workflow
+## Demultiplex internal steps
 
-Sequencing reads are processed one by one from the input FASTQ file. For each read, the associated barcode sequence is retrieved. Although, the step "Reverse complement barcode" was not performed in this command (`demux emp-single`), more information can be found in [](#reverse-complement).
+Sequencing reads are processed one by one from the input FASTQ file. For each read, the associated barcode sequence is retrieved. Although, the step "Reverse complement barcode" was not performed in this command (`demux emp-single`) by default, more information can be found in [](#reverse-complement).
 
 Next, Golay error correction is applied by default to the barcode, allowing correction of sequencing errors in barcode sequence (up to three mismatches) and improving robustness in sample identification (read more in [](#golay-correct)). 
 
