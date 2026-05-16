@@ -25,7 +25,7 @@ This demultiplex is designed for data of [Earth Microbiome Project (EMP) amplico
 
 ![input_files](static/input_files.png)
 
-Base on the sequencing label on a read (in sequences fastq file), the original sample (in metadata) is retrieved by the barcode associating the same the sequencing label (in barcodes fastq file).  
+Base on the sequencing header on a read (in sequences fastq file), the original sample (in metadata) is retrieved by the barcode associating the same the sequencing header (in barcodes fastq file).  
 
 ## Demultiplex workflow
 
