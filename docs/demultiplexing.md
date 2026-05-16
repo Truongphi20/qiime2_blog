@@ -83,4 +83,4 @@ In scope of command `demux emp-single`, demultiplexing can fail when its core as
 - Compare a subset of raw barcodes to expected barcodes (try reverse complement if needed)  
 - Review error-correction statistics (e.g., corrected vs. discarded reads)  
 
-Default settings should not be trusted when using non-standard protocols (e.g., non-Golay barcodes, different barcode lengths, or unknown orientation), or when preprocessing steps may have altered the barcode sequences.
+Default settings should not be trusted when using non-standard protocols (e.g., non-Golay barcodes, different barcode lengths, or unknown orientation), or when preprocessing steps may have inadvertently mixed up the barcode sequences.
