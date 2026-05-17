@@ -4,7 +4,10 @@
 
 "Multiplexing" is a sequencing technique, which pools many samples in the same sequecning batch, where samples are distinguished by barcode sequences. It helps enhance throughput, optimize cost, and simplifiy analysis [@SampleMultiplexingMultiplex]. In contrast, "demultiplexing" resolves that which sample that sequencing read belonging. 
 
-The command in the tutorial:
+:::{tip} The command in the tutorial
+:class: dropdown
+:open: true
+
 ```bash
 qiime demux emp-single \
   --i-seqs emp-single-end-sequences.qza \
@@ -14,10 +17,18 @@ qiime demux emp-single \
   --o-error-correction-details demux-details.qza
 ```
 
-There are two main inputs for this process:
-    
-- `emp-single-end-sequences.qza`: Including fastq files of barcode and sequencing read.
-- `sample-metadata.tsv`: Metatdata contains auxiliary information according to barcode. 
+Command explanation:
+
+- Inputs:
+    - `--i-seqs`: Including fastq files of barcode and sequencing read.
+    - `--m-barcodes-file`: The metatdata contains auxiliary information according to barcode.
+- Parameters:
+    - `--m-barcodes-column`: The column in the metadata file that contains the barcode sequences.
+- Outputs:
+    - `--o-per-sample-sequences`: The resulting demultiplexed sequences artifact. Note: This will be the input for denoising steps ([DADA2](dada2.md) or [Deblur](deblur.md)).
+    - `--o-error-correction-details`: Detailed information about the barcode error correction process.
+
+:::
 
 :::{caution}
 This demultiplex is designed for data of [Earth Microbiome Project (EMP) amplicon sequencing protocol](https://earthmicrobiome.ucsd.edu/protocols-and-standards/16s/).
@@ -25,17 +36,13 @@ This demultiplex is designed for data of [Earth Microbiome Project (EMP) amplico
 
 ![input_files](static/input_files.png)
 
-Base on the sequencing label on a read (in sequences fastq file), the original sample (in metadata) is retrieved by the barcode associating the same the sequencing label (in barcodes fastq file).  
+The ultimate purpose is generating fastq files of each sample from a mixed fastq file. Base on the sequencing header on a read (in sequences fastq file), the original sample (in metadata) is retrieved by the barcode associating the same the sequencing header (in barcodes fastq file).
 
-## Demultiplex workflow
+Demultiplexing locks in downstream accuracy. Within `demux emp-single`, the process relies on rigid defaults that cause silent data loss if core assumptions are violated, such as unexpected barcode orientations, non-Golay formats, sequencing errors exceeding 3 bits, or altered barcode lengths. Because these issues directly compromise sample-to-read mapping, looking under the hood is essential to diagnose and monitor data attrition.
 
-```{image} static/demux_workflow.png
-:alt: demux_workflow
-:height: 600px
-:align: center
-```
+## Demultiplex internal steps
 
-Sequencing reads are processed one by one from the input FASTQ file. For each read, the associated barcode sequence is retrieved. Although, the step "Reverse complement barcode" was not performed in this command (`demux emp-single`), more information can be found in [](#reverse-complement).
+Sequencing reads are processed one by one from the input FASTQ file. For each read, the associated barcode sequence is retrieved. Although, the step "Reverse complement barcode" was not performed in this command (`demux emp-single`) by default, more information can be found in [](#reverse-complement).
 
 Next, Golay error correction is applied by default to the barcode, allowing correction of sequencing errors in barcode sequence (up to three mismatches) and improving robustness in sample identification (read more in [](#golay-correct)). 
 
@@ -60,7 +67,7 @@ Only one option should be used, depending on which side has correct orientation.
 
 Golay error correction is an error-correcting coding method that represents DNA barcodes as structured 24-bit vectors, enabling detection and correction of sequencing errors based on the properties of the Golay (24,12,8) code [@morelos-zaragozaArtErrorCorrecting2006, pg.30-31]. It is used in sequencing workflows to improve sample assignment accuracy. Because sequencing errors are common, exact barcode matching can lead to substantial data loss. 
 
-Golay coding allows correction of maximal three bit errors, depending on type of correction, the number of bit changed is different. If the the number od bit errors exceeds three, the record is discarded.  
+Golay coding allows correction of maximal three bit errors, depending on type of correction, the number of bit changed is different. If the number of bit errors exceeds three, the record is discarded.  
 
 | Correction    |   Number of bit changed  |
 | :----------    |   :---------------------:  |
@@ -81,12 +88,4 @@ Full python script for Golay error correction can be found in [GolayDecoder.py](
 
 ## Summary
 
-In scope of command `demux emp-single`, demultiplexing can fail when its core assumptions are violated, such as incorrect barcode orientation, non-Golay or mismatched barcodes, excessive sequencing errors (>3 bits), or incorrect barcode length/position. These issues reduce accuracy of sample matching.
-
-**To verify correctness:**
-- Check the proportion of reads assigned (should be reasonably high)  
-- Inspect read counts per sample (no unexpected zeros or extreme imbalance)  
-- Compare a subset of raw barcodes to expected barcodes (try reverse complement if needed)  
-- Review error-correction statistics (e.g., corrected vs. discarded reads)  
-
-Default settings should not be trusted when using non-standard protocols (e.g., non-Golay barcodes, different barcode lengths, or unknown orientation), or when preprocessing steps may have altered the barcode sequences.
+To summarize, default settings should not be trusted when using non-standard protocols (e.g., non-Golay barcodes, different barcode lengths, or unknown orientation), or when preprocessing steps may have inadvertently mixed up the barcode sequences.

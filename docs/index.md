@@ -11,16 +11,11 @@ The QIIME 2 [Moving Pictures tutorial](https://amplicon-docs.qiime2.org/en/stabl
 
 This motivated me to create this blog: to provide a high-level abstraction of the crucial workflows operating behind the scenes of QIIME 2 commands.
 
-## Covered content
+## Content
 
-This blog explores the internal logic and workflows of the QIIME 2 (v2026.1.0) commands featured in the tutorial: 
+![](./static/general_workflow.png)
 
-- [Demultiplexing](./demultiplexing.md)
-- Denoising
-  - [DADA2](./dada2.md)
-  - [Deblur](./deblur.md) 
-- [Diversity analysis](alpha-div.md)
-
+This blog explores the internal logic and workflows of the QIIME 2 (v2026.1.0) commands featured in the tutorial. Starting with [demultiplexing](./demultiplexing.md) of raw sample sequences. These sequences are subsequently processed using [DADA2](./dada2.md) and [Deblur](./deblur.md), two independent denoising pipelines designed to eliminate sequencing artifacts. Finally, the outputs from DADA2 are used for [Diversity analysis](./alpha-div.md) to analyze alpha and beta matrices.
 
 The practiced method to complile context for this blog can be found in [Methology](./methodology.md).
 
